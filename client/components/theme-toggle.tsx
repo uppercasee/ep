@@ -1,32 +1,48 @@
 "use client";
 
-import * as React from "react";
 import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
-
-import { Button } from "@/components/ui/button";
+import {
+  ActionIcon,
+  useComputedColorScheme,
+  useMantineColorScheme,
+} from "@mantine/core";
+import { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { setColorScheme } = useMantineColorScheme({
+    keepTransitions: true,
+  });
+  const computedColorScheme = useComputedColorScheme("dark");
+  const [mounted, setMounted] = useState(false);
 
   const handleToggle = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    setColorScheme(computedColorScheme === "dark" ? "light" : "dark");
   };
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
-    <Button
-      variant="outline"
-      size="icon"
+    <ActionIcon
+      variant="light"
+      color="gray"
+      radius={"lg"}
+      size={"lg"}
       onClick={handleToggle}
       className="relative flex items-center justify-center p-2 rounded-full"
     >
       <Sun
-        className={`h-[1.2rem] w-[1.2rem] transition-all ${theme === "dark" ? "opacity-0" : "opacity-100"}`}
+        className={`h-[1.2rem] w-[1.2rem] transition-all ${computedColorScheme === "dark" ? "opacity-0" : "opacity-100"}`}
       />
       <Moon
-        className={`absolute h-[1.2rem] w-[1.2rem] transition-all ${theme === "dark" ? "opacity-100" : "opacity-0"}`}
+        className={`absolute h-[1.2rem] w-[1.2rem] transition-all ${computedColorScheme === "dark" ? "opacity-100" : "opacity-0"}`}
       />
       <span className="sr-only">Toggle theme</span>
-    </Button>
+    </ActionIcon>
   );
 }
