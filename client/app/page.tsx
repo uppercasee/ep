@@ -1,9 +1,5 @@
-import ThemeToggle from "@/components/theme-toggle";
+import Navbar from "@/components/navbar";
 
 export default function Home() {
-  return (
-    <>
-      <ThemeToggle />
-    </>
-  );
+  return <></>;
 }

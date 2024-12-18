@@ -32,9 +32,9 @@ export default function ThemeToggle() {
       variant="light"
       color="gray"
       radius={"lg"}
-      size={"lg"}
+      size={"sm"}
       onClick={handleToggle}
-      className="relative flex items-center justify-center p-2 rounded-full"
+      className="relative flex items-center justify-center p-4 mr-1.5 rounded-full"
     >
       <Sun
         className={`h-[1.2rem] w-[1.2rem] transition-all ${computedColorScheme === "dark" ? "opacity-0" : "opacity-100"}`}
