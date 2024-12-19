@@ -1,5 +1,5 @@
 import React from "react";
-import { Anchor, Box, Button, Group } from "@mantine/core";
+import { Anchor, Box, Group } from "@mantine/core";
 import ThemeToggle from "../theme-toggle";
 import Navmenu from "./navmenu";
 import {
