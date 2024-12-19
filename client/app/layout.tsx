@@ -9,6 +9,7 @@ import {
   mantineHtmlProps,
 } from "@mantine/core";
 import Navbar from "@/components/nav/navbar";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,10 +39,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <MantineProvider defaultColorScheme="dark">
-          <Navbar />
-          {children}
-        </MantineProvider>
+        <ClerkProvider>
+          <MantineProvider defaultColorScheme="dark">
+            <Navbar />
+            {children}
+          </MantineProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

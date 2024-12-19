@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.9.5",
     "@mantine/core": "^7.15.1",
     "@mantine/hooks": "^7.15.1",
     "clsx": "^2.1.1",

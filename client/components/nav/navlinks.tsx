@@ -2,6 +2,13 @@ import React from "react";
 import { Anchor, Box, Button, Group } from "@mantine/core";
 import ThemeToggle from "../theme-toggle";
 import Navmenu from "./navmenu";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
 
 const Navlinks = () => {
   return (
@@ -18,7 +25,17 @@ const Navlinks = () => {
         <Anchor href="/leaderboard" size="sm" underline={"hover"}>
           Leaderboard
         </Anchor>
-        <Button radius="sm">Sign In</Button>
+        <SignedOut>
+          <div className="px-4 py-1.5 bg-blue-500 text-white text-center rounded">
+            <SignInButton />
+          </div>
+          <div className="px-4 py-1.5 border border-blue-500 text-blue-500 text-center rounded">
+            <SignUpButton />
+          </div>
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
       </Group>
 
       {/* Mobile Navigation */}
