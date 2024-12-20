@@ -1,21 +1,17 @@
+"use client";
+
 import React from "react";
-import { Anchor, Box, Group } from "@mantine/core";
-import ThemeToggle from "../theme-toggle";
+import { Anchor, Box, Flex } from "@mantine/core";
 import Navmenu from "./navmenu";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-  UserButton,
-} from "@clerk/nextjs";
+import AuthLinks from "./authlinks";
+import ThemeToggle from "../ui/theme-toggle";
 
 const Navlinks = () => {
   return (
-    <Group justify="flex-end" gap="lg">
+    <Flex justify="flex-end" gap="lg" align={"center"}>
       <ThemeToggle />
       {/* Desktop Navigation */}
-      <Group visibleFrom="sm" gap="lg" align="center">
+      <Flex visibleFrom="sm" gap="lg" align={"center"}>
         <Anchor href="#" size="sm" underline={"hover"}>
           Home
         </Anchor>
@@ -25,24 +21,14 @@ const Navlinks = () => {
         <Anchor href="/leaderboard" size="sm" underline={"hover"}>
           Leaderboard
         </Anchor>
-        <SignedOut>
-          <div className="px-4 py-1.5 bg-blue-500 text-white text-center rounded">
-            <SignInButton />
-          </div>
-          <div className="px-4 py-1.5 border border-blue-500 text-blue-500 text-center rounded">
-            <SignUpButton />
-          </div>
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-      </Group>
+        <AuthLinks />
+      </Flex>
 
       {/* Mobile Navigation */}
       <Box hiddenFrom="sm">
         <Navmenu />
       </Box>
-    </Group>
+    </Flex>
   );
 };
 

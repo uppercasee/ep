@@ -3,6 +3,7 @@
 import { Moon, Sun } from "lucide-react";
 import {
   ActionIcon,
+  Skeleton,
   useComputedColorScheme,
   useMantineColorScheme,
 } from "@mantine/core";
@@ -24,7 +25,18 @@ export default function ThemeToggle() {
   }, []);
 
   if (!mounted) {
-    return null;
+    return (
+      <ActionIcon
+        variant="light"
+        color="gray"
+        radius={"lg"}
+        size={"sm"}
+        className="relative flex items-center justify-center p-4 mr-1.5 rounded-full"
+      >
+        <Skeleton circle height={24} width={24} />
+        <span className="sr-only">Toggle theme Skeleton</span>
+      </ActionIcon>
+    );
   }
 
   return (
