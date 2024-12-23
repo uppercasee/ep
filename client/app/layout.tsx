@@ -1,30 +1,29 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import "@mantine/core/styles.css";
 import {
   ColorSchemeScript,
   MantineProvider,
+  createTheme,
   mantineHtmlProps,
 } from "@mantine/core";
 import Navbar from "@/components/nav/navbar";
 import { ClerkProvider } from "@clerk/nextjs";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
   title: "Elearning Platform",
-  description: " A Gamified Elearning Platform using Nextjs and Nodejs ",
+  description: "A Gamified Elearning Platform using Nextjs. ",
 };
+
+const theme = createTheme({
+  fontFamily: "Verdana, sans-serif",
+  fontFamilyMonospace: "Monaco, Courier, monospace",
+  headings: { fontFamily: "Greycliff CF, sans-serif" },
+  // breakpoints: {
+  //   md:'1024px'
+  // }
+});
 
 export default function RootLayout({
   children,
@@ -36,11 +35,9 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body>
         <ClerkProvider>
-          <MantineProvider defaultColorScheme="dark">
+          <MantineProvider defaultColorScheme="dark" theme={theme}>
             <Navbar />
             {children}
           </MantineProvider>

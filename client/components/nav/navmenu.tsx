@@ -23,6 +23,7 @@ const Navmenu = () => {
           opened={opened}
           onClick={toggle}
           size="sm"
+          py={"sm"}
         />
       </Menu.Target>
       <Menu.Dropdown>
