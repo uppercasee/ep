@@ -7,10 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format" : "pnpm prettier"
+    "format": "pnpm prettier"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.9.5",
+    "@clerk/themes": "^2.2.3",
     "@mantine/core": "^7.15.1",
     "@mantine/hooks": "^7.15.1",
     "clsx": "^2.1.1",
