@@ -1,5 +1,4 @@
 import React from 'react'
-import { Box, Flex } from '@mantine/core'
 import Navlinks from './navlinks'
 import SearchBox from '../ui/searchbox'
 
