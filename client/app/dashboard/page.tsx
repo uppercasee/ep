@@ -1,14 +1,15 @@
-import { auth, currentUser } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
-import React from "react";
+import CourseCard from '@/components/CourseCard'
+import { auth, currentUser } from '@clerk/nextjs/server'
+import { redirect } from 'next/navigation'
+import React from 'react'
 
 const Page = async () => {
-  const { userId }: { userId: string | null } = await auth();
+  const { userId }: { userId: string | null } = await auth()
 
   if (!userId) {
-    redirect("/");
+    redirect('/')
   }
-  const user = await currentUser();
+  const user = await currentUser()
 
   return (
     <>
@@ -17,10 +18,22 @@ const Page = async () => {
       </div>
       <div>Continue Studying.....</div>
       <div>My Course Cards</div>
+      <CourseCard />
       <div>Explore Courses....</div>
+      <div className="flex gap-4">
+        <CourseCard />
+        <CourseCard />
+        <CourseCard />
+      </div>
       <div>Popular Course Cards</div>
+      <div className="flex gap-4">
+        <CourseCard />
+        <CourseCard />
+        <CourseCard />
+      </div>
+      <div className="bottom-0 left-0">Footer</div>
     </>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page
