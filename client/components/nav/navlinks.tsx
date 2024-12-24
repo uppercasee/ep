@@ -8,7 +8,7 @@ import ThemeToggle from "../ui/theme-toggle";
 
 const Navlinks = () => {
   return (
-    <Flex justify="flex-end" gap="lg" align={"center"}>
+    <Flex justify="flex-end" gap="sm" align={"center"}>
       <ThemeToggle />
       {/* Desktop Navigation */}
       <Flex visibleFrom="sm" gap="lg" align={"center"}>

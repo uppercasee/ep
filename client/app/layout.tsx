@@ -1,34 +1,33 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next'
+import './globals.css'
 
-import "@mantine/core/styles.css";
+import '@mantine/core/styles.css'
 import {
   ColorSchemeScript,
   MantineProvider,
   createTheme,
   mantineHtmlProps,
-} from "@mantine/core";
-import Navbar from "@/components/nav/navbar";
-import { ClerkProvider } from "@clerk/nextjs";
+} from '@mantine/core'
+import { ClerkProvider } from '@clerk/nextjs'
 
 export const metadata: Metadata = {
-  title: "Elearning Platform",
-  description: "A Gamified Elearning Platform using Nextjs. ",
-};
+  title: 'Elearning Platform',
+  description: 'A Gamified Elearning Platform using Nextjs. ',
+}
 
 const theme = createTheme({
-  fontFamily: "Verdana, sans-serif",
-  fontFamilyMonospace: "Monaco, Courier, monospace",
-  headings: { fontFamily: "Greycliff CF, sans-serif" },
+  fontFamily: 'Verdana, sans-serif',
+  fontFamilyMonospace: 'Monaco, Courier, monospace',
+  headings: { fontFamily: 'Greycliff CF, sans-serif' },
   // breakpoints: {
   //   md:'1024px'
   // }
-});
+})
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en" {...mantineHtmlProps}>
@@ -38,11 +37,10 @@ export default function RootLayout({
       <body>
         <ClerkProvider>
           <MantineProvider defaultColorScheme="dark" theme={theme}>
-            <Navbar />
             {children}
           </MantineProvider>
         </ClerkProvider>
       </body>
     </html>
-  );
+  )
 }
