@@ -1,3 +1,4 @@
+import Navbar from '@/components/nav/navbar'
 import Faq from '@/components/sections/faq'
 import Features from '@/components/sections/features'
 import { Footer } from '@/components/sections/footer'
@@ -14,10 +15,13 @@ const Home = async () => {
 
   return (
     <>
-      <Hero />
-      <Features />
-      <Faq />
-      <Footer />
+      <Navbar />
+      <main className="pt-14">
+        <Hero />
+        <Features />
+        <Faq />
+        <Footer />
+      </main>
     </>
   )
 }
