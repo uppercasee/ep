@@ -8,9 +8,7 @@ import {
   createTheme,
   mantineHtmlProps,
 } from '@mantine/core'
-import Navbar from '@/components/nav/navbar'
 import { ClerkProvider } from '@clerk/nextjs'
-import { dark } from '@clerk/themes'
 
 export const metadata: Metadata = {
   title: 'Elearning Platform',
@@ -37,9 +35,8 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider defaultColorScheme="dark" theme={theme}>
-          <ClerkProvider appearance={{ baseTheme: dark }}>
-            <Navbar />
+        <ClerkProvider>
+          <MantineProvider defaultColorScheme="dark" theme={theme}>
             {children}
           </ClerkProvider>
         </MantineProvider>

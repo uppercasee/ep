@@ -1,4 +1,4 @@
-import { Card, Text, Group } from '@mantine/core'
+import { Card, Text, Group, Container } from '@mantine/core'
 import React from 'react'
 
 const features = [
@@ -26,8 +26,8 @@ const features = [
 
 const Features = () => {
   return (
-    <div className='h-screen md:h-auto'>
-      <div className=" my-4 flex items-center justify-center">
+    <Container size={'xl'} className="h-screen md:h-auto">
+      <div className="my-4 flex items-center justify-center">
         <h2 className="text-4xl font-extrabold leading-tight text-white">
           Features
         </h2>{' '}
@@ -49,7 +49,7 @@ const Features = () => {
           </Card>
         ))}
       </div>
-    </div>
+    </Container>
   )
 }
 

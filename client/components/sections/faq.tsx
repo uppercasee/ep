@@ -7,7 +7,7 @@ const placeholder =
 
 export default function Faq() {
   return (
-    <Container size="sm" className={classes.wrapper}>
+    <Container size="xl" className={classes.wrapper}>
       <Title ta="center" className={classes.title}>
         Frequently Asked Questions
       </Title>
