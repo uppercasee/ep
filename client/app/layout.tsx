@@ -38,8 +38,8 @@ export default function RootLayout({
         <ClerkProvider>
           <MantineProvider defaultColorScheme="dark" theme={theme}>
             {children}
-          </ClerkProvider>
-        </MantineProvider>
+          </MantineProvider>
+        </ClerkProvider>
       </body>
     </html>
   )
