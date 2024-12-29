@@ -35,7 +35,7 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <ClerkProvider>
+        <ClerkProvider afterSignOutUrl={'/'}>
           <MantineProvider defaultColorScheme="dark" theme={theme}>
             {children}
           </MantineProvider>
