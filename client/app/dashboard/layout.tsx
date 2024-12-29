@@ -1,4 +1,4 @@
-import Navbar from './_components/Navbar'
+import Navbar from '@/components/nav/navbar'
 
 export default async function DashboardLayout({
   children,

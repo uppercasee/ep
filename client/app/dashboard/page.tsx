@@ -12,7 +12,7 @@ const Page = async () => {
   const user = await currentUser()
 
   return (
-    <>
+    <section className="pt-14">
       <div className="m-2 text-xl">
         Welcome Back, <span>{user?.username}</span>
       </div>
@@ -32,7 +32,7 @@ const Page = async () => {
         <CourseCard />
       </div>
       <div className="bottom-0 left-0">Footer</div>
-    </>
+    </section>
   )
 }
 
