@@ -9,6 +9,7 @@ import {
   mantineHtmlProps,
 } from '@mantine/core'
 import { ClerkProvider } from '@clerk/nextjs'
+import { dark } from '@clerk/themes'
 
 export const metadata: Metadata = {
   title: 'Elearning Platform',
@@ -35,7 +36,7 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <ClerkProvider afterSignOutUrl={'/'}>
+        <ClerkProvider afterSignOutUrl={'/'} appearance={{ baseTheme: dark }}>
           <MantineProvider defaultColorScheme="dark" theme={theme}>
             {children}
           </MantineProvider>
