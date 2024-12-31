@@ -3,7 +3,7 @@
 import { SignedIn, SignedOut, useAuth, UserButton } from '@clerk/nextjs'
 import { Skeleton } from '@mantine/core'
 import AuthSignInButton from '../ui/AuthSignInButton'
-import { DotIcon } from 'lucide-react'
+import { Settings2Icon } from 'lucide-react'
 
 const AuthLinks = () => {
   const { isLoaded } = useAuth()
@@ -19,26 +19,15 @@ const AuthLinks = () => {
       </SignedOut>
 
       <SignedIn>
-        <UserButton userProfileMode="navigation" userProfileUrl="/me">
+        <UserButton userProfileMode="navigation" userProfileUrl="/profile">
           <UserButton.MenuItems>
-            <UserButton.Action
+            <UserButton.Link
               label="Preferences"
-              labelIcon={<DotIcon />}
-              open="preferences"
+              labelIcon={<Settings2Icon size={16} />}
+              href="/profile/preferences"
             />
           </UserButton.MenuItems>
-
-          <UserButton.UserProfilePage
-            label="Preferences"
-            labelIcon={<DotIcon />}
-            url="preferences"
-          >
-            <div>
-              <h1>Help Page</h1>
-              <p>This is the custom help page</p>
-            </div>
-          </UserButton.UserProfilePage>
-        </UserButton>{' '}
+        </UserButton>
       </SignedIn>
     </div>
   )

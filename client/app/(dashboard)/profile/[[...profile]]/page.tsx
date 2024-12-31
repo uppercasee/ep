@@ -1,7 +1,9 @@
 'use client'
+
 import { UserButton, UserProfile } from '@clerk/nextjs'
 import { IdCardIcon, Settings2Icon } from 'lucide-react'
 import Preferences from './_components/preferences'
+import PersonalDetails from './_components/personalDetails'
 
 const MePage = () => {
   return (
@@ -19,7 +21,7 @@ const MePage = () => {
         labelIcon={<IdCardIcon size={14} />}
         url="about"
       >
-        <Preferences />
+        <PersonalDetails />
       </UserButton.UserProfilePage>
     </UserProfile>
   )
