@@ -36,7 +36,7 @@ export async function POST(req: Request) {
 
   switch (event.type) {
     case 'user.created': {
-      console.log('Webhooks: User Deleted!!!!')
+      console.log('Webhooks: User Created!!!!')
       break
     }
     case 'user.deleted': {
