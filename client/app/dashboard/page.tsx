@@ -1,14 +1,8 @@
 import CourseCard from '@/components/CourseCard'
-import { auth, currentUser } from '@clerk/nextjs/server'
-import { redirect } from 'next/navigation'
+import { currentUser } from '@clerk/nextjs/server'
 import React from 'react'
 
 const Page = async () => {
-  const { userId }: { userId: string | null } = await auth()
-
-  if (!userId) {
-    redirect('/')
-  }
   const user = await currentUser()
 
   return (
