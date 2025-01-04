@@ -1,50 +1,54 @@
 'use client'
-import { Accordion, Container, Title } from '@mantine/core'
-import classes from './faq.module.css'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '../ui/accordion'
 
 const placeholder =
   'It can’t help but hear a pin drop from over half a mile away, so it lives deep in the mountains where there aren’t many people or Pokémon.It was born from sludge on the ocean floor. In a sterile environment, the germs within its body can’t multiply, and it dies.It has no eyeballs, so it can’t see. It checks its surroundings via the ultrasonic waves it emits from its mouth.'
 
 export default function Faq() {
   return (
-    <Container size="xl" className={classes.wrapper}>
-      <Title ta="center" className={classes.title}>
-        Frequently Asked Questions
-      </Title>
-      <Accordion variant="separated" defaultValue={'reset-password'}>
-        <Accordion.Item className={classes.item} value="reset-password">
-          <Accordion.Control>How can I reset my password?</Accordion.Control>
-          <Accordion.Panel>{placeholder}</Accordion.Panel>
-        </Accordion.Item>
+    <div className="mx-24 px-4 py-8">
+      <div className="text-center mb-8">
+        <h2 className="text-4xl font-extrabold">Frequently Asked Questions</h2>
+      </div>
+      <Accordion type="single" collapsible>
+        <AccordionItem className="" value="reset-password">
+          <AccordionTrigger>How can I reset my password?</AccordionTrigger>
+          <AccordionContent>{placeholder}</AccordionContent>
+        </AccordionItem>
 
-        <Accordion.Item className={classes.item} value="another-account">
-          <Accordion.Control>
+        <AccordionItem className="" value="another-account">
+          <AccordionTrigger>
             Can I create more that one account?
-          </Accordion.Control>
-          <Accordion.Panel>{placeholder}</Accordion.Panel>
-        </Accordion.Item>
+          </AccordionTrigger>
+          <AccordionContent>{placeholder}</AccordionContent>
+        </AccordionItem>
 
-        <Accordion.Item className={classes.item} value="newsletter">
-          <Accordion.Control>
+        <AccordionItem className="" value="newsletter">
+          <AccordionTrigger>
             How can I subscribe to monthly newsletter?
-          </Accordion.Control>
-          <Accordion.Panel>{placeholder}</Accordion.Panel>
-        </Accordion.Item>
+          </AccordionTrigger>
+          <AccordionContent>{placeholder}</AccordionContent>
+        </AccordionItem>
 
-        <Accordion.Item className={classes.item} value="credit-card">
-          <Accordion.Control>
+        <AccordionItem className="" value="credit-card">
+          <AccordionTrigger>
             Do you store credit card information securely?
-          </Accordion.Control>
-          <Accordion.Panel>{placeholder}</Accordion.Panel>
-        </Accordion.Item>
+          </AccordionTrigger>
+          <AccordionContent>{placeholder}</AccordionContent>
+        </AccordionItem>
 
-        <Accordion.Item className={classes.item} value="payment">
-          <Accordion.Control>
+        <AccordionItem className="" value="payment">
+          <AccordionTrigger>
             What payment systems to you work with?
-          </Accordion.Control>
-          <Accordion.Panel>{placeholder}</Accordion.Panel>
-        </Accordion.Item>
+          </AccordionTrigger>
+          <AccordionContent>{placeholder}</AccordionContent>
+        </AccordionItem>
       </Accordion>
-    </Container>
+    </div>
   )
 }

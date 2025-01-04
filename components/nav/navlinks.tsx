@@ -1,6 +1,5 @@
 'use client'
 
-import { Anchor, Box, Flex } from '@mantine/core'
 import React from 'react'
 import ThemeToggle from '../ui/theme-toggle'
 import AuthLinks from './authlinks'
@@ -8,27 +7,26 @@ import Navmenu from './navmenu'
 
 const Navlinks = () => {
   return (
-    <Flex justify="flex-end" gap="sm" align={'center'}>
+    <div className="flex justify-end gap-3 items-center">
       <ThemeToggle />
+
       {/* Desktop Navigation */}
-      <Flex visibleFrom="sm" gap="lg" align={'center'}>
-        <Anchor href="#" size="sm" underline={'hover'}>
+      <div className="hidden sm:flex gap-4 items-center">
+        <a href="/" className="text-sm hover:underline">
           Home
-        </Anchor>
-        <Anchor href="/courses" size="sm" underline={'hover'}>
+        </a>
+        <a href="/courses" className="text-sm hover:underline">
           Courses
-        </Anchor>
-        <Anchor href="/leaderboard" size="sm" underline={'hover'}>
+        </a>
+        <a href="/leaderboard" className="text-sm hover:underline">
           Leaderboard
-        </Anchor>
+        </a>
         <AuthLinks />
-      </Flex>
+      </div>
 
       {/* Mobile Navigation */}
-      <Box hiddenFrom="sm">
-        <Navmenu />
-      </Box>
-    </Flex>
+      <div className="sm:hidden">{<Navmenu />}</div>
+    </div>
   )
 }
 

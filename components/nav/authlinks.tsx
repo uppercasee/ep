@@ -1,15 +1,15 @@
 'use client'
 
 import { SignedIn, SignedOut, UserButton, useAuth } from '@clerk/nextjs'
-import { Skeleton } from '@mantine/core'
 import { Settings2Icon } from 'lucide-react'
 import AuthSignInButton from '../ui/AuthSignInButton'
+import { Skeleton } from '../ui/skeleton'
 
 const AuthLinks = () => {
   const { isLoaded } = useAuth()
 
   if (!isLoaded) {
-    return <Skeleton height={30} width={30} radius="xl" visible />
+    return <Skeleton className="h-[30px] w-[30px] rounded-full" />
   }
 
   return (

@@ -1,6 +1,6 @@
 import React from 'react'
-import SearchBox from '../ui/searchbox'
 import Navlinks from './navlinks'
+import { SearchBox } from '../ui/searchBoxwithIcon'
 
 const Navbar = () => {
   return (

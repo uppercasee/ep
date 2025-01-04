@@ -1,5 +1,5 @@
-import { Card, Container, Group, Text } from '@mantine/core'
 import React from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 
 const features = [
   {
@@ -30,30 +30,26 @@ const features = [
 
 const Features = () => {
   return (
-    <Container size={'xl'} className="h-screen md:h-auto">
+    <div className="mx-16 h-screen md:h-auto">
       <div className="my-4 flex items-center justify-center">
-        <h2 className="text-4xl font-extrabold leading-tight text-white">
-          Features
-        </h2>{' '}
+        <h2 className="text-4xl font-extrabold leading-tight">Features</h2>
       </div>
       <div className="mx-16 my-2 flex h-auto flex-col gap-8 md:flex-row">
         {features.map((features) => (
           <Card
             key={features.id}
-            shadow="xl"
-            radius="md"
             className="transition-all duration-300 hover:scale-105 hover:border hover:border-gray-300"
           >
-            <Group justify="space-between" mt="md" mb="xs">
-              <Text fw={500}>{features.title}</Text>
-            </Group>
-            <Text size="sm" c="dimmed">
-              {features.content}
-            </Text>
+            <CardHeader>
+              <CardTitle>{features.title}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-gray-500">{features.content}</p>
+            </CardContent>
           </Card>
         ))}
       </div>
-    </Container>
+    </div>
   )
 }
 

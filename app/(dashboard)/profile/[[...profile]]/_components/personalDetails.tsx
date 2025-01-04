@@ -1,15 +1,15 @@
-import { Divider } from '@mantine/core'
 import React from 'react'
 import ProfileHeading from './profileHeading'
 import ProfileSection from './profileSection'
+import { Separator } from '@/components/ui/separator'
 
 const PersonalDetails = () => {
   return (
     <>
       <ProfileHeading title="Personal Detail" />
-      <Divider />
+      <Separator />
       <ProfileSection>Name</ProfileSection>
-      <Divider />
+      <Separator />
     </>
   )
 }

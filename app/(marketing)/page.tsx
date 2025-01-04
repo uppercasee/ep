@@ -20,8 +20,8 @@ const Home = async () => {
         <Hero />
         <Features />
         <Faq />
-        <Footer />
       </main>
+      <Footer />
     </>
   )
 }

@@ -1,29 +1,14 @@
 import type { Metadata } from 'next'
 import './globals.css'
 
-import '@mantine/core/styles.css'
 import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
-import {
-  ColorSchemeScript,
-  MantineProvider,
-  createTheme,
-  mantineHtmlProps,
-} from '@mantine/core'
+import { ThemeProvider } from '@/context/theme-provider'
 
 export const metadata: Metadata = {
   title: 'Elearning Platform',
   description: 'A Gamified Elearning Platform using Nextjs. ',
 }
-
-const theme = createTheme({
-  fontFamily: 'Verdana, sans-serif',
-  fontFamilyMonospace: 'Monaco, Courier, monospace',
-  headings: { fontFamily: 'Greycliff CF, sans-serif' },
-  // breakpoints: {
-  //   md:'1024px'
-  // }
-})
 
 export default function RootLayout({
   children,
@@ -31,16 +16,19 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" {...mantineHtmlProps}>
-      <head>
-        <ColorSchemeScript />
-      </head>
-      <body>
-        <ClerkProvider afterSignOutUrl={'/'} appearance={{ baseTheme: dark }}>
-          <MantineProvider defaultColorScheme="dark" theme={theme}>
+    <html lang="en" suppressHydrationWarning>
+      <head />
+      <body className="">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ClerkProvider afterSignOutUrl={'/'} appearance={{ baseTheme: dark }}>
             {children}
-          </MantineProvider>
-        </ClerkProvider>
+          </ClerkProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

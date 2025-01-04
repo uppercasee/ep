@@ -1,60 +1,40 @@
 'use client'
 
-import {
-  ActionIcon,
-  Skeleton,
-  useComputedColorScheme,
-  useMantineColorScheme,
-} from '@mantine/core'
 import { Moon, Sun } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useTheme } from 'next-themes'
+import { Button } from './button'
+import { useState, useEffect } from 'react'
 
 export default function ThemeToggle() {
-  const { setColorScheme } = useMantineColorScheme({
-    keepTransitions: true,
-  })
-  const computedColorScheme = useComputedColorScheme('dark')
+  const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-
-  const handleToggle = () => {
-    setColorScheme(computedColorScheme === 'dark' ? 'light' : 'dark')
-  }
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
   if (!mounted) {
-    return (
-      <ActionIcon
-        variant="light"
-        color="gray"
-        radius={'lg'}
-        size={'sm'}
-        className="relative ml-1 mr-1.5 flex items-center justify-center rounded-full p-4"
-      >
-        <Skeleton circle height={24} width={24} />
-        <span className="sr-only">Toggle theme Skeleton</span>
-      </ActionIcon>
-    )
+    return null
+  }
+
+  const handleToggle = () => {
+    console.log('Current Theme:', theme)
+    setTheme(theme === 'dark' ? 'light' : 'dark')
   }
 
   return (
-    <ActionIcon
-      variant="light"
-      color="gray"
-      radius={'lg'}
-      size={'sm'}
+    <Button
+      size="icon"
+      variant={'outline'}
       onClick={handleToggle}
-      className="relative mr-1.5 flex items-center justify-center rounded-full p-4"
+      className="w-8 h-8 flex items-center rounded-full justify-center p-2"
     >
-      <Sun
-        className={`h-[1.2rem] w-[1.2rem] transition-all ${computedColorScheme === 'dark' ? 'opacity-0' : 'opacity-100'}`}
-      />
-      <Moon
-        className={`absolute h-[1.2rem] w-[1.2rem] transition-all ${computedColorScheme === 'dark' ? 'opacity-100' : 'opacity-0'}`}
-      />
+      {theme === 'light' ? (
+        <Moon className="h-5 w-5" />
+      ) : (
+        <Sun className="h-5 w-5" />
+      )}
       <span className="sr-only">Toggle theme</span>
-    </ActionIcon>
+    </Button>
   )
 }

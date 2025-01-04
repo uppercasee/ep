@@ -1,7 +1,8 @@
-import { Button, Divider } from '@mantine/core'
 import React, { useState } from 'react'
 import ProfileHeading from './profileHeading'
 import ProfileSection from './profileSection'
+import { Separator } from '@/components/ui/separator'
+import { Button } from '@/components/ui/button'
 
 const Preferences = () => {
   const [teachersMode, setTeachersMode] = useState(false)
@@ -14,7 +15,7 @@ const Preferences = () => {
   return (
     <>
       <ProfileHeading title="Preferences" />
-      <Divider />
+      <Separator />
       <ProfileSection>
         <h1 className="flex w-64 items-center text-sm font-medium tracking-normal">
           Teachers Mode
@@ -24,7 +25,6 @@ const Preferences = () => {
             Please fill everything in the personal details section first.
           </p>
           <Button
-            variant="subtle"
             color="white"
             onClick={handleClick}
             className="flex-shrink-0 py-1.5 pl-2.5 pr-3 text-sm font-medium"
@@ -33,7 +33,7 @@ const Preferences = () => {
           </Button>
         </div>
       </ProfileSection>
-      <Divider />
+      <Separator />
     </>
   )
 }
