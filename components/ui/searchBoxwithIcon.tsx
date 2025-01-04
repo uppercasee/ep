@@ -4,7 +4,7 @@ import { ArrowRight, Search } from 'lucide-react'
 
 function SearchBox() {
   return (
-    <div className="space-y-2 w-[300px]">
+    <div className="hidden xl:block space-y-2 w-[300px]">
       {/* <Label htmlFor="input-26">Search for courses.....</Label> */}
       <div className="relative">
         <Input

@@ -1,6 +1,6 @@
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
-import Navbar from '../(dashboard)/dashboard/_components/Navbar'
+import Navbar from './nav/navbar'
 import Faq from './sections/faq'
 import Features from './sections/features'
 import { Footer } from './sections/footer'

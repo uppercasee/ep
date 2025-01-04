@@ -18,8 +18,8 @@ const Navlinks = () => {
         <a href="/courses" className="text-sm hover:underline">
           Courses
         </a>
-        <a href="/leaderboard" className="text-sm hover:underline">
-          Leaderboard
+        <a href="#faq" className="text-sm hover:underline">
+          FAQ
         </a>
         <AuthLinks />
       </div>
