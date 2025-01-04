@@ -2,9 +2,9 @@
 import mongoose, { Schema, Document } from 'mongoose'
 import { z } from 'zod'
 
-export const roles = z.enum(['student', 'teacher', 'admin'])
+const roles = z.enum(['student', 'teacher', 'admin'])
 
-export const userZodSchema = z.object({
+const userZodSchema = z.object({
   id: z.string().nonempty('Clerk ID is required'),
   role: roles,
 })
@@ -26,8 +26,6 @@ const userSchema = new Schema<IUser>(
   },
   { timestamps: true }
 )
-
-userSchema.index({ id: 1 })
 
 const User = mongoose.models.User || mongoose.model<IUser>('User', userSchema)
 

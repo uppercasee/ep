@@ -1,5 +1,4 @@
 #!/bin/sh
 
-cd client
 pnpm lint
 pnpm format

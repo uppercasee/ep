@@ -2,9 +2,9 @@
 import mongoose, { Schema, Document } from 'mongoose'
 import { z } from 'zod'
 
-export const tiers = z.enum(['free', 'paid'])
+const tiers = z.enum(['free', 'paid'])
 
-export const lessonZodSchema = z.object({
+const lessonZodSchema = z.object({
   title: z.string().nonempty('Title is required'),
   videoUrl: z.string().url('Valid URL is required'),
   progress: z.boolean().default(false),

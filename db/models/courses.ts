@@ -3,9 +3,7 @@ import mongoose, { Schema, Document } from 'mongoose'
 import { z } from 'zod'
 import User from './users'
 
-export const roles = z.enum(['student', 'teacher'])
-
-export const courseZodSchema = z.object({
+const courseZodSchema = z.object({
   title: z.string().min(1, 'Title is required').max(100, 'Title is too long'),
   description: z.string().max(500, 'Description is too long').optional(),
   createdBy: z.string().nonempty('CreatedBy is required'),

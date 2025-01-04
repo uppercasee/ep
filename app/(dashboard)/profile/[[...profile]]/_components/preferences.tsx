@@ -2,14 +2,13 @@ import { Button, Divider } from '@mantine/core'
 import React, { useState } from 'react'
 import ProfileHeading from './profileHeading'
 import ProfileSection from './profileSection'
-import { updateTeachersMode } from '@/server-actions/user/teachersMode'
 
 const Preferences = () => {
   const [teachersMode, setTeachersMode] = useState(false)
 
   const handleClick = async () => {
-    const newTeachersMode = await updateTeachersMode(teachersMode)
-    setTeachersMode(newTeachersMode)
+    // const newTeachersMode = await updateTeachersMode(teachersMode)
+    setTeachersMode(!teachersMode)
   }
 
   return (
