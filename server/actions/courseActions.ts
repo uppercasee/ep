@@ -2,8 +2,8 @@
 
 import { currentUser } from '@clerk/nextjs/server'
 import type { Document } from 'mongoose'
-import connectToDatabase from '../db/mongoose'
 import Course from '../db/models/courses'
+import connectToDatabase from '../db/mongoose'
 
 export async function createCourse(
   title: string,

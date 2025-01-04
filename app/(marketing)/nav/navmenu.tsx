@@ -1,7 +1,6 @@
 'use client'
 
-import { SignInButton } from '@clerk/nextjs'
-import React from 'react'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +8,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Button } from '@/components/ui/button'
+import { SignInButton } from '@clerk/nextjs'
+import React from 'react'
 
 const Navmenu = () => {
   return (

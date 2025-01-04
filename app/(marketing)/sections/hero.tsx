@@ -1,6 +1,6 @@
-import hero_image from '../../public/hero_page.png'
+import { Button } from '@/components/ui/button'
 import Image from 'next/image'
-import { Button } from '../ui/button'
+import hero_image from '../../../public/hero_page.png'
 
 const Hero = () => {
   return (

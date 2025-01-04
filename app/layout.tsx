@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import './globals.css'
 
+import { ThemeProvider } from '@/context/theme-provider'
 import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
-import { ThemeProvider } from '@/context/theme-provider'
 
 export const metadata: Metadata = {
   title: 'Elearning Platform',

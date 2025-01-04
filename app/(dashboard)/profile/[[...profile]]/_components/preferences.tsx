@@ -1,8 +1,8 @@
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import React, { useState } from 'react'
 import ProfileHeading from './profileHeading'
 import ProfileSection from './profileSection'
-import { Separator } from '@/components/ui/separator'
-import { Button } from '@/components/ui/button'
 
 const Preferences = () => {
   const [teachersMode, setTeachersMode] = useState(false)

@@ -1,10 +1,10 @@
-import Faq from '@/components/sections/faq'
-import Features from '@/components/sections/features'
-import { Footer } from '@/components/sections/footer'
-import Hero from '@/components/sections/hero'
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import Navbar from '../(dashboard)/dashboard/_components/Navbar'
+import Faq from './sections/faq'
+import Features from './sections/features'
+import { Footer } from './sections/footer'
+import Hero from './sections/hero'
 
 const Home = async () => {
   const { userId }: { userId: string | null } = await auth()

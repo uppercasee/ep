@@ -1,9 +1,9 @@
+import { Button } from '@/components/ui/button'
 import ThemeToggle from '@/components/ui/theme-toggle'
+import { FlameIcon, PlusIcon } from 'lucide-react'
+import Link from 'next/link'
 import React from 'react'
 import UserLogo from './userButton'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import { FlameIcon, PlusIcon } from 'lucide-react'
 
 const Navbar = () => {
   return (
