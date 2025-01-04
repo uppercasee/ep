@@ -2,3 +2,4 @@
 
 cd client
 pnpm lint
+pnpm format

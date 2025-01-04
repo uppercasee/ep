@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   SignedIn,
@@ -6,13 +6,13 @@ import {
   SignInButton,
   SignOutButton,
   SignUpButton,
-} from "@clerk/nextjs";
-import { Burger, Menu } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import React from "react";
+} from '@clerk/nextjs'
+import { Burger, Menu } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import React from 'react'
 
 const Navmenu = () => {
-  const [opened, { toggle }] = useDisclosure();
+  const [opened, { toggle }] = useDisclosure()
 
   return (
     <Menu opened={opened} onClose={() => toggle()} withinPortal>
@@ -23,7 +23,7 @@ const Navmenu = () => {
           opened={opened}
           onClick={toggle}
           size="sm"
-          py={"sm"}
+          py={'sm'}
         />
       </Menu.Target>
       <Menu.Dropdown>
@@ -34,7 +34,7 @@ const Navmenu = () => {
 
         <SignedOut>
           <Menu.Item>
-            <div className="px-4 py-1.5 bg-blue-500 text-white text-center rounded">
+            <div className="rounded bg-blue-500 px-4 py-1.5 text-center text-white">
               <SignInButton />
             </div>
           </Menu.Item>
@@ -42,7 +42,7 @@ const Navmenu = () => {
 
         <SignedIn>
           <Menu.Item>
-            <div className="px-4 py-1.5 border border-blue-500 text-blue-500 text-center rounded">
+            <div className="rounded border border-blue-500 px-4 py-1.5 text-center text-blue-500">
               <SignOutButton />
             </div>
           </Menu.Item>
@@ -50,14 +50,14 @@ const Navmenu = () => {
 
         <SignedOut>
           <Menu.Item>
-            <div className="px-4 py-1.5 border border-blue-500 text-blue-500 text-center rounded">
+            <div className="rounded border border-blue-500 px-4 py-1.5 text-center text-blue-500">
               <SignUpButton />
             </div>
           </Menu.Item>
         </SignedOut>
       </Menu.Dropdown>
     </Menu>
-  );
-};
+  )
+}
 
-export default Navmenu;
+export default Navmenu

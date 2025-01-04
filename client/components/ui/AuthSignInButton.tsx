@@ -1,5 +1,5 @@
-import { SignInButton } from "@clerk/nextjs";
-import { Button } from "@mantine/core";
+import { SignInButton } from '@clerk/nextjs'
+import { Button } from '@mantine/core'
 
 const AuthSignInButton = () => {
   return (
@@ -8,7 +8,7 @@ const AuthSignInButton = () => {
         Log In
       </Button>
     </SignInButton>
-  );
-};
+  )
+}
 
-export default AuthSignInButton;
+export default AuthSignInButton
