@@ -1,11 +1,11 @@
 'use client'
 
 import {
-  SignedIn,
-  SignedOut,
   SignInButton,
   SignOutButton,
   SignUpButton,
+  SignedIn,
+  SignedOut,
 } from '@clerk/nextjs'
 import { Burger, Menu } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'

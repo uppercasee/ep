@@ -1,10 +1,10 @@
 import User from '@/db/models/users'
 import connectToDatabase from '@/db/mongoose'
-import { Document } from 'mongoose'
+import type { Document } from 'mongoose'
 
 export async function createUser(
   id: string,
-  role: string = 'student'
+  role = 'student'
 ): Promise<Document> {
   await connectToDatabase()
   try {

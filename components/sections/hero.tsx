@@ -1,6 +1,6 @@
 import { Button, Container } from '@mantine/core'
-import React from 'react'
 import Image from 'next/image'
+import React from 'react'
 import hero_image from '../../public/hero_page.png'
 
 const Hero = () => {

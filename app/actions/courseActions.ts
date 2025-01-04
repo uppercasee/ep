@@ -3,7 +3,7 @@ import Course from '@/db/models/courses'
 import connectToDatabase from '@/db/mongoose'
 import { currentUser } from '@clerk/nextjs/server'
 
-import { Document } from 'mongoose'
+import type { Document } from 'mongoose'
 
 export async function createCourse(
   title: string,
@@ -20,7 +20,7 @@ export async function createCourse(
       id,
     })
     await newCourse.save()
-    console.log(`Course Created!!`)
+    console.log('Course Created!!')
     return newCourse
   } catch (err) {
     console.error('Error creating course:', err)

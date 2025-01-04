@@ -1,6 +1,7 @@
 'use server'
-import mongoose, { ConnectOptions } from 'mongoose'
 import { env } from '@/data/env/server'
+import mongoose from 'mongoose'
+import type { ConnectOptions } from 'mongoose'
 
 const MONGODB_URI = env.MONGODB_URI
 

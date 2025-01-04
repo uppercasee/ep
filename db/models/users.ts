@@ -1,5 +1,5 @@
 'use server'
-import mongoose, { Schema, Document } from 'mongoose'
+import mongoose, { Schema, type Document } from 'mongoose'
 import { z } from 'zod'
 
 const roles = z.enum(['student', 'teacher', 'admin'])

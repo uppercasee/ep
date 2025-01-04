@@ -1,9 +1,9 @@
-import { Webhook } from 'svix'
-import { headers } from 'next/headers'
-import { WebhookEvent } from '@clerk/nextjs/server'
-import { env } from '@/data/env/server'
-import { NextResponse } from 'next/server'
 import { createUserAction, deleteUserAction } from '@/app/actions/userActions'
+import { env } from '@/data/env/server'
+import type { WebhookEvent } from '@clerk/nextjs/server'
+import { headers } from 'next/headers'
+import { NextResponse } from 'next/server'
+import { Webhook } from 'svix'
 
 export async function POST(req: Request) {
   const headerPayload = await headers()

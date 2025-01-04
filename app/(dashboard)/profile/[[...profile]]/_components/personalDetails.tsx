@@ -1,6 +1,6 @@
+import { Divider } from '@mantine/core'
 import React from 'react'
 import ProfileHeading from './profileHeading'
-import { Divider } from '@mantine/core'
 import ProfileSection from './profileSection'
 
 const PersonalDetails = () => {

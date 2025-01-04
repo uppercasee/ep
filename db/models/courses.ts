@@ -1,5 +1,5 @@
 'use server'
-import mongoose, { Schema, Document } from 'mongoose'
+import mongoose, { Schema, type Document } from 'mongoose'
 import { z } from 'zod'
 import User from './users'
 
@@ -26,7 +26,7 @@ const courseSchema = new Schema<ICourse>(
       required: true,
       ref: 'User',
       validate: {
-        validator: async function (id: string) {
+        validator: async (id: string) => {
           const user = await User.findById(id)
           return user?.role === 'teacher'
         },

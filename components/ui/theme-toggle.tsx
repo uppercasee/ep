@@ -1,12 +1,12 @@
 'use client'
 
-import { Moon, Sun } from 'lucide-react'
 import {
   ActionIcon,
   Skeleton,
   useComputedColorScheme,
   useMantineColorScheme,
 } from '@mantine/core'
+import { Moon, Sun } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 export default function ThemeToggle() {

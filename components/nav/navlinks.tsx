@@ -1,10 +1,10 @@
 'use client'
 
-import React from 'react'
 import { Anchor, Box, Flex } from '@mantine/core'
-import Navmenu from './navmenu'
-import AuthLinks from './authlinks'
+import React from 'react'
 import ThemeToggle from '../ui/theme-toggle'
+import AuthLinks from './authlinks'
+import Navmenu from './navmenu'
 
 const Navlinks = () => {
   return (
