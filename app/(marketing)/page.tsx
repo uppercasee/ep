@@ -15,13 +15,15 @@ const Home = async () => {
 
   return (
     <>
-      <Navbar />
-      <main className="pt-14">
-        <Hero />
-        <Features />
-        <Faq />
-      </main>
-      <Footer />
+      <div className="absolute top-0 z-[-2] w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]">
+        <Navbar />
+        <main className="pt-14">
+          <Hero />
+          <Features />
+          <Faq />
+        </main>
+        <Footer />
+      </div>
     </>
   )
 }

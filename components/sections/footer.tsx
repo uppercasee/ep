@@ -9,7 +9,7 @@ const links = [
 
 export function Footer() {
   return (
-    <div className="bg-gray-800 text-white py-8 flex">
+    <div className="bg-gray-900 text-white py-8 flex">
       <div className="max-w-screen-xl mx-auto px-6">
         <div className="text-center mb-4">
           <p className="text-lg font-semibold">Study With Us</p>
