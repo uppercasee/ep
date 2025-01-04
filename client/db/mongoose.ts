@@ -1,4 +1,4 @@
-"use server"
+'use server'
 import mongoose, { ConnectOptions } from 'mongoose'
 import { env } from '@/data/env/server'
 
@@ -17,10 +17,7 @@ async function connectToDatabase() {
   }
 
   try {
-    await mongoose.connect(MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    } as ConnectOptions)
+    await mongoose.connect(MONGODB_URI, {} as ConnectOptions)
     isConnected = true
     console.log('MongoDB connected')
   } catch (error) {
