@@ -2,6 +2,8 @@ import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
 import { env } from '@/data/env/server'
+import { NextResponse } from 'next/server'
+import { createUser } from '@/server-actions/user/createUser'
 
 export async function POST(req: Request) {
   const headerPayload = await headers()
@@ -36,7 +38,15 @@ export async function POST(req: Request) {
 
   switch (event.type) {
     case 'user.created': {
-      console.log('Webhooks: User Created!!!!')
+      const { id } = event.data
+      try {
+        await createUser(id)
+      } catch (err) {
+        console.error('Error creating user:', err)
+        return new NextResponse('Error occurred while creating user', {
+          status: 500,
+        })
+      }
       break
     }
     case 'user.deleted': {
