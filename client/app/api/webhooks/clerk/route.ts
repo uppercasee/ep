@@ -3,7 +3,7 @@ import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
 import { env } from '@/data/env/server'
 import { NextResponse } from 'next/server'
-import { createUser } from '@/server-actions/user/createUser'
+import { createUserAction, deleteUserAction } from '@/app/actions/userActions'
 
 export async function POST(req: Request) {
   const headerPayload = await headers()
@@ -40,7 +40,8 @@ export async function POST(req: Request) {
     case 'user.created': {
       const { id } = event.data
       try {
-        await createUser(id)
+        await createUserAction(id)
+        console.log(`User with ID: ${id} created successfully.`)
       } catch (err) {
         console.error('Error creating user:', err)
         return new NextResponse('Error occurred while creating user', {
@@ -50,8 +51,15 @@ export async function POST(req: Request) {
       break
     }
     case 'user.deleted': {
-      if (event.data.id != null) {
-        console.log('Webhooks: User Deleted!!!!')
+      const { id } = event.data
+      try {
+        await deleteUserAction(id as string)
+        console.log(`User with ID: ${id} deleted successfully.`)
+      } catch (err) {
+        console.error('Error deleting user:', err)
+        return new NextResponse('Error occurred while deleting user', {
+          status: 500,
+        })
       }
     }
   }
