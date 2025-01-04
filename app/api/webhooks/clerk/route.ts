@@ -1,5 +1,8 @@
-import { createUserAction, deleteUserAction } from '@/app/actions/userActions'
 import { env } from '@/data/env/server'
+import {
+  createUserAction,
+  deleteUserAction,
+} from '@/server/actions/userActions'
 import type { WebhookEvent } from '@clerk/nextjs/server'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'

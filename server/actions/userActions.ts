@@ -1,5 +1,7 @@
 'use server'
-import { createUser, deleteUser } from '@/db/services/userService'
+
+import { createUser, deleteUser } from '../db/services/userService'
+
 // import { revalidatePath } from 'next/cache'
 
 export async function createUserAction(id: string) {

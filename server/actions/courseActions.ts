@@ -1,9 +1,9 @@
 'use server'
-import Course from '@/db/models/courses'
-import connectToDatabase from '@/db/mongoose'
-import { currentUser } from '@clerk/nextjs/server'
 
+import { currentUser } from '@clerk/nextjs/server'
 import type { Document } from 'mongoose'
+import connectToDatabase from '../db/mongoose'
+import Course from '../db/models/courses'
 
 export async function createCourse(
   title: string,

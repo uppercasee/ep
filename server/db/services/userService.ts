@@ -1,6 +1,6 @@
-import User from '@/db/models/users'
-import connectToDatabase from '@/db/mongoose'
 import type { Document } from 'mongoose'
+import connectToDatabase from '../mongoose'
+import User from '../models/users'
 
 export async function createUser(
   id: string,
