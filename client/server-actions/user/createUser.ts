@@ -1,15 +1,8 @@
 'use server'
 import User from '@/db/models/users'
 import connectToDatabase from '@/db/mongoose'
-import { currentUser } from '@clerk/nextjs/server'
 
-export async function createUser(): Promise<any> {
-  const user = await currentUser()
-
-  if (!user) {
-    return
-  }
-  const id = user.id
+export async function createUser(id: string): Promise<any> {
   await connectToDatabase()
   try {
     const newUser = new User({
