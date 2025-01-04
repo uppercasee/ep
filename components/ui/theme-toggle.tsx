@@ -27,7 +27,7 @@ export default function ThemeToggle() {
       size="icon"
       variant={'outline'}
       onClick={handleToggle}
-      className="w-8 h-8 flex items-center rounded-full justify-center p-2"
+      className="flex items-center rounded-full justify-center p-2"
     >
       {theme === 'light' ? (
         <Moon className="h-5 w-5" />

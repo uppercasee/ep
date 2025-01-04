@@ -1,9 +1,9 @@
 'use client'
 
+import AuthSignInButton from '@/components/ui/AuthSignInButton'
+import { Skeleton } from '@/components/ui/skeleton'
 import { SignedIn, SignedOut, UserButton, useAuth } from '@clerk/nextjs'
 import { Settings2Icon } from 'lucide-react'
-import AuthSignInButton from '../ui/AuthSignInButton'
-import { Skeleton } from '../ui/skeleton'
 
 const AuthLinks = () => {
   const { isLoaded } = useAuth()

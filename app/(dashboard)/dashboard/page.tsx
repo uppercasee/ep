@@ -6,7 +6,7 @@ const Page = async () => {
   const user = await currentUser()
 
   return (
-    <section className="pt-14">
+    <section className="px-8">
       <div className="m-2 text-xl">
         Welcome Back, <span>{user?.username}</span>
       </div>

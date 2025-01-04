@@ -8,9 +8,8 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu'
-import { BurgerButton } from '../ui/BurgerButton'
-import { Button } from '../ui/button'
+} from '@/components/ui/dropdown-menu'
+import { Button } from '@/components/ui/button'
 
 const Navmenu = () => {
   return (

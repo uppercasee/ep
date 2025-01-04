@@ -1,9 +1,9 @@
 'use client'
 
 import React from 'react'
-import ThemeToggle from '../ui/theme-toggle'
 import AuthLinks from './authlinks'
 import Navmenu from './navmenu'
+import ThemeToggle from '@/components/ui/theme-toggle'
 
 const Navlinks = () => {
   return (
