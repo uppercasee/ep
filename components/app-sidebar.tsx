@@ -41,7 +41,7 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader>
         <div className="flex items-center justify-center">
-          <a href="/dashboard" className="text-lg mr-auto">
+          <a href="/" className="text-lg mr-auto">
             Study With Us
           </a>
           <ThemeToggle />
