@@ -7,12 +7,8 @@ import UserLogo from './userButton'
 
 const Navbar = () => {
   return (
-    <header className="flex items-center justify-center px-4 py-2 relative">
-      <div>
-        <a href="/">Study with Us</a>
-      </div>
+    <header className="flex items-center justify-center px-4 py-2 w-full">
       <div className="flex flex-row items-center gap-2 p-2 ml-auto relative w-full justify-end">
-        <ThemeToggle />
         <Button variant={'ghost'} size={'sm'} className="flex gap-1">
           <FlameIcon /> 0
         </Button>

@@ -1,3 +1,5 @@
+import { AppSidebar } from '@/components/app-sidebar'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import Navbar from './dashboard/_components/Navbar'
 
 export default async function DashboardLayout({
@@ -6,9 +8,17 @@ export default async function DashboardLayout({
   children: React.ReactNode
 }) {
   return (
-    <main className="dashboard">
-      <Navbar />
-      {children}
-    </main>
+    <>
+      <SidebarProvider>
+        <AppSidebar />
+        <main className="w-full">
+          <div className=" flex flex-row">
+            <SidebarTrigger />
+            <Navbar />
+          </div>
+          {children}
+        </main>
+      </SidebarProvider>
+    </>
   )
 }
