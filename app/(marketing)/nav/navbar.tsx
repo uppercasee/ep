@@ -1,4 +1,4 @@
-import { SearchBox } from '@/components/ui/searchBoxwithIcon'
+// import { SearchBox } from '@/components/ui/searchBoxwithIcon'
 import React from 'react'
 import Navlinks from './navlinks'
 
@@ -9,7 +9,7 @@ const Navbar = () => {
         Study with us
       </h1>
 
-      <SearchBox />
+      {/* <SearchBox /> */}
 
       <Navlinks />
     </nav>

@@ -12,7 +12,7 @@ const placeholder =
 
 export default function Faq() {
   return (
-    <div className="mx-24 px-4 py-8" id="faq">
+    <div className="mx-4 md:mx-24 px-4 py-8" id="faq">
       <div className="text-center mb-8">
         <h2 className="text-4xl font-extrabold">Frequently Asked Questions</h2>
       </div>

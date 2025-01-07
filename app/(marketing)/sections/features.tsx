@@ -30,7 +30,7 @@ const features = [
 
 const Features = () => {
   return (
-    <div className="mx-16 h-screen md:h-auto">
+    <div className="md:mx-16 h-auto">
       <div className="my-4 flex items-center justify-center">
         <h2 className="text-4xl font-extrabold leading-tight">Features</h2>
       </div>

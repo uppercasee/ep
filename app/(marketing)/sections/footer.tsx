@@ -16,20 +16,18 @@ export function Footer() {
         </div>
 
         {/* Links Section */}
-        <div className="flex justify-center space-x-6">
-          <ul className="flex space-x-6">
-            {links.map((link) => (
-              <li key={link.label}>
-                <a
-                  href={link.link}
-                  className="text-sm text-gray-400 hover:text-white"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
+          {links.map((link) => (
+            <li key={link.label}>
+              <a
+                href={link.link}
+                className="text-sm text-gray-400 hover:text-white"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   )
