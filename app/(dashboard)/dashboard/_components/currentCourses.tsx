@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -7,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Progress } from '@/components/ui/progress'
 import { Skeleton } from '@/components/ui/skeleton'
 import Image from 'next/image'
 
@@ -21,7 +23,11 @@ const CurrentCourseSection = () => {
           <CardContent>
             <Skeleton className="w-[250px] h-[200px]" />
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex flex-col items-start gap-2">
+            <div className="flex gap-1">
+              <Badge>Python</Badge>
+              <Badge>Programming</Badge>
+            </div>
             <Button>Resume</Button>
           </CardFooter>
         </Card>
@@ -32,7 +38,11 @@ const CurrentCourseSection = () => {
           <CardContent>
             <Skeleton className="w-[250px] h-[200px]" />
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex flex-col items-start gap-2">
+            <div className="flex gap-1">
+              <Badge>Javascript</Badge>
+              <Badge>Programming</Badge>
+            </div>
             <Button>Resume</Button>
           </CardFooter>
         </Card>
@@ -43,7 +53,11 @@ const CurrentCourseSection = () => {
           <CardContent>
             <Skeleton className="w-[250px] h-[200px]" />
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex flex-col items-start gap-2">
+            <div className="flex gap-1">
+              <Badge>Javascript</Badge>
+              <Badge>Programming</Badge>
+            </div>
             <Button>Resume</Button>
           </CardFooter>
         </Card>
