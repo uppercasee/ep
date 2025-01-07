@@ -9,13 +9,16 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { SignInButton } from '@clerk/nextjs'
+import { MenuIcon } from 'lucide-react'
 import React from 'react'
 
 const Navmenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant={'outline'}>Open</Button>
+        <Button variant={'outline'}>
+          <MenuIcon />
+        </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="">
