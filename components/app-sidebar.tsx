@@ -4,6 +4,7 @@ import {
   BarChart2,
   Book,
   LayoutDashboardIcon,
+  MessageSquare,
   Settings,
   TrophyIcon,
 } from 'lucide-react'
@@ -34,10 +35,16 @@ const items = [
     icon: Book,
   },
   {
+    title: 'Forum',
+    url: '/forum',
+    icon: MessageSquare,
+  },
+  {
     title: 'Leaderboard',
     url: '/leaderboard',
     icon: TrophyIcon,
   },
+
   {
     title: 'Analytics',
     url: '/analytics',

@@ -4,13 +4,13 @@ import { ArrowRight, Search } from 'lucide-react'
 
 function SearchBox() {
   return (
-    <div className="hidden xl:block space-y-2 w-[300px]">
+    <div className="space-y-2 w-full sm:max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg">
       {/* <Label htmlFor="input-26">Search for courses.....</Label> */}
       <div className="relative">
         <Input
           id="input-26"
           className="peer pe-9 ps-9"
-          placeholder="Search..."
+          placeholder="Search for courses..."
           type="search"
         />
         <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
