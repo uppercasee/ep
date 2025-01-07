@@ -1,17 +1,12 @@
-'use client'
-
-import { useSearchParams } from 'next/navigation'
-import { useState } from 'react'
-import CourseExplore from './_components/CourseExplore'
+import { Suspense } from 'react'
+import CourseSearch from './_components/courseSearch'
 
 const CourseExplorePage = () => {
-  const [searchResults, setSearchResults] = useState([])
-  const searchParams = useSearchParams()
-  const query = searchParams.get('q')
-
   return (
     <div>
-      <h1>Search Results for "{query}".</h1>
+      <Suspense fallback={<p>Loading search results...</p>}>
+        <CourseSearch />
+      </Suspense>
       {/* <CourseExplore /> */}
     </div>
   )
