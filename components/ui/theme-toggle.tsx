@@ -3,6 +3,7 @@
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import ThemeToggleSkeleton from '../skeletons/themeToggleSkeleton'
 import { Button } from './button'
 
 export default function ThemeToggle() {
@@ -14,7 +15,7 @@ export default function ThemeToggle() {
   }, [])
 
   if (!mounted) {
-    return null
+    return <ThemeToggleSkeleton />
   }
 
   const handleToggle = () => {

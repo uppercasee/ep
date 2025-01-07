@@ -1,34 +1,19 @@
 'use client'
 
+import { ButtonSkeleton } from '@/components/skeletons/buttonSkeleton'
 import AuthSignInButton from '@/components/ui/AuthSignInButton'
-import { Skeleton } from '@/components/ui/skeleton'
-import { SignedIn, SignedOut, UserButton, useAuth } from '@clerk/nextjs'
-import { Settings2Icon } from 'lucide-react'
+import { useAuth } from '@clerk/nextjs'
 
 const AuthLinks = () => {
   const { isLoaded } = useAuth()
 
   if (!isLoaded) {
-    return <Skeleton className="h-[30px] w-[30px] rounded-full" />
+    return <ButtonSkeleton />
   }
 
   return (
     <div>
-      <SignedOut>
-        <AuthSignInButton />
-      </SignedOut>
-
-      <SignedIn>
-        <UserButton userProfileMode="navigation" userProfileUrl="/profile">
-          <UserButton.MenuItems>
-            <UserButton.Link
-              label="Preferences"
-              labelIcon={<Settings2Icon size={16} />}
-              href="/profile/preferences"
-            />
-          </UserButton.MenuItems>
-        </UserButton>
-      </SignedIn>
+      <AuthSignInButton />
     </div>
   )
 }

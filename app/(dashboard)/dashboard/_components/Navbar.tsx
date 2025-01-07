@@ -1,9 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { SearchBox } from '@/components/ui/searchBoxwithIcon'
-import ThemeToggle from '@/components/ui/theme-toggle'
 import { FlameIcon, PlusIcon } from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
 import UserLogo from './userButton'
 
 const Navbar = () => {

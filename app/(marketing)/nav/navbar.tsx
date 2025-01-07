@@ -1,5 +1,4 @@
 import { GraduationCapIcon } from 'lucide-react'
-// import { SearchBox } from '@/components/ui/searchBoxwithIcon'
 import React from 'react'
 import Navlinks from './navlinks'
 
@@ -12,8 +11,6 @@ const Navbar = () => {
           <span>Study With Us</span>
         </div>
       </a>
-
-      {/* <SearchBox /> */}
 
       <Navlinks />
     </nav>

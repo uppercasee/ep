@@ -1,5 +1,5 @@
 'use client'
-import { Skeleton } from '@/components/ui/skeleton'
+import UserLogoSkeleton from '@/components/skeletons/userLogoSkeleton'
 import { UserButton, useAuth } from '@clerk/nextjs'
 import { Settings2Icon } from 'lucide-react'
 
@@ -7,8 +7,9 @@ const UserLogo = () => {
   const { isLoaded } = useAuth()
 
   if (!isLoaded) {
-    return <Skeleton className="h-[30px] w-[30px] rounded-full" />
+    return <UserLogoSkeleton />
   }
+
   return (
     <UserButton userProfileMode="navigation" userProfileUrl="/profile">
       <UserButton.MenuItems>

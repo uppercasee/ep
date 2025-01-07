@@ -72,7 +72,7 @@ export function AppSidebar() {
             state === 'collapsed' ? 'flex-col' : 'flex-row'
           }`}
         >
-          <a href="/" className="text-lg">
+          <a href="/" className="text-lg font-semibold">
             <div className="flex justify-between items-center gap-2">
               <GraduationCapIcon />
               <span className={`${state === 'collapsed' ? 'hidden' : 'block'}`}>
