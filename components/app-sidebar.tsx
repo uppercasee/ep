@@ -1,33 +1,47 @@
-import { Calendar, Home, Inbox, Search, Settings } from 'lucide-react'
+'use client'
+
+import {
+  BarChart2,
+  Book,
+  LayoutDashboardIcon,
+  Settings,
+  TrophyIcon,
+} from 'lucide-react'
 
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
+  // SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
+import { usePathname } from 'next/navigation'
 import ThemeToggle from './ui/theme-toggle'
 
 const items = [
   {
     title: 'Dashboard',
     url: '/dashboard',
-    icon: Home,
+    icon: LayoutDashboardIcon,
   },
   {
     title: 'Courses',
-    url: '/courses',
-    icon: Inbox,
+    url: '/courses/explore',
+    icon: Book,
+  },
+  {
+    title: 'Leaderboard',
+    url: '/leaderboard',
+    icon: TrophyIcon,
   },
   {
     title: 'Analytics',
     url: '/analytics',
-    icon: Search,
+    icon: BarChart2,
   },
   {
     title: 'Settings',
@@ -37,6 +51,8 @@ const items = [
 ]
 
 export function AppSidebar() {
+  const currentPath = usePathname()
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -53,7 +69,11 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={item.url === currentPath}
+                    tooltip={item.title}
+                  >
                     <a href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>

@@ -1,34 +1,41 @@
-import CourseCard from '@/components/CourseCard'
+import { Button } from '@/components/ui/button'
 import { currentUser } from '@clerk/nextjs/server'
-import React from 'react'
-import Navbar from './_components/Navbar'
+import CurrentCourseSection from './_components/currentCourses'
+import DailyQuestWidget from './_components/dailyQuestWidget'
+import LeaderboardWidget from './_components/leaderboardWidget'
+import MyCourseSection from './_components/myCourses'
 
 const Page = async () => {
   const user = await currentUser()
 
   return (
     <>
-      <section className="px-8">
-        <div className="text-xl">
-          Welcome Back, <span>{user?.username}</span>
+      <div className="flex flex-col 2xl:flex-row gap-8 lg:gap-2 justify-between">
+        <div className="flex flex-col gap-6 w-full mr-8">
+          <div className="flex items-center justify-between">
+            <div className="text-xl font-bold">
+              Welcome Back, <span>{user?.username}</span>
+            </div>
+            <div className="flex items-center justify-center">
+              <Button>Explore New Courses</Button>
+            </div>
+          </div>
+          <div className="gap-2 flex flex-col">
+            <div className="text-md font-semibold">Continue Studying.....</div>
+            <CurrentCourseSection />
+          </div>
+          <div className="gap-2 flex flex-col">
+            <div className="text-md font-semibold">Start a New Course...</div>
+            <div>
+              <MyCourseSection />
+            </div>
+          </div>
         </div>
-        <div>Continue Studying.....</div>
-        <div>My Course Cards</div>
-        <CourseCard />
-        <div>Explore Courses....</div>
-        <div className="flex gap-4">
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
+        <div className="flex flex-row lg:flex-col justify-between lg:justify-start gap-4">
+          <LeaderboardWidget />
+          <DailyQuestWidget />
         </div>
-        <div>Popular Course Cards</div>
-        <div className="flex gap-4">
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
-        </div>
-        <div className="bottom-0 left-0">Footer</div>
-      </section>
+      </div>
     </>
   )
 }

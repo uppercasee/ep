@@ -16,7 +16,7 @@ export default async function DashboardLayout({
             <SidebarTrigger />
             <Navbar />
           </div>
-          {children}
+          <div className="px-8">{children}</div>
         </main>
       </SidebarProvider>
     </>
