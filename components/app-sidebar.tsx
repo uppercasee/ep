@@ -2,9 +2,10 @@
 
 import {
   BarChart2,
-  Book,
+  GraduationCapIcon,
   LayoutDashboardIcon,
   MessageSquare,
+  SearchIcon,
   Settings,
   TrophyIcon,
 } from 'lucide-react'
@@ -14,13 +15,14 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  // SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
+import { useSidebar } from '@/components/ui/sidebar'
 import { usePathname } from 'next/navigation'
+import { Separator } from './ui/separator'
 import ThemeToggle from './ui/theme-toggle'
 
 const items = [
@@ -30,9 +32,9 @@ const items = [
     icon: LayoutDashboardIcon,
   },
   {
-    title: 'Courses',
+    title: 'Explore',
     url: '/explore',
-    icon: Book,
+    icon: SearchIcon,
   },
   {
     title: 'Forum',
@@ -58,18 +60,30 @@ const items = [
 ]
 
 export function AppSidebar() {
+  const { state } = useSidebar()
+
   const currentPath = usePathname()
 
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
-        <div className="flex items-center justify-center">
-          <a href="/" className="text-lg mr-auto">
-            Study With Us
+        <div
+          className={`flex gap-2 items-center justify-between ${
+            state === 'collapsed' ? 'flex-col' : 'flex-row'
+          }`}
+        >
+          <a href="/" className="text-lg">
+            <div className="flex justify-between items-center gap-2">
+              <GraduationCapIcon />
+              <span className={`${state === 'collapsed' ? 'hidden' : 'block'}`}>
+                Study With Us
+              </span>
+            </div>
           </a>
           <ThemeToggle />
         </div>
       </SidebarHeader>
+      <Separator />
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>

@@ -25,14 +25,14 @@ export default function ThemeToggle() {
   return (
     <Button
       size="icon"
-      variant={'outline'}
+      variant={'ghost'}
       onClick={handleToggle}
-      className="flex items-center rounded-full justify-center p-2"
+      className="flex items-center rounded-md justify-center p-2"
     >
       {theme === 'light' ? (
-        <Moon className="h-5 w-5" />
+        <Moon className="w-5 h-5" />
       ) : (
-        <Sun className="h-5 w-5" />
+        <Sun className="w-5 h-5" />
       )}
       <span className="sr-only">Toggle theme</span>
     </Button>
