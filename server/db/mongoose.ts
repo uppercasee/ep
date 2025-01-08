@@ -1,5 +1,5 @@
 'use server'
-import { env } from '@/data/env/server'
+import { env } from '@/lib/data/env/server'
 import mongoose from 'mongoose'
 import type { ConnectOptions } from 'mongoose'
 

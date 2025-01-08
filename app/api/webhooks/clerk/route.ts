@@ -1,4 +1,4 @@
-import { env } from '@/data/env/server'
+import { env } from '@/lib/data/env/server'
 import {
   createUserAction,
   deleteUserAction,
