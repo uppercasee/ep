@@ -24,6 +24,7 @@ import { useSidebar } from '@/components/ui/sidebar'
 import { usePathname } from 'next/navigation'
 import { Separator } from './ui/separator'
 import ThemeToggle from './ui/theme-toggle'
+import { cn } from '@/lib/utils'
 
 const items = [
   {
@@ -68,19 +69,20 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <div
-          className={`flex gap-2 items-center justify-between ${
-            state === 'collapsed' ? 'flex-col' : 'flex-row'
-          }`}
+          className="group flex gap-2 items-center justify-between"
+          data-collapsible={state}
         >
           <a href="/" className="text-lg font-semibold">
             <div className="flex justify-between items-center gap-2">
               <GraduationCapIcon />
-              <span className={`${state === 'collapsed' ? 'hidden' : 'block'}`}>
+              <span className={cn({ hidden: state === 'collapsed' })}>
                 Study With Us
               </span>
             </div>
           </a>
-          <ThemeToggle />
+          <div className={cn({ hidden: state === 'collapsed' })}>
+            <ThemeToggle />
+          </div>
         </div>
       </SidebarHeader>
       <Separator />
