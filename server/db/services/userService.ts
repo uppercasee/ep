@@ -2,16 +2,13 @@ import type { Document } from 'mongoose'
 import User from '../models/users'
 import connectToDatabase from '../mongoose'
 
-export async function createUser(
-  id: string,
-  role = 'student'
-): Promise<Document> {
+export async function createUser(id: string): Promise<Document> {
   await connectToDatabase()
   try {
-    const newUser = new User({ id, role })
+    const newUser = new User({ id })
 
     await newUser.save()
-    console.log(`User ${id} created with role '${role}'`)
+    console.log(`User ${id} created.`)
 
     return newUser
   } catch (err) {

@@ -1,10 +1,11 @@
+import { Skeleton } from '@/components/ui/skeleton'
 import { Suspense } from 'react'
 import CourseSearch from './_components/courseSearch'
 
 const CourseExplorePage = () => {
   return (
     <div>
-      <Suspense fallback={<p>Loading search results...</p>}>
+      <Suspense fallback={<Skeleton />}>
         <CourseSearch />
       </Suspense>
       {/* <CourseExplore /> */}

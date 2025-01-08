@@ -9,6 +9,10 @@ const courseZodSchema = z.object({
   createdBy: z.string().nonempty('CreatedBy is required'),
   lessons: z.array(z.string()).optional(),
   students: z.array(z.string().nonempty()).default([]),
+  category: z.string().min(1, 'Category is required'),
+  isPublished: z.boolean().default(false),
+  price: z.number().min(0, 'Price must be a positive number').optional(),
+  thumbnail_url: z.string().url('Invalid URL for thumbnail').optional(),
 })
 
 export type ICourse = z.infer<typeof courseZodSchema> & Document
@@ -35,6 +39,33 @@ const courseSchema = new Schema<ICourse>(
     },
     lessons: [{ type: Schema.Types.ObjectId, ref: 'Lesson' }],
     students: [{ type: String, ref: 'User' }],
+    category: {
+      type: String,
+      required: true,
+    },
+    isPublished: {
+      type: Boolean,
+      default: false,
+    },
+    price: {
+      type: Number,
+      min: [0, 'Price must be a positive number'],
+      required: false,
+    },
+    thumbnail_url: {
+      type: String,
+      validate: {
+        validator: (url: string) => {
+          try {
+            new URL(url) // checks if this is a valid url
+            return true
+          } catch {
+            return false
+          }
+        },
+        message: 'Invalid URL for thumbnail',
+      },
+    },
   },
   { timestamps: true }
 )

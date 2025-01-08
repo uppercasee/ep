@@ -12,7 +12,7 @@ const Page = async () => {
     <>
       <div className="flex flex-col 2xl:flex-row gap-8 lg:gap-2 justify-between">
         <div className="flex flex-col gap-6 w-full mr-8">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-2 md:flex-row items-center justify-between">
             <div className="text-xl font-bold">
               Welcome Back, <span>{user?.username}</span>
             </div>
@@ -31,7 +31,7 @@ const Page = async () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-row lg:flex-col justify-between lg:justify-start gap-4">
+        <div className="flex flex-col justify-between md:justify-start gap-4">
           <LeaderboardWidget />
           <DailyQuestWidget />
         </div>

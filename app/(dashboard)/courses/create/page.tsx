@@ -1,10 +1,39 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { PlusIcon } from 'lucide-react'
+import { useState } from 'react'
 
 const NewCoursePage = () => {
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    category: '',
+    price: '',
+  })
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { id, value } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }))
+  }
+
+  const handleSubmit = async () => {
+    // const result = await createCourse(formData) // Call the server action here
+    // if (result.success) {
+    //   // handle success (maybe navigate, show a success message, etc.)
+    // } else {
+    //   // handle errors
+    // }
+  }
+
   return (
     <div className="px-12 flex flex-col gap-6 justify-start ">
       <div className="flex justify-between items-center gap-6">
@@ -14,7 +43,6 @@ const NewCoursePage = () => {
             Complete all fields and save your course!!
           </span>
         </div>
-        <Button>Save</Button>
       </div>
       <div className="flex flex-col md:flex-row gap-6 md:gap-16">
         <div className="flex flex-col gap-4 w-full md:w-1/2">
@@ -41,14 +69,7 @@ const NewCoursePage = () => {
             <Label>Price</Label>
             <Input type="text" id="title" placeholder="Course Price" />
           </div>
-        </div>
-        <div className="flex flex-col gap-4 w-full md:w-1/2">
-          <div className="text-md font-semibold">Contents</div>
-          <Button variant={'secondary'}>
-            <div className="flex gap-2">
-              <PlusIcon /> Add Section
-            </div>
-          </Button>
+          <Button>Save</Button>
         </div>
       </div>
     </div>

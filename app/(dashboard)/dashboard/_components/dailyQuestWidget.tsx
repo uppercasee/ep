@@ -10,7 +10,7 @@ const dailyQuestWidget = () => {
             Daily Quest
           </CardHeader>
           <CardContent>
-            <Skeleton className="w-[250px] h-[100px]" />
+            <Skeleton className="w-full 2xl:w-[250px] h-[150px]" />
           </CardContent>
         </Card>
       </div>

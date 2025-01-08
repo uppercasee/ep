@@ -9,7 +9,7 @@ const LeaderboardWidget = () => {
           Leaderboard
         </CardHeader>
         <CardContent>
-          <Skeleton className="w-[250px] h-[400px]" />
+          <Skeleton className="w-full 2xl:w-[250px] h-[450px]" />
         </CardContent>
       </Card>
     </div>

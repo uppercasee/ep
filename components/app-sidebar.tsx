@@ -21,10 +21,10 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import { useSidebar } from '@/components/ui/sidebar'
+import { cn } from '@/lib/utils'
 import { usePathname } from 'next/navigation'
 import { Separator } from './ui/separator'
 import ThemeToggle from './ui/theme-toggle'
-import { cn } from '@/lib/utils'
 
 const items = [
   {
