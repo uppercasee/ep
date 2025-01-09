@@ -6,25 +6,25 @@ const features = [
     id: 1,
     title: 'Earn Rewards',
     content:
-      'Gain points, badges, and certificates as you complete lessons and progress through your courses!',
+      'Earn points, badges, and certificates as you progress through lessons and complete key milestones.',
   },
   {
     id: 2,
     title: 'Learn with Fun',
     content:
-      'Our interactive quizzes and challenges keep you engaged while you learn new skills.',
+      'Interactive quizzes and challenges make learning enjoyable while helping you develop new skills.',
   },
   {
     id: 3,
     title: 'Track Your Progress',
     content:
-      'Monitor your learning journey with personalized progress tracking and performance analytics.',
+      'Easily monitor your progress with personalized tracking, performance insights, and analytics tools.',
   },
   {
     id: 4,
-    title: 'Track Your Progress',
+    title: 'Compete with Peers',
     content:
-      'Monitor your learning journey with personalized progress tracking and performance analytics.',
+      'Join leaderboards and challenges to compete with peers, and track how you rank within the community.',
   },
 ]
 

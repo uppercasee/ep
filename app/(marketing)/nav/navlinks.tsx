@@ -16,7 +16,7 @@ const Navlinks = () => {
           Home
         </a>
         <a href="/explore" className="text-sm hover:underline">
-          Courses
+          Explore
         </a>
         <a href="#faq" className="text-sm hover:underline">
           FAQ
