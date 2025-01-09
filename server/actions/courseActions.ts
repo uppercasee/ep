@@ -1,23 +1,24 @@
 'use server'
 
 import { currentUser } from '@clerk/nextjs/server'
-import type { Document } from 'mongoose'
-import Course from '../db/models/courses'
+import type { z } from 'zod'
+import Course, { type ICourse } from '../db/models/courses'
 import connectToDatabase from '../db/mongoose'
+import type { courseZodSchema } from '../db/schema/courseSchema'
+
+type CreateCourseParams = z.infer<typeof courseZodSchema>
 
 export async function createCourse(
-  title: string,
-  description: string
-): Promise<Document> {
+  courseData: Omit<CreateCourseParams, 'createdBy' | 'students' | 'isPublished'>
+): Promise<ICourse> {
   const user = await currentUser()
   const id = user?.id
 
   await connectToDatabase()
   try {
     const newCourse = new Course({
-      title,
-      description,
-      id,
+      ...courseData,
+      createdBy: id,
     })
     await newCourse.save()
     console.log('Course Created!!')

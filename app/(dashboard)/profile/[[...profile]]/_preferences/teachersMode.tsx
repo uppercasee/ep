@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Switch } from '@/components/ui/switch'
 import { useTeacherMode } from '@/hooks/useTeacherMode'
 
 const TeacherModeToggle = () => {
@@ -19,16 +20,16 @@ const TeacherModeToggle = () => {
 
         {teachersMode === null || loading ? (
           <>
-            <Skeleton className="h-10 w-20" /> {/* Button skeleton */}
+            <Switch checked={false} aria-readonly disabled />
           </>
         ) : (
-          <Button
-            color="white"
-            onClick={toggleTeacherMode}
-            className="flex-shrink-0 py-1.5 pl-2.5 pr-3 text-sm font-medium"
-          >
-            {teachersMode ? 'Disable' : 'Enable'}
-          </Button>
+          <div className="flex items-center ">
+            <Switch
+              checked={teachersMode}
+              onCheckedChange={toggleTeacherMode}
+              aria-readonly
+            />
+          </div>
         )}
       </div>
     </>

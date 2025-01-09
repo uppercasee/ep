@@ -1,19 +1,8 @@
 'use server'
 import mongoose, { Schema, type Document } from 'mongoose'
-import { z } from 'zod'
+import type { z } from 'zod'
+import type { courseZodSchema } from '../schema/courseSchema'
 import User from './users'
-
-const courseZodSchema = z.object({
-  title: z.string().min(1, 'Title is required').max(100, 'Title is too long'),
-  description: z.string().max(500, 'Description is too long').optional(),
-  createdBy: z.string().nonempty('CreatedBy is required'),
-  lessons: z.array(z.string()).optional(),
-  students: z.array(z.string().nonempty()).default([]),
-  category: z.string().min(1, 'Category is required'),
-  isPublished: z.boolean().default(false),
-  price: z.number().min(0, 'Price must be a positive number').optional(),
-  thumbnail_url: z.string().url('Invalid URL for thumbnail').optional(),
-})
 
 export type ICourse = z.infer<typeof courseZodSchema> & Document
 
@@ -50,6 +39,10 @@ const courseSchema = new Schema<ICourse>(
     price: {
       type: Number,
       min: [0, 'Price must be a positive number'],
+      required: false,
+    },
+    tags: {
+      type: [String],
       required: false,
     },
     thumbnail_url: {
