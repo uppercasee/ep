@@ -1,6 +1,8 @@
-import Course, { ICourse } from '@/server/db/models/courses'
+import Course from '@/server/db/models/courses'
 import connectToDatabase from '@/server/db/mongoose'
 import { notFound } from 'next/navigation'
+
+import { z } from 'zod'
 
 export default async function Page({
   params,
@@ -36,7 +38,9 @@ const Header = ({ isPublished }: { isPublished: boolean }) => (
       <span className="text-muted-foreground">
         Make changes to your course and save it.
       </span>
-      <div>Published: {isPublished ? 'Yes' : 'No'}</div>
+      <span className="text-muted-foreground">
+        Published: {isPublished ? 'Yes' : 'No'}
+      </span>
     </div>
   </>
 )
