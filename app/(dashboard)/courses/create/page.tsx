@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/tags-input'
 import { Textarea } from '@/components/ui/textarea'
 import { createCourse } from '@/server/actions/courseActions'
+import { navigate } from '@/server/actions/navigate'
 import { PlusIcon } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import { useState } from 'react'
@@ -46,9 +47,9 @@ const NewCoursePage = () => {
     console.log('Form data:', dataToSubmit)
 
     try {
-      const result = await createCourse(dataToSubmit)
-      console.log('Course created successfully with id: ', result._id)
-      redirect(`/courses/${result._id}/edit`)
+      const id = await createCourse(dataToSubmit)
+      console.log('Course created successfully with id: ', id)
+      navigate(`/courses/${id}/edit`)
     } catch (error) {
       console.error('Error creating course:', error)
     }

@@ -2,7 +2,6 @@
 import mongoose, { Schema, type Document } from 'mongoose'
 import type { z } from 'zod'
 import type { courseZodSchema } from '../schema/courseSchema'
-import User from './users'
 
 export type ICourse = z.infer<typeof courseZodSchema> & Document
 
@@ -18,13 +17,6 @@ const courseSchema = new Schema<ICourse>(
       type: String,
       required: true,
       ref: 'User',
-      validate: {
-        validator: async (id: string) => {
-          const user = await User.findById(id)
-          return user?.role === 'teacher'
-        },
-        message: 'CreatedBy must reference a teacher',
-      },
     },
     lessons: [{ type: Schema.Types.ObjectId, ref: 'Lesson' }],
     students: [{ type: String, ref: 'User' }],

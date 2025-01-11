@@ -9,11 +9,11 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { GetAllCourses } from '@/server/actions/courseActions'
+import { GetAllCreatedCourses } from '@/server/actions/courseActions'
 import Link from 'next/link'
 
-const CourseExplore = async () => {
-  const courses = await GetAllCourses()
+const MyCoursesPage = async () => {
+  const courses = await GetAllCreatedCourses()
 
   return (
     <div className="grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-6">
@@ -25,21 +25,21 @@ const CourseExplore = async () => {
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
             <Skeleton className="w-full h-48 sm:h-60 md:h-72" />
-            <div className="flex flex-wrap gap-2 w-auto">
-              {(course.tags ?? []).map((tag) => (
-                <Badge
-                  variant="secondary"
-                  key={tag}
-                  className="inline-block max-w-fit"
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </div>
+            {/* <div className="flex gap-1"> */}
+            {/*   {(course.tags ?? []).map((tag) => ( */}
+            {/*     <Badge variant={'secondary'} key={tag}> */}
+            {/*       {tag} */}
+            {/*     </Badge> */}
+            {/*   ))} */}
+            {/* </div> */}
           </CardContent>
           <CardFooter className="flex gap-2 items-center justify-between">
-            <Link href={`/courses/${course._id}/view`}>
-              <Button>View</Button>
+            {/* <Link href={`/courses/${course._id}/view`}> */}
+            {/*   <Button>View</Button> */}
+            {/* </Link> */}
+
+            <Link href={`/courses/${course._id}/edit`}>
+              <Button>Edit</Button>
             </Link>
           </CardFooter>
         </Card>
@@ -48,4 +48,4 @@ const CourseExplore = async () => {
   )
 }
 
-export default CourseExplore
+export default MyCoursesPage

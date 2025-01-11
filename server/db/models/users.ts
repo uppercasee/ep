@@ -1,10 +1,7 @@
 'use server'
 import mongoose, { Schema, type Document } from 'mongoose'
-import { z } from 'zod'
-
-const userZodSchema = z.object({
-  id: z.string().nonempty('Clerk ID is required'),
-})
+import type { z } from 'zod'
+import type { userZodSchema } from '../schema/userSchema'
 
 export type IUser = z.infer<typeof userZodSchema> & Document
 
@@ -14,7 +11,9 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
       unique: true,
+      index: true,
     },
+    myCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
   },
   { timestamps: true }
 )

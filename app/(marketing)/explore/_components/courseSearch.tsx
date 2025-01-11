@@ -6,7 +6,7 @@ const courseSearch = () => {
   const searchParams = useSearchParams()
   const query = searchParams.get('q') || ''
 
-  return <div className="">Explore Page</div>
+  return null
 }
 
 export default courseSearch

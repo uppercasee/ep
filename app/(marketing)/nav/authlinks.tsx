@@ -1,8 +1,9 @@
 'use client'
 
+import UserLogo from '@/app/(dashboard)/dashboard/_components/userButton'
 import { ButtonSkeleton } from '@/components/skeletons/buttonSkeleton'
 import AuthSignInButton from '@/components/ui/AuthSignInButton'
-import { useAuth } from '@clerk/nextjs'
+import { SignedIn, SignedOut, useAuth } from '@clerk/nextjs'
 
 const AuthLinks = () => {
   const { isLoaded } = useAuth()
@@ -13,7 +14,12 @@ const AuthLinks = () => {
 
   return (
     <div>
-      <AuthSignInButton />
+      <SignedOut>
+        <AuthSignInButton />
+      </SignedOut>
+      <SignedIn>
+        <UserLogo />
+      </SignedIn>
     </div>
   )
 }

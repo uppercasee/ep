@@ -2,6 +2,7 @@
 
 import {
   BarChart2,
+  BookIcon,
   GraduationCapIcon,
   LayoutDashboardIcon,
   MessageSquare,
@@ -36,6 +37,11 @@ const items = [
     title: 'Explore',
     url: '/explore',
     icon: SearchIcon,
+  },
+  {
+    title: 'My Course',
+    url: '/courses/me',
+    icon: BookIcon,
   },
   {
     title: 'Forum',
