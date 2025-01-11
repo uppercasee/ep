@@ -1,73 +1,87 @@
 'use server'
 
+import { db } from '@/drizzle/db'
+import { CoursesTable } from '@/drizzle/schema'
 import { currentUser } from '@clerk/nextjs/server'
-import type { Types } from 'mongoose'
-import type { z } from 'zod'
-import Course, { type ICourse } from '../db/models/courses'
-import User from '../db/models/users'
-import connectToDatabase from '../db/mongoose'
-import type { courseZodSchema } from '../db/schema/courseSchema'
-import type { userZodSchema } from '../db/schema/userSchema'
+import { eq } from 'drizzle-orm'
 
-type CreateCourseParams = z.infer<typeof courseZodSchema>
-
-export async function createCourse(
-  courseData: Omit<CreateCourseParams, 'createdBy' | 'students' | 'isPublished'>
-): Promise<ICourse> {
-  await connectToDatabase()
-
+export async function createNewCourse(
+  data: Omit<typeof CoursesTable.$inferInsert, 'createdBy'>
+) {
   const user = await currentUser()
-  const user_id = user?.id
-
-  const db_user = await User.findOne({ id: user_id })
-
+  if (!user?.id) {
+    throw new Error('Not Authorized')
+  }
   try {
-    const newCourse = new Course({
-      ...courseData,
-      createdBy: db_user._id,
-    })
+    const [newCourse] = await db
+      .insert(CoursesTable)
+      .values({
+        ...data,
+        createdBy: user.id,
+      })
+      .returning({ insertedId: CoursesTable.id })
 
-    await User.findOneAndUpdate(
-      { id: user_id },
-      { $push: { myCourses: newCourse._id } },
-      { new: true }
-    )
-
-    await newCourse.save()
+    // TODO: update usersTable as well
+    // await db
+    //   .update(UsersTable)
+    //   .set({
+    //
+    //   })
+    //   .where(eq(UsersTable.id, user.id))
     console.log('Course Created!!')
-
-    console.log(newCourse._id.toString())
-
-    return newCourse._id.toString()
+    return newCourse
   } catch (err) {
     console.error('Error creating course:', err)
     throw new Error('Error occurred while creating course')
   }
 }
 
-export async function GetAllCreatedCourses(): Promise<
-  (z.infer<typeof courseZodSchema> & { _id: Types.ObjectId })[]
-> {
-  await connectToDatabase()
-
+export async function GetAllCreatedCourses() {
   const user = await currentUser()
-  const user_id = user?.id
-
-  const db_user = await User.findOne({ id: user_id }).populate('myCourses')
-
-  if (!db_user) {
-    throw new Error('User not found')
+  if (!user?.id) {
+    throw new Error('Not Authorized')
   }
 
-  const courses = db_user.myCourses || []
-  return courses
+  try {
+    const courses = await db
+      .select()
+      .from(CoursesTable)
+      .where(eq(CoursesTable.createdBy, user.id))
+
+    return courses.map((course) => ({
+      ...course,
+      id: course.id.toString(),
+    }))
+  } catch (error) {
+    console.error('Error fetching courses created by user:', error)
+    throw new Error('Error occurred while fetching courses created by user')
+  }
 }
 
-export async function GetAllCourses(): Promise<
-  (z.infer<typeof courseZodSchema> & { _id: Types.ObjectId })[]
-> {
-  await connectToDatabase()
+export async function GetAllCourses() {
+  try {
+    const courses = await db.select().from(CoursesTable)
 
-  const courses = await Course.find()
-  return courses
+    return courses.map((course) => ({
+      ...course,
+      id: course.id.toString(),
+    }))
+  } catch (error) {
+    console.error('Error fetching courses:', error)
+    throw new Error('Error occurred while fetching courses')
+  }
+}
+export async function getCourse(id: string) {
+  const course = await db
+    .select()
+    .from(CoursesTable)
+    .where(eq(CoursesTable.id, id))
+    .limit(1)
+    .execute()
+
+  if (!course.length) {
+    throw new Error('Course not found')
+  }
+
+  return course[0]
 }
