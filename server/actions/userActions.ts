@@ -15,7 +15,7 @@ export async function toggleUserRole() {
     const user = await db
       .select()
       .from(UsersTable)
-      .where(eq(UsersTable.id, userId))
+      .where(eq(UsersTable.clerkUserId, userId))
       .limit(1)
       .execute()
 
@@ -29,7 +29,7 @@ export async function toggleUserRole() {
     await db
       .update(UsersTable)
       .set({ role: newRole })
-      .where(eq(UsersTable.id, userId))
+      .where(eq(UsersTable.clerkUserId, userId))
       .execute()
 
     return 'success'
@@ -49,7 +49,7 @@ export async function getUserRole(): Promise<'teacher' | 'student'> {
     const user = await db
       .select()
       .from(UsersTable)
-      .where(eq(UsersTable.id, userId))
+      .where(eq(UsersTable.clerkUserId, userId))
       .limit(1)
       .execute()
 

@@ -44,7 +44,7 @@ export default function RootLayout({
         >
           <ClerkProvider afterSignOutUrl={'/'} appearance={{ baseTheme: dark }}>
             {children}
-            <Toaster />
+            <Toaster expand={true} />
           </ClerkProvider>
         </ThemeProvider>
       </body>

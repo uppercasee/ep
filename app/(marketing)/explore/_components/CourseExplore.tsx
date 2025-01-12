@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import CldImage from '@/lib/cloudinary'
 import { GetAllCourses } from '@/server/actions/courseActions'
 import Link from 'next/link'
 
@@ -24,7 +25,18 @@ const CourseExplore = async () => {
             <CardDescription>{course.category}</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
-            <Skeleton className="w-full h-48 sm:h-60 md:h-72" />
+            {course.thumbnailUrl ? (
+              <CldImage
+                src={course.thumbnailUrl}
+                width="250"
+                height="250"
+                alt="Course Thumbnail"
+                crop={{ type: 'fill' }}
+                // TODO: Add a placeholder blur effect here if required
+              />
+            ) : (
+              <Skeleton className="w-full h-48 sm:h-60 md:h-72" />
+            )}
             <div className="flex flex-wrap gap-2 w-auto">
               {(course.tags ?? []).map((tag) => (
                 <Badge
