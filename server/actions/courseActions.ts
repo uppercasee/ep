@@ -4,6 +4,7 @@ import { db } from '@/drizzle/db'
 import { CoursesTable } from '@/drizzle/schema'
 import { currentUser } from '@clerk/nextjs/server'
 import { eq } from 'drizzle-orm'
+import { getUserId } from '../db/users'
 
 export async function createNewCourse(
   data: Omit<typeof CoursesTable.$inferInsert, 'createdBy'>
@@ -13,11 +14,12 @@ export async function createNewCourse(
     throw new Error('Not Authorized')
   }
   try {
+    const userId = await getUserId(user.id)
     const [newCourse] = await db
       .insert(CoursesTable)
       .values({
         ...data,
-        createdBy: user.id,
+        createdBy: userId,
       })
       .returning({ insertedId: CoursesTable.id })
 
@@ -29,7 +31,7 @@ export async function createNewCourse(
     //   })
     //   .where(eq(UsersTable.id, user.id))
     console.log('Course Created!!')
-    return newCourse
+    return newCourse.insertedId
   } catch (err) {
     console.error('Error creating course:', err)
     throw new Error('Error occurred while creating course')
@@ -43,10 +45,11 @@ export async function GetAllCreatedCourses() {
   }
 
   try {
+    const userId = await getUserId(user.id)
     const courses = await db
       .select()
       .from(CoursesTable)
-      .where(eq(CoursesTable.createdBy, user.id))
+      .where(eq(CoursesTable.createdBy, userId))
 
     return courses.map((course) => ({
       ...course,

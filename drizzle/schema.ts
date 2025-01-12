@@ -99,6 +99,7 @@ export const LessonsTable = pgTable(
       .notNull()
       .references(() => CoursesTable.id, { onDelete: 'cascade' }),
     tier: TierEnum('tier').default('paid'),
+    position: integer('position').notNull(),
     createdAt,
     updatedAt,
   },

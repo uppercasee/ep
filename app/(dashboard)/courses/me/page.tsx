@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import CldImage from '@/lib/cloudinary'
 import { GetAllCreatedCourses } from '@/server/actions/courseActions'
 import Link from 'next/link'
 
@@ -24,14 +25,25 @@ const MyCoursesPage = async () => {
             <CardDescription>{course.category}</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
-            <Skeleton className="w-full h-48 sm:h-60 md:h-72" />
-            {/* <div className="flex gap-1"> */}
-            {/*   {(course.tags ?? []).map((tag) => ( */}
-            {/*     <Badge variant={'secondary'} key={tag}> */}
-            {/*       {tag} */}
-            {/*     </Badge> */}
-            {/*   ))} */}
-            {/* </div> */}
+            {course.thumbnailUrl ? (
+              <CldImage
+                src={course.thumbnailUrl}
+                width="250"
+                height="250"
+                alt="Course Thumbnail"
+                crop={{ type: 'fill' }}
+                // TODO: Add a placeholder blur effect here if required
+              />
+            ) : (
+              <Skeleton className="w-full h-48 sm:h-60 md:h-72" />
+            )}
+            <div className="flex gap-1">
+              {(course.tags ?? []).map((tag) => (
+                <Badge variant={'secondary'} key={tag}>
+                  {tag}
+                </Badge>
+              ))}
+            </div>
           </CardContent>
           <CardFooter className="flex gap-2 items-center justify-between">
             {/* <Link href={`/courses/${course._id}/view`}> */}

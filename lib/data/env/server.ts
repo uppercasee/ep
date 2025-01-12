@@ -8,6 +8,8 @@ export const env = createEnv({
     CLERK_WEBHOOK_SECRET: z.string(),
     MONGODB_URI: z.string(),
     DATABASE_URL: z.string(),
+    CLOUDINARY_API_SECRET: z.string(),
+    CLOUDINARY_URL: z.string(),
   },
   experimental__runtimeEnv: process.env,
 })
