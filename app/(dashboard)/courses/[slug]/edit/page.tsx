@@ -1,19 +1,15 @@
-import Course from '@/server/db/models/courses'
-import connectToDatabase from '@/server/db/mongoose'
+import { getCourse } from '@/server/actions/courseActions'
 import { notFound } from 'next/navigation'
-
-import { z } from 'zod'
 
 export default async function Page({
   params,
 }: {
   params: Promise<{ slug: string }>
 }) {
-  await connectToDatabase()
   const slug = (await params).slug
 
   try {
-    const course = await Course.findById(slug)
+    const course = await getCourse(slug)
 
     if (!course) {
       notFound()
@@ -31,7 +27,7 @@ export default async function Page({
     notFound()
   }
 }
-const Header = ({ isPublished }: { isPublished: boolean }) => (
+const Header = ({ isPublished }: { isPublished: boolean | null }) => (
   <>
     <div className="flex flex-col text-balance gap-0.5 pb-1">
       <div className="text-xl font-bold">Edit your course</div>

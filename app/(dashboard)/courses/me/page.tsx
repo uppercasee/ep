@@ -38,7 +38,7 @@ const MyCoursesPage = async () => {
             {/*   <Button>View</Button> */}
             {/* </Link> */}
 
-            <Link href={`/courses/${course._id}/edit`}>
+            <Link href={`/courses/${course.id}/edit`}>
               <Button>Edit</Button>
             </Link>
           </CardFooter>

@@ -1,8 +1,5 @@
 import { env } from '@/lib/data/env/server'
-import {
-  createUserAction,
-  deleteUserAction,
-} from '@/server/actions/userActions'
+import { createNewUser, deleteUser } from '@/server/db/users'
 import type { WebhookEvent } from '@clerk/nextjs/server'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
@@ -43,7 +40,9 @@ export async function POST(req: Request) {
     case 'user.created': {
       const { id } = event.data
       try {
-        await createUserAction(id)
+        await createNewUser({
+          clerkUserId: id,
+        })
         console.log(`User with ID: ${id} created successfully.`)
       } catch (err) {
         console.error('Error creating user:', err)
@@ -54,15 +53,16 @@ export async function POST(req: Request) {
       break
     }
     case 'user.deleted': {
-      const { id } = event.data
-      try {
-        await deleteUserAction(id as string)
-        console.log(`User with ID: ${id} deleted successfully.`)
-      } catch (err) {
-        console.error('Error deleting user:', err)
-        return new NextResponse('Error occurred while deleting user', {
-          status: 500,
-        })
+      if (event.data.id != null) {
+        try {
+          await deleteUser(event.data.id)
+          console.log(`User with ID: ${event.data.id} deleted successfully.`)
+        } catch (err) {
+          console.error('Error deleting user:', err)
+          return new NextResponse('Error occurred while deleting user', {
+            status: 500,
+          })
+        }
       }
     }
   }

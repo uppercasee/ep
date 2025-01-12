@@ -9,7 +9,10 @@
     "lint": "biome lint --write .",
     "format": "biome format --write .",
     "check": "biome check --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@clerk/elements": "^0.22.5",
