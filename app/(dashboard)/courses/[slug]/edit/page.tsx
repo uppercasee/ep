@@ -1,6 +1,8 @@
 import { Separator } from '@/components/ui/separator'
+import { hasPermission } from '@/lib/abac'
 import { getCourse } from '@/server/actions/courseActions'
-import { notFound } from 'next/navigation'
+import { currentUser } from '@clerk/nextjs/server'
+import { notFound, unauthorized } from 'next/navigation'
 import CourseCategory from './_components/courseCategory'
 import CourseDescription from './_components/courseDescription'
 import CoursePrice from './_components/coursePrice'
@@ -14,6 +16,22 @@ export default async function Page({
   params: Promise<{ slug: string }>
 }) {
   const slug = (await params).slug
+  const user = await currentUser()
+
+  if (!user?.id) {
+    notFound()
+  }
+
+  const hasEditPermission = await hasPermission(
+    user.id,
+    'courses',
+    'edit',
+    slug
+  )
+
+  if (!hasEditPermission) {
+    unauthorized()
+  }
 
   try {
     const course = await getCourse(slug)
