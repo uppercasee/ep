@@ -3,6 +3,7 @@ import { getCourse } from '@/server/actions/courseActions'
 import { notFound } from 'next/navigation'
 import CourseCategory from './_components/courseCategory'
 import CourseDescription from './_components/courseDescription'
+import CourseLessons from './_components/courseLessons'
 import CoursePrice from './_components/coursePrice'
 import CourseTags from './_components/courseTags'
 import CourseThumbnail from './_components/courseThumbnail'
@@ -45,8 +46,7 @@ export default async function Page({
           </div>
           <Separator orientation="vertical" className="h-auto mx-2" />
           <div className="flex flex-col gap-2 w-full xl:w-1/2">
-            <div>Hello</div>
-            {/* <CourseLessons courseId={slug} /> */}
+            <CourseLessons courseId={slug} />
             {/* <CourseDelete courseId={slug} /> */}
           </div>
         </div>

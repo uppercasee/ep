@@ -20,10 +20,10 @@ const Page = async () => {
               <Button>Explore New Courses</Button>
             </div>
           </div>
-          <div className="gap-2 flex flex-col">
-            <div className="text-md font-semibold">Continue Studying.....</div>
-            <CurrentCourseSection />
-          </div>
+          {/* <div className="gap-2 flex flex-col"> */}
+          {/*   <div className="text-md font-semibold">Continue Studying.....</div> */}
+          {/*   <CurrentCourseSection /> */}
+          {/* </div> */}
           <div className="gap-2 flex flex-col">
             <div className="text-md font-semibold">Start a New Course...</div>
             <div>

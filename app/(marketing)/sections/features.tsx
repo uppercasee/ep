@@ -34,16 +34,16 @@ const Features = () => {
       <div className="my-4 flex items-center justify-center">
         <h2 className="text-4xl font-extrabold leading-tight">Features</h2>
       </div>
-      <div className="mx-16 my-2 flex h-auto flex-col gap-8 md:flex-row">
+      <div className="mx-4 md:mx-4 my-2 flex h-auto flex-col gap-8 lg:flex-row">
         {features.map((features) => (
           <Card
             key={features.id}
-            className="transition-all duration-300 hover:scale-105 hover:border hover:border-gray-300"
+            className="transition-all duration-300 hover:scale-105 hover:border hover:border-gray-300 bg-background"
           >
             <CardHeader>
               <CardTitle>{features.title}</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="overflow-hidden">
               <p className="text-sm text-gray-500">{features.content}</p>
             </CardContent>
           </Card>

@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { SignUpButton } from '@clerk/nextjs'
 import Image from 'next/image'
 import hero_image from '../../../public/hero_page.png'
 
@@ -16,8 +17,8 @@ const Hero = () => {
           </h2>
         </div>
         <div className="mb-8 flex flex-col justify-center gap-2.5 sm:justify-start md:flex-row md:items-center md:gap-4 lg:gap-6">
-          <Button variant="secondary" size="lg" className="min-w-max">
-            Get Started
+          <Button variant="secondary" size="lg" className="min-w-max" asChild>
+            <SignUpButton>Get Started</SignUpButton>
           </Button>
           <div className="">50+ students have already enrolled!!</div>
         </div>
