@@ -1,12 +1,9 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  // webpack: (config) => {
-  //   config.experiments = {
-  //     topLevelAwait: true,
-  //   }
-  //   return config
-  // },
+  experimental: {
+    authInterrupts: true,
+  },
 }
 
 export default nextConfig

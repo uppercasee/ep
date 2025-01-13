@@ -22,3 +22,14 @@ export async function getUserId(clerkUserId: string) {
     .execute()
   return user[0].id
 }
+
+export async function getUserFromClerkId(clerkUserId: string) {
+  const user = await db
+    .select()
+    .from(UsersTable)
+    .where(eq(UsersTable.clerkUserId, clerkUserId))
+    .limit(1)
+    .execute()
+
+  return user[0]
+}
