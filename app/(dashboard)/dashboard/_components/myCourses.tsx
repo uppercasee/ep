@@ -21,8 +21,8 @@ const MyCourseSection = () => {
         </CardContent>
         <CardFooter className="flex flex-col items-start gap-2">
           <div className="flex gap-1">
-            <Badge>Python</Badge>
-            <Badge>Programming</Badge>
+            <Badge variant={'secondary'}>Python</Badge>
+            <Badge variant={'secondary'}>Programming</Badge>
           </div>
           <Button>Start Course</Button>
         </CardFooter>
