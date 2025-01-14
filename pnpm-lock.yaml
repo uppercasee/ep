@@ -101,6 +101,9 @@ importers:
       embla-carousel-react:
         specifier: ^8.5.2
         version: 8.5.2(react@19.0.0)
+      framer-motion:
+        specifier: ^11.18.0
+        version: 11.18.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       lucide-react:
         specifier: ^0.468.0
         version: 0.468.0(react@19.0.0)
@@ -2084,6 +2087,20 @@ packages:
   fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
 
+  framer-motion@11.18.0:
+    resolution: {integrity: sha512-Vmjl5Al7XqKHzDFnVqzi1H9hzn5w4eN/bdqXTymVpU2UuMQuz9w6UPdsL9dFBeH7loBlnu4qcEXME+nvbkcIOw==}
+    peerDependencies:
+      '@emotion/is-prop-valid': '*'
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      '@emotion/is-prop-valid':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -2267,6 +2284,12 @@ packages:
   mongoose@8.9.3:
     resolution: {integrity: sha512-G50GNPdMqhoiRAJ/24GYAzg13yxXDD3FOOFeYiFwtHmHpAJem3hxbYIxAhLJGWbYEiUZL0qFMu2LXYkgGAmo+Q==}
     engines: {node: '>=16.20.1'}
+
+  motion-dom@11.16.4:
+    resolution: {integrity: sha512-2wuCie206pCiP2K23uvwJeci4pMFfyQKpWI0Vy6HrCTDzDCer4TsYtT7IVnuGbDeoIV37UuZiUr6SZMHEc1Vww==}
+
+  motion-utils@11.16.0:
+    resolution: {integrity: sha512-ngdWPjg31rD4WGXFi0eZ00DQQqKKu04QExyv/ymlC+3k+WIgYVFbt6gS5JsFPbJODTF/r8XiE/X+SsoT9c0ocw==}
 
   mpath@0.9.0:
     resolution: {integrity: sha512-ikJRQTk8hw5DEoFVxHG1Gn9T/xcjtdnOKIU1JTmGjZZlg9LST2mBLmcX3/ICIbgJydT2GOc15RnNy5mHmzfSew==}
@@ -4475,6 +4498,15 @@ snapshots:
 
   fraction.js@4.3.7: {}
 
+  framer-motion@11.18.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+    dependencies:
+      motion-dom: 11.16.4
+      motion-utils: 11.16.0
+      tslib: 2.8.1
+    optionalDependencies:
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+
   fsevents@2.3.3:
     optional: true
 
@@ -4627,6 +4659,12 @@ snapshots:
       - snappy
       - socks
       - supports-color
+
+  motion-dom@11.16.4:
+    dependencies:
+      motion-utils: 11.16.0
+
+  motion-utils@11.16.0: {}
 
   mpath@0.9.0: {}
 

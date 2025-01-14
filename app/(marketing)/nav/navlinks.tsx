@@ -12,14 +12,17 @@ const Navlinks = () => {
 
       {/* Desktop Navigation */}
       <div className="hidden sm:flex gap-4 items-center">
-        <a href="/" className="text-sm hover:underline">
+        <a href="/" className="hover:underline">
           Home
         </a>
-        <a href="/explore" className="text-sm hover:underline">
+        <a href="/explore" className="hover:underline">
           Explore
         </a>
-        <a href="#faq" className="text-sm hover:underline">
+        <a href="#faq" className="hover:underline">
           FAQ
+        </a>
+        <a href="#pricing" className="hover:underline">
+          Pricing
         </a>
         <AuthLinks />
       </div>
