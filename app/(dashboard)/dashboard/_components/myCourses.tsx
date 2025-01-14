@@ -10,11 +10,11 @@ import {
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import CldImage from '@/lib/cloudinary'
-import { GetAllCreatedCourses } from '@/server/actions/courseActions'
+import { GetAllCourses } from '@/server/actions/courseActions'
 import Link from 'next/link'
 
 const MyCourseSection = async () => {
-  const courses = await GetAllCreatedCourses()
+  const courses = await GetAllCourses()
 
   return (
     <div className="grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-6">
