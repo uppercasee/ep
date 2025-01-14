@@ -51,6 +51,10 @@ export async function GetAllCreatedCourses() {
       .from(CoursesTable)
       .where(eq(CoursesTable.createdBy, userId))
 
+    if (courses.length === 0) {
+      return []
+    }
+
     return courses.map((course) => ({
       ...course,
       id: course.id.toString(),

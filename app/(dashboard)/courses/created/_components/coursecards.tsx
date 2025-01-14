@@ -10,11 +10,19 @@ import {
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import CldImage from '@/lib/cloudinary'
-import { GetAllCourses } from '@/server/actions/courseActions'
+import { GetAllCreatedCourses } from '@/server/actions/courseActions'
 import Link from 'next/link'
 
 const CourseCards = async () => {
-  const courses = await GetAllCourses()
+  const courses = await GetAllCreatedCourses()
+
+  if (courses.length === 0) {
+    return (
+      <div className="flex h-full">
+        <p className="text-center">You have not created any courses</p>
+      </div>
+    )
+  }
 
   return (
     <div className="grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-6">
