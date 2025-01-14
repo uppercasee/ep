@@ -1,5 +1,12 @@
+import ThemeToggle from '@/components/ui/theme-toggle'
+import Navbar from '../nav/navbar'
+
 const Pricingpage = () => {
-  return <div>Pricingpage</div>
+  return (
+    <>
+      <Navbar />
+    </>
+  )
 }
 
 export default Pricingpage

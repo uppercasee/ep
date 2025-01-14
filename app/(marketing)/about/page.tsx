@@ -1,5 +1,12 @@
+import Navbar from '../nav/navbar'
+
 const AboutPage = () => {
-  return <div>AboutPage</div>
+  return (
+    <>
+      <Navbar />
+      <div className="mt-14">About US</div>
+    </>
+  )
 }
 
 export default AboutPage

@@ -18,10 +18,10 @@ const Navlinks = () => {
         <a href="/explore" className="hover:underline">
           Explore
         </a>
-        <a href="#faq" className="hover:underline">
+        <a href="/faq" className="hover:underline">
           FAQ
         </a>
-        <a href="#pricing" className="hover:underline">
+        <a href="/pricing" className="hover:underline">
           Pricing
         </a>
         <AuthLinks />
