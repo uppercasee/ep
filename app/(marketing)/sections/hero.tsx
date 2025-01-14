@@ -1,45 +1,42 @@
+'use client'
+
+import { AuroraBackground } from '@/components/ui/aurora-background'
 import { Button } from '@/components/ui/button'
 import { SignUpButton } from '@clerk/nextjs'
-import Image from 'next/image'
-import hero_image from '../../../public/hero_page.png'
+import { motion } from 'framer-motion'
+import { UserIcon } from 'lucide-react'
+import React from 'react'
+import Navbar from '../nav/navbar'
 
-const Hero = () => {
+export default function Hero() {
   return (
-    <div className="mx-16 flex h-[calc(100dvh-3.5rem)] flex-col-reverse justify-center gap-8 md:gap-12 lg:flex-row lg:items-center">
-      <div className="my-2 flex flex-col justify-start gap-4 text-balance">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-left text-4xl font-semibold">
-            Learn, Play, and Grow with Gamified Courses
-          </h1>
-          <h2 className="text-left text-xl">
-            Join a community of learners and earn rewards as you complete
-            courses.
-          </h2>
+    <AuroraBackground className="h-[50vh] md:h-[100vh]">
+      <Navbar />
+      <motion.div
+        initial={{ opacity: 0.0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{
+          delay: 0.3,
+          duration: 0.8,
+          ease: 'easeInOut',
+        }}
+        className="relative flex flex-col gap-4 items-center justify-center px-4"
+      >
+        <div className="text-3xl md:text-7xl font-bold dark:text-white text-center">
+          Achieve your goals with us
         </div>
-        <div className="mb-8 flex flex-col justify-center gap-2.5 sm:justify-start md:flex-row md:items-center md:gap-4 lg:gap-6">
-          <Button variant="secondary" size="lg" className="min-w-max" asChild>
-            <SignUpButton>Get Started</SignUpButton>
-          </Button>
-          <div className="">50+ students have already enrolled!!</div>
+        <div className="font-extralight text-base md:text-4xl dark:text-neutral-200 py-4 items-center justify-center flex px-4 xs:px-12 md:px-24 lg:px-56">
+          From mastering tough subjects to acing exams, we're here to make
+          studying easy and enjoyable for everyone.
         </div>
-      </div>
-
-      <div className="relative mb-0 h-auto w-auto md:mb-2 lg:mb-24">
-        <Image
-          alt="Hero Image"
-          width={1086}
-          height={608}
-          // style={{
-          //   width: '100%',
-          //   height: 'auto',
-          // }}
-          src={hero_image}
-          placeholder="blur"
-          // priority
-        />
-      </div>
-    </div>
+        <Button
+          size={'lg'}
+          className="bg-black dark:bg-white text-white dark:text-black rounded-full md:text-base font-medium transition-all"
+          asChild
+        >
+          <SignUpButton>Join for Free!</SignUpButton>
+        </Button>
+      </motion.div>
+    </AuroraBackground>
   )
 }
-
-export default Hero

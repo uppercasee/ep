@@ -1,3 +1,4 @@
+import Navbar from '@/app/(marketing)/nav/navbar'
 import { getCourse } from '@/server/actions/courseActions'
 import { notFound } from 'next/navigation'
 
@@ -14,7 +15,13 @@ export default async function Page({
     if (!course) {
       notFound()
     }
-    return <div>My Course: {slug}</div>
+
+    return (
+      <>
+        <Navbar />
+        <div className="mt-14 mx-12">My Course: {slug}</div>
+      </>
+    )
   } catch (error) {
     console.error('Error fetching course:', error)
     notFound()

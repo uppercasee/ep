@@ -4,23 +4,26 @@ import Faq from './sections/faq'
 import Features from './sections/features'
 import { Footer } from './sections/footer'
 import Hero from './sections/hero'
+// import Pricing from './sections/pricing'
 // import PricingPage from './sections/pricing'
 
 const Home = async () => {
-  // const { userId }: { userId: string | null } = await auth()
-  //
-  // if (userId) {
-  //   redirect('/dashboard')
-  // }
+  const { userId }: { userId: string | null } = await auth()
+
+  if (userId) {
+    redirect('/dashboard')
+  }
 
   return (
     <>
-      <main className="pt-14">
-        <Hero />
+      <Hero />
+      <section className="pt-14">
         <Features />
-        {/* <PricingPage /> */}
+      </section>
+      {/* <Pricing /> */}
+      <section className="px-8 md:px-14">
         <Faq />
-      </main>
+      </section>
       <Footer />
     </>
   )
