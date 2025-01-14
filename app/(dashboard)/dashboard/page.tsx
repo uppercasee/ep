@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { currentUser } from '@clerk/nextjs/server'
-import CurrentCourseSection from './_components/currentCourses'
+import Link from 'next/link'
 import DailyQuestWidget from './_components/dailyQuestWidget'
 import LeaderboardWidget from './_components/leaderboardWidget'
 import MyCourseSection from './_components/myCourses'
@@ -17,7 +17,9 @@ const Page = async () => {
               Welcome Back, <span>{user?.username}</span>
             </div>
             <div className="flex items-center justify-center">
-              <Button>Explore New Courses</Button>
+              <Link href="/explore">
+                <Button>Explore New Courses</Button>
+              </Link>
             </div>
           </div>
           {/* <div className="gap-2 flex flex-col"> */}
@@ -25,7 +27,7 @@ const Page = async () => {
           {/*   <CurrentCourseSection /> */}
           {/* </div> */}
           <div className="gap-2 flex flex-col">
-            <div className="text-md font-semibold">Start a New Course...</div>
+            <div className="text-md font-semibold">Continue Studying...</div>
             <div>
               <MyCourseSection />
             </div>
