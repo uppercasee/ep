@@ -25,7 +25,6 @@ import {
 import { useSidebar } from '@/components/ui/sidebar'
 import { Permission } from '@/lib/abac_permissions'
 import { cn } from '@/lib/utils'
-import { currentUser } from '@clerk/nextjs/server'
 import { usePathname } from 'next/navigation'
 import { Separator } from './ui/separator'
 import ThemeToggle from './ui/theme-toggle'
@@ -48,7 +47,7 @@ const items = [
   },
   {
     title: 'Enrolled Courses',
-    url: '/courses/enrolled',
+    url: '/courses',
     icon: BookKey,
   },
   {

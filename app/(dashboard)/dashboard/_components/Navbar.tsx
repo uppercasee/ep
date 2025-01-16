@@ -1,13 +1,13 @@
 import { Button } from '@/components/ui/button'
 import { SearchBox } from '@/components/ui/searchBoxwithIcon'
 import { Permission } from '@/lib/abac_permissions'
-import { currentUser } from '@clerk/nextjs/server'
+import { current_user } from '@/lib/server-utils'
 import { FlameIcon, PlusIcon } from 'lucide-react'
 import Link from 'next/link'
 import UserLogo from './userButton'
 
 const Navbar = async () => {
-  const user = await currentUser()
+  const user = await current_user()
   if (!user?.id) {
     throw new Error('Not Authorized')
   }

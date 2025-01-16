@@ -43,11 +43,11 @@ const CourseCards = async () => {
                 // TODO: Add a placeholder blur effect here if required
               />
             ) : (
-              <Skeleton className="w-full h-48 sm:h-60 md:h-72" />
+              <Skeleton className="w-full h-60" />
             )}
-            <div className="flex gap-1">
+            <div className="flex flex-wrap gap-1 w-auto">
               {(course.tags ?? []).map((tag) => (
-                <Badge variant={'secondary'} key={tag}>
+                <Badge variant={'secondary'} key={tag} className="h-auto">
                   {tag}
                 </Badge>
               ))}
@@ -58,7 +58,7 @@ const CourseCards = async () => {
             {/*   <Button>View</Button> */}
             {/* </Link> */}
 
-            <Link href={`/courses/${course.id}/edit`}>
+            <Link href={`/courses/${course.id}/edit`} prefetch>
               <Button>Edit</Button>
             </Link>
           </CardFooter>

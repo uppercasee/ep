@@ -15,6 +15,7 @@ import Link from 'next/link'
 
 const MyCourseSection = async () => {
   const courses = await GetAllCourses()
+  console.log(courses)
 
   return (
     <div className="grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-6">

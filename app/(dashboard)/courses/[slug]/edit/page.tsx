@@ -1,7 +1,7 @@
 import { Separator } from '@/components/ui/separator'
 import { hasPermission } from '@/lib/abac'
+import { current_user } from '@/lib/server-utils'
 import { getCourse } from '@/server/actions/courseActions'
-import { currentUser } from '@clerk/nextjs/server'
 import { notFound, unauthorized } from 'next/navigation'
 import CourseCategory from './_components/courseCategory'
 import CourseDescription from './_components/courseDescription'
@@ -17,7 +17,7 @@ export default async function Page({
   params: Promise<{ slug: string }>
 }) {
   const slug = (await params).slug
-  const user = await currentUser()
+  const user = await current_user()
 
   if (!user?.id) {
     notFound()

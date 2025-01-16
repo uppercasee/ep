@@ -1,8 +1,16 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import {
   TagsInput,
   TagsInputClear,
@@ -12,153 +20,181 @@ import {
   TagsInputList,
 } from '@/components/ui/tags-input'
 import { Textarea } from '@/components/ui/textarea'
-import { useCourseForm } from '@/hooks/useCourseCreateForm'
+import { createNewCourse } from '@/server/actions/courseActions'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import { z } from 'zod'
+
+const formSchema = z.object({
+  title: z
+    .string()
+    .min(5, 'Title must be at least 5 characters.')
+    .max(100, 'Title must be less than 100 characters.'),
+  description: z
+    .string()
+    .min(25, 'Description must be at least 25 characters.')
+    .max(500, 'Description must be less than 500 characters.'),
+  category: z.string().nonempty('Category is required.'),
+  tags: z
+    .array(z.string().min(3, 'Tags must have at least 3 characters.'))
+    .min(1)
+    .max(3, 'You can only add up to 3 tags.'),
+  price: z
+    .string()
+    .regex(/^\d+$/, 'Price must be a valid number.')
+    .nonempty('Price is required.'),
+})
+
+type CourseFormValues = z.infer<typeof formSchema>
 
 const CourseForm = () => {
-  const { tags, setTags, formData, handleChange, handleSubmit } =
-    useCourseForm()
+  const router = useRouter()
+
+  const form = useForm<CourseFormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: '',
+      description: '',
+      category: '',
+      tags: [],
+      price: '10',
+    },
+  })
+
+  async function onSubmit(values: CourseFormValues) {
+    const price = values.price ? Number.parseFloat(values.price) : 10
+    const dataToSubmit = { ...values, price }
+
+    console.log('Form data:', dataToSubmit)
+
+    try {
+      const id = await createNewCourse(dataToSubmit)
+      router.push(`/courses/${id}/edit`)
+    } catch (error) {
+      toast.error(`${error}`)
+      console.error('Error creating course:', error)
+    }
+  }
 
   return (
-    <form
-      id="course-form"
-      className="flex flex-col gap-8 w-full lg:w-1/2"
-      onSubmit={handleSubmit}
-    >
-      <FormField
-        label="Title"
-        id="title"
-        value={formData.title}
-        placeholder="Enter your course title here"
-        description="Give your course a clear and descriptive title."
-        handleChange={handleChange}
-      />
-      <FormField
-        label="Description"
-        id="description"
-        value={formData.description}
-        handleChange={handleChange}
-        placeholder="Describe the key takeaways of your course"
-        description="Provide a brief description of your course to give students an idea of what they will learn."
-        isTextarea
-      />
-      <FormField
-        label="Category"
-        id="category"
-        value={formData.category}
-        placeholder="Select or type a course category"
-        description="Choose a category that best describes the subject of your course."
-        handleChange={handleChange}
-      />
-      <TagsInputField tags={tags} setTags={setTags} />
-      <FormField
-        label="Price"
-        id="price"
-        value={formData.price}
-        placeholder="Enter the price for your course"
-        description="Set the price for your course."
-        handleChange={handleChange}
-      />
-      <Button form="course-form" type="submit">
-        Create
-      </Button>
-    </form>
+    <Form {...form}>
+      <form
+        className="flex flex-col gap-8 w-full lg:w-1/2"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Title</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter course title" {...field} />
+              </FormControl>
+              <FormDescription>
+                Give your course a clear and descriptive title.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Describe your course"
+                  rows={4}
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Provide a detailed description of your course.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="category"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Category</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter category" {...field} />
+              </FormControl>
+              <FormDescription>
+                Select a category for your course.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="tags"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Tags</FormLabel>
+              <TagsInput
+                className="w-full"
+                value={field.value}
+                onValueChange={(value) => field.onChange(value)}
+                onValidate={(value) => value.length >= 3}
+                onInvalid={(value) =>
+                  field.value.length >= 3
+                    ? toast.error('Up to 3 tags are allowed.')
+                    : field.value.includes(value)
+                      ? toast.error(`${value} already exists.`)
+                      : toast.error(`${value} must have at least 3 characters.`)
+                }
+                max={3}
+                editable
+                addOnPaste
+                delimiter=" "
+              >
+                <TagsInputLabel htmlFor="tags">Add Tags</TagsInputLabel>
+                <TagsInputList>
+                  {field.value.map((tag) => (
+                    <TagsInputItem key={tag} value={tag}>
+                      {tag}
+                    </TagsInputItem>
+                  ))}
+                  <TagsInputInput placeholder="Add a tag" />
+                </TagsInputList>
+                <TagsInputClear>Clear</TagsInputClear>
+              </TagsInput>
+              <FormDescription>
+                Add up to 3 tags for your course.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Price</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter course price" {...field} />
+              </FormControl>
+              <FormDescription>Set a price for your course.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Create</Button>
+      </form>
+    </Form>
   )
 }
-const FormField = ({
-  label,
-  id,
-  value,
-  handleChange,
-  isTextarea = false,
-  placeholder,
-  description,
-}: {
-  label: string
-  id: string
-  value: string
-  handleChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void
-  isTextarea?: boolean
-  placeholder?: string
-  description?: string
-}) => (
-  <div className="flex flex-col gap-1.5">
-    <Label>{label}</Label>
-    {isTextarea ? (
-      <Textarea
-        rows={4}
-        className="resize-none"
-        id={id}
-        value={value}
-        onChange={handleChange}
-        placeholder={placeholder || `Course ${label.toLowerCase()}`}
-      />
-    ) : (
-      <Input
-        type="text"
-        id={id}
-        value={value}
-        onChange={handleChange}
-        placeholder={placeholder || `Course ${label.toLowerCase()}`}
-      />
-    )}
-    {description && (
-      <div className="hidden text-muted-foreground text-sm">{description}</div>
-    )}{' '}
-  </div>
-)
 
-const TagsInputField = ({
-  tags,
-  setTags,
-}: {
-  tags: string[]
-  setTags: React.Dispatch<React.SetStateAction<string[]>>
-}) => (
-  <TagsInput
-    className="w-full"
-    id="tags"
-    value={tags}
-    onValueChange={setTags}
-    onValidate={(value) => value.length > 2}
-    onInvalid={(value) =>
-      tags.length >= 3
-        ? toast.error('Up to 3 tags are allowed.')
-        : tags.includes(value)
-          ? toast.error(`${value} already exists.`)
-          : toast.error(`${value} is not a valid tag.`)
-    }
-    max={3}
-    editable
-    addOnPaste
-    delimiter=" "
-  >
-    <TagsInputLabel htmlFor="tags">Tags</TagsInputLabel>
-    <TagsInputList>
-      {tags.map((tag) => (
-        <TagsInputItem key={tag} value={tag}>
-          {tag}
-        </TagsInputItem>
-      ))}
-      <TagsInputInput placeholder="Add a tag" />
-    </TagsInputList>
-    <div className="text-muted-foreground text-sm">
-      Add up to 3 tags with at least 3 characters.
-    </div>
-    <TagsInputClear>Clear</TagsInputClear>
-  </TagsInput>
-)
-
-// const CourseContents = () => (
-//   <div className="flex flex-col gap-4 w-full lg:w-1/2">
-//     <div className="text-md font-semibold">Contents</div>
-//     <Button variant={'secondary'}>
-//       <div className="flex gap-2">
-//         <PlusIcon /> Add Lesson
-//       </div>
-//     </Button>
-//   </div>
-// )
 export default CourseForm
