@@ -3,6 +3,7 @@
 import { db } from '@/drizzle/db'
 import { CoursesTable } from '@/drizzle/schema'
 import { eq } from 'drizzle-orm'
+import { revalidatePath } from 'next/cache'
 
 interface updateTitleProps {
   title: string
@@ -183,6 +184,30 @@ export async function updateCategory({
     console.error('Error updating course category:', error)
     throw new Error(
       error instanceof Error ? error.message : 'Failed to update category.'
+    )
+  }
+}
+
+interface deleteCourseProps {
+  courseId: string
+}
+
+export async function deleteCourse({ courseId }: deleteCourseProps) {
+  try {
+    const result = await db
+      .delete(CoursesTable)
+      .where(eq(CoursesTable.id, courseId))
+      .returning({ deletedId: CoursesTable.id })
+
+    console.log('deleted course:')
+    console.log(result)
+    revalidatePath('/courses/created')
+
+    return result
+  } catch (error) {
+    console.error('Error deleting course:', error)
+    throw new Error(
+      error instanceof Error ? error.message : 'Failed to delete course.'
     )
   }
 }

@@ -12,6 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import CldImage from '@/lib/cloudinary'
 import { GetAllCreatedCourses } from '@/server/actions/courseActions'
 import Link from 'next/link'
+import DeleteCourseButton from './deleteButton'
 
 const CourseCards = async () => {
   const courses = await GetAllCreatedCourses()
@@ -54,13 +55,10 @@ const CourseCards = async () => {
             </div>
           </CardContent>
           <CardFooter className="flex gap-2 items-center justify-between">
-            {/* <Link href={`/courses/${course._id}/view`}> */}
-            {/*   <Button>View</Button> */}
-            {/* </Link> */}
-
             <Link href={`/courses/${course.id}/edit`} prefetch>
               <Button>Edit</Button>
             </Link>
+            <DeleteCourseButton id={course.id} />
           </CardFooter>
         </Card>
       ))}

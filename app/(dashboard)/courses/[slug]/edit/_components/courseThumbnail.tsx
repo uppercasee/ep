@@ -57,7 +57,8 @@ const CourseThumbnail = ({ thumbnail, courseId }: CourseThumbnailProps) => {
           >
             {({ open }) => (
               <Button
-                variant="secondary"
+                className="w-64 h-64 border-2 border-dashed border-gray-300 flex items-center justify-center text-gray-500 cursor-pointer hover:border-gray-400"
+                variant={'secondary'}
                 onClick={() => {
                   open()
                 }}
