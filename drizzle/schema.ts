@@ -1,3 +1,4 @@
+import Lessons from '@/app/(dashboard)/courses/[slug]/edit/_components/lessons'
 import { relations, sql } from 'drizzle-orm'
 import {
   boolean,
@@ -39,6 +40,63 @@ export const UsersTable = pgTable(
     },
   ]
 )
+
+export const ContentTypeEnum = pgEnum('content_type', ['quiz', 'video'])
+
+export const ContentTable = pgTable('content', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  type: ContentTypeEnum('content_type').default('video'),
+  url: text('url').notNull(),
+  lessonId: uuid('lesson_id')
+    .notNull()
+    .references(() => LessonsTable.id, { onDelete: 'cascade' }),
+  quizId: uuid('quiz_id')
+    .notNull()
+    .references(() => QuizTable.id, { onDelete: 'cascade' }),
+  createdAt,
+  updatedAt,
+})
+
+export const QuizTable = pgTable('quiz', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  title: varchar('title', { length: 100 }).notNull(),
+  lesson: uuid('lesson')
+    .notNull()
+    .references(() => LessonsTable.id, { onDelete: 'cascade' }),
+  createdAt,
+  updatedAt,
+  //TODO: time_limit, passing_score, max_attempts
+})
+
+export const QuestionType = pgEnum('question_type', ['mcq', 'truefalse'])
+
+export const QuestionTable = pgTable('question', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  quizId: uuid('quiz_id')
+    .notNull()
+    .references(() => QuizTable.id, { onDelete: 'cascade' }),
+  type: QuestionType('question_type').default('mcq'),
+  text: varchar('text', { length: 100 }).notNull(),
+  points: integer('points').default(30),
+  createdAt,
+  updatedAt,
+  //TODO: hint, explanation
+})
+
+export const AnswerTable = pgTable('answer', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  questionId: uuid('question_id')
+    .notNull()
+    .references(() => QuestionTable.id, { onDelete: 'cascade' }),
+  text: varchar('text', { length: 100 }).notNull(),
+  isCorrect: boolean('is_correct').default(false),
+  createdAt,
+  updatedAt,
+  //TODO: comments
+})
+
+//TODO: UserResponsesTable
+//to track user answers and scores.
 
 export const CoursesTable = pgTable(
   'courses',
@@ -94,7 +152,6 @@ export const LessonsTable = pgTable(
     id: uuid('id').primaryKey().defaultRandom(),
     title: varchar('title', { length: 255 }).notNull(),
     videoUrl: text('video_url').notNull(),
-    progress: boolean('progress').default(false),
     courseId: uuid('course_id')
       .notNull()
       .references(() => CoursesTable.id, { onDelete: 'cascade' }),
