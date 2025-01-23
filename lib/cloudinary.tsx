@@ -3,10 +3,14 @@
 import {
   CldImage as CldImageDefault,
   type CldImageProps,
+  CldVideoPlayer as CldVideoDefault,
+  type CldVideoPlayerProps,
 } from 'next-cloudinary'
 
-const CldImage = (props: CldImageProps) => {
+export const CldImage = (props: CldImageProps) => {
   return <CldImageDefault {...props} />
 }
 
-export default CldImage
+export const CldVideo = (props: CldVideoPlayerProps) => {
+  return <CldVideoDefault {...props} />
+}
