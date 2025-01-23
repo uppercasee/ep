@@ -25,6 +25,7 @@ import {
 import { useSidebar } from '@/components/ui/sidebar'
 import { Permission } from '@/lib/abac_permissions'
 import { cn } from '@/lib/utils'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Separator } from './ui/separator'
 import ThemeToggle from './ui/theme-toggle'
@@ -89,14 +90,14 @@ export function AppSidebar({ userId }: AppSidebarProps) {
           className="group flex gap-2 items-center justify-between"
           data-collapsible={state}
         >
-          <a href="/" className="text-lg font-semibold">
+          <Link href="/" className="text-lg font-semibold">
             <div className="flex justify-between items-center gap-2">
               <GraduationCapIcon />
               <span className={cn({ hidden: state === 'collapsed' })}>
                 Study With Us
               </span>
             </div>
-          </a>
+          </Link>
           <div className={cn({ hidden: state === 'collapsed' })}>
             <ThemeToggle />
           </div>
@@ -125,10 +126,10 @@ export function AppSidebar({ userId }: AppSidebarProps) {
                           isActive={item.url === currentPath}
                           tooltip={item.title}
                         >
-                          <a href={item.url}>
+                          <Link href={item.url}>
                             <item.icon />
                             <span>{item.title}</span>
-                          </a>
+                          </Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     </Permission>
@@ -143,10 +144,10 @@ export function AppSidebar({ userId }: AppSidebarProps) {
                       isActive={item.url === currentPath}
                       tooltip={item.title}
                     >
-                      <a href={item.url}>
+                      <Link href={item.url}>
                         <item.icon />
                         <span>{item.title}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 )
