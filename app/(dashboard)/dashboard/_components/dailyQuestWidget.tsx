@@ -35,9 +35,7 @@ export default function DailyQuestWidget() {
           {quests.map((quest) => (
             <div key={quest.id} className="flex items-center justify-between">
               <div className="w-full">
-                <p className="font-medium text-sm text-gray-700">
-                  {quest.title}
-                </p>
+                <p className="font-medium text-sm">{quest.title}</p>
                 <Progress value={quest.progress} className="mt-2" />
               </div>
               {quest.progress === 100 && quest.claimed ? (

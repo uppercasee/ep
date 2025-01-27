@@ -12,7 +12,7 @@ const topUsers = [
 const LeaderboardWidget = () => {
   return (
     //TODO: make the size a bit responsive
-    <Card className="w-full max-w-md mx-auto p-4 shadow-lg border border-gray-500">
+    <Card className="w-full max-w-md mx-auto p-2 shadow-lg border border-gray-500">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-lg">
           <Crown className="h-5 w-5" />

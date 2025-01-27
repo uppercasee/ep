@@ -125,3 +125,33 @@ export async function deleteLessonFromPosition({
     throw new Error('Could not delete lesson. Please try again.')
   }
 }
+
+export const updateLesson = async (data: typeof LessonsTable.$inferInsert) => {
+  try {
+    const [updatedLesson] = await db
+      .update(LessonsTable)
+      .set({
+        title: data.title,
+        videoUrl: data.videoUrl,
+        tier: data.tier,
+      })
+      .where(
+        and(
+          eq(LessonsTable.courseId, data.courseId),
+          eq(LessonsTable.position, data.position)
+        )
+      )
+      .returning()
+
+    if (!updatedLesson) {
+      throw new Error('Lesson not found')
+    }
+
+    return updatedLesson
+  } catch (error) {
+    console.error('Error updating lesson:', error)
+    throw new Error(
+      error instanceof Error ? error.message : 'Could not update lesson'
+    )
+  }
+}

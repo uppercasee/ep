@@ -3,14 +3,14 @@ import { NextResponse } from 'next/server'
 
 // const isProtectedRoute = createRouteMatcher(['/dashboard(.*)'])
 const isProtectedRoute = createRouteMatcher([
-  '/courses/[slug]/edit',
-  '/courses/[slug]/lessons/[lid]',
-  '/courses/[slug]/quiz',
-  '/courses/create',
-  '/dashboard',
-  '/leaderboard',
-  '/payment',
-  '/profile',
+  //   '/courses/[slug]/edit',
+  //   '/courses/[slug]/lessons/[lid]',
+  //   '/courses/[slug]/quiz',
+  //   '/courses/create',
+  //   '/dashboard',
+  //   '/leaderboard',
+  //   '/payment',
+  //   '/profile',
 ])
 
 export default clerkMiddleware(async (auth, req) => {

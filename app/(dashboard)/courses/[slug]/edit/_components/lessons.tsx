@@ -12,12 +12,29 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import type { LessonsTable } from '@/drizzle/schema'
-import { createNewLesson, deleteLessonFromPosition } from '@/server/db/lessons'
-import { CircleX, EditIcon } from 'lucide-react'
-import Link from 'next/link'
-import React, { useState } from 'react'
+import {
+  createNewLesson,
+  deleteLessonFromPosition,
+  updateLesson,
+} from '@/server/db/lessons'
+import { CircleX, EditIcon, PlusIcon } from 'lucide-react'
+import {
+  CldUploadWidget,
+  CldVideoPlayer,
+  type CloudinaryUploadWidgetInfo,
+} from 'next-cloudinary'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
 type Lesson = typeof LessonsTable.$inferInsert
@@ -35,7 +52,7 @@ const Lessons = ({ lessons, courseId }: LessonsProps) => {
     videoUrl: '',
     courseId,
     position: newlessons.length + 1,
-    tier: 'free',
+    tier: 'paid',
   }
 
   const addLesson = async () => {
@@ -51,6 +68,25 @@ const Lessons = ({ lessons, courseId }: LessonsProps) => {
       )
 
       toast.error('Oops, something went wrong...')
+      console.error(error)
+    }
+  }
+
+  const editLesson = async (updatedLesson: Lesson) => {
+    const originalLessons = [...newlessons]
+
+    try {
+      setLessons((prev) =>
+        prev.map((lesson) =>
+          lesson.id === updatedLesson.id ? updatedLesson : lesson
+        )
+      )
+
+      await updateLesson(updatedLesson)
+      toast.success('Lesson updated successfully')
+    } catch (error) {
+      setLessons(originalLessons)
+      toast.error('Failed to update lesson')
       console.error(error)
     }
   }
@@ -108,15 +144,10 @@ const Lessons = ({ lessons, courseId }: LessonsProps) => {
                 {lesson.position}. {lesson.title}
               </h3>
               <div className="flex gap-2 items-center justify-end ml-auto">
-                <Badge>{lesson.tier}</Badge>
-                <Link
-                  href={`/courses/${courseId}/edit/lesson?lid=${lesson.id}`}
-                >
-                  <Button variant={'ghost'} className="flex gap-1 px-1">
-                    <EditIcon />
-                    Edit
-                  </Button>
-                </Link>
+                <Badge variant={lesson.tier === 'paid' ? 'paid' : 'free'}>
+                  {lesson.tier}
+                </Badge>
+                <EditDialog lesson={lesson} onSave={editLesson} />
                 <DeleteDialog lesson={lesson} deleteLesson={deleteLesson} />
               </div>
             </div>
@@ -124,7 +155,10 @@ const Lessons = ({ lessons, courseId }: LessonsProps) => {
           </div>
         ))}
       </div>
-      <Button onClick={addLesson}>Add a new Lesson</Button>
+      <Button onClick={addLesson} className="h-14" variant={'secondary'}>
+        <PlusIcon />
+        Add a new Lesson
+      </Button>
     </>
   )
 }
@@ -169,6 +203,121 @@ const DeleteDialog = ({ lesson, deleteLesson }: DeleteDialogProps) => {
             </Button>
           </DialogClose>
         </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+interface EditDialogProps {
+  lesson: Lesson
+  onSave: (updatedLesson: Lesson) => void
+}
+
+const EditDialog = ({ lesson, onSave }: EditDialogProps) => {
+  const [isEditing, setIsEditing] = useState(false)
+  const [lessonVideoUrl, setLessonVideoUrl] = useState(lesson.videoUrl)
+  const [formData, setFormData] = useState({
+    title: lesson.title,
+    tier: lesson.tier || 'free',
+  })
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const updatedLesson = {
+      ...lesson,
+      ...formData,
+      videoUrl: lessonVideoUrl,
+    }
+    onSave(updatedLesson)
+  }
+
+  const toggleEdit = () => {
+    setIsEditing((prev) => !prev)
+  }
+
+  const handleUploadSuccess = async (
+    result: string | CloudinaryUploadWidgetInfo | undefined
+  ) => {
+    if (!result || typeof result === 'string') {
+      console.error('Invalid result:', result)
+      return
+    }
+
+    const publicId = result.public_id
+    try {
+      // await updateLessonUrl({ lessonId, url: publicId })
+      setLessonVideoUrl(publicId)
+      toast.success('Thumbnail updated successfully!')
+    } catch (error) {
+      toast.error('Failed to update thumbnail.')
+      console.error('Error updating thumbnail:', error)
+    } finally {
+      toggleEdit()
+    }
+  }
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant={'ghost'} className="flex gap-1 px-1">
+          <EditIcon />
+          Edit
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit Lesson</DialogTitle>
+          <DialogDescription>
+            Update the lesson details below. Changes will be saved immediately.
+          </DialogDescription>
+        </DialogHeader>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label className="block text-sm font-medium">Title</Label>
+            <Input
+              value={formData.title}
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
+              placeholder="Lesson title"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label className="block text-sm font-medium">Content</Label>
+            {/* let the user choose the resource that it wants this lesson to be linked to... */}
+          </div>
+
+          <div className="space-y-2">
+            <Label className="block text-sm font-medium">Tier</Label>
+            <Select
+              value={formData.tier}
+              onValueChange={(value) =>
+                setFormData({ ...formData, tier: value as 'free' | 'paid' })
+              }
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select tier" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="free">Free</SelectItem>
+                <SelectItem value="paid">Paid</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <DialogFooter>
+            <DialogClose asChild>
+              <div className="flex gap-2">
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
+                <Button type="submit">Save Changes</Button>
+              </div>
+            </DialogClose>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   )

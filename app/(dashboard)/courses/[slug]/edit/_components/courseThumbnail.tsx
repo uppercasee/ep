@@ -48,7 +48,7 @@ const CourseThumbnail = ({ thumbnail, courseId }: CourseThumbnailProps) => {
   return (
     <div className="flex flex-col gap-4">
       {isEditing ? (
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex text-balance gap-2 items-start sm:items-center justify-between flex-col sm:flex-row">
           <div>Thumbnail</div>
           <CldUploadWidget
             signatureEndpoint={'/api/sign-cloudinary-params'}
@@ -72,7 +72,7 @@ const CourseThumbnail = ({ thumbnail, courseId }: CourseThumbnailProps) => {
           </Button>
         </div>
       ) : (
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex text-balance gap-2 items-start sm:items-center justify-between flex-col sm:flex-row">
           <div>Thumbnail</div>
           {courseThumbUrl ? (
             <CldImage

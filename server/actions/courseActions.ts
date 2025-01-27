@@ -47,13 +47,13 @@ export async function GetAllCreatedCourses() {
       .fullJoin(UsersTable, eq(CoursesTable.createdBy, UsersTable.id))
       .where(eq(UsersTable.clerkUserId, user.id))
 
-    if (UserCourses.length === 0) {
+    // Filter out records where `courses` is null
+    const validCourses = UserCourses.filter((record) => record.courses !== null)
+    if (validCourses.length === 0) {
       return []
     }
 
-    const courses = UserCourses
-
-    return courses.map((record) => ({
+    return validCourses.map((record) => ({
       ...record.courses,
       id: record.courses?.id.toString(),
     }))

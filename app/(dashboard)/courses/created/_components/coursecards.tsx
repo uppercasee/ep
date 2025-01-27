@@ -9,18 +9,21 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import CldImage from '@/lib/cloudinary'
+import { CldImage } from '@/lib/cloudinary'
 import { GetAllCreatedCourses } from '@/server/actions/courseActions'
 import Link from 'next/link'
 import DeleteCourseButton from './deleteButton'
 
 const CourseCards = async () => {
   const courses = await GetAllCreatedCourses()
+  console.log(courses)
 
   if (courses.length === 0) {
     return (
-      <div className="flex h-full">
-        <p className="text-center">You have not created any courses</p>
+      <div className="flex h-screen justify-center items-center">
+        <p className="text-center text-2xl font-bold">
+          You have not created any courses
+        </p>
       </div>
     )
   }

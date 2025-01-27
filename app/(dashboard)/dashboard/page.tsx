@@ -40,7 +40,7 @@ const Page = async () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col justify-between md:justify-start gap-4">
+        <div className="flex flex-col lg:flex-row 2xl:flex-col justify-between md:justify-start gap-2 2xl:gap-4">
           <LeaderboardWidget />
           <DailyQuestWidget />
         </div>

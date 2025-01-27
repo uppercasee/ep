@@ -1,15 +1,8 @@
-import { Separator } from '@/components/ui/separator'
 import { hasPermission } from '@/lib/abac'
 import { current_user } from '@/lib/server-utils'
 import { getCourse } from '@/server/actions/courseActions'
 import { notFound, unauthorized } from 'next/navigation'
-import CourseCategory from './_components/courseCategory'
-import CourseDescription from './_components/courseDescription'
-import CourseLessons from './_components/courseLessons'
-import CoursePrice from './_components/coursePrice'
-import CourseTags from './_components/courseTags'
-import CourseThumbnail from './_components/courseThumbnail'
-import CourseTitle from './_components/courseTitle'
+import EditTabs from './_components/editTabs'
 
 export default async function Page({
   params,
@@ -43,31 +36,7 @@ export default async function Page({
 
     return (
       <main className="flex flex-col gap-2">
-        <Header isPublished={course.isPublished} />
-        <div className="flex flex-col xl:flex-row gap-2">
-          <div className="flex flex-col gap-2 w-full xl:w-1/2">
-            <CourseTitle courseId={slug} title={course.title} />
-            <Separator />
-            <CourseDescription
-              courseId={slug}
-              description={course.description}
-            />
-            <Separator />
-            <CourseThumbnail courseId={slug} thumbnail={course.thumbnailUrl} />
-            <Separator />
-            <CourseTags courseId={slug} tags={course.tags} />
-            <Separator />
-            <CoursePrice courseId={slug} price={course.price} />
-            <Separator />
-            <CourseCategory courseId={slug} category={course.category} />
-            <Separator />
-          </div>
-          <Separator orientation="vertical" className="h-auto mx-2" />
-          <div className="flex flex-col gap-2 w-full xl:w-1/2">
-            <CourseLessons courseId={slug} />
-            {/* <CourseDelete courseId={slug} /> */}
-          </div>
-        </div>
+        <EditTabs slug={slug} />
       </main>
     )
   } catch (error) {
@@ -75,17 +44,3 @@ export default async function Page({
     notFound()
   }
 }
-const Header = ({ isPublished }: { isPublished: boolean | null }) => (
-  <>
-    <div className="flex flex-col text-balance gap-0.5 pb-1">
-      <div className="text-xl font-bold">Edit your course</div>
-      <span className="text-muted-foreground">
-        Make changes to your course and save it.
-      </span>
-      <span className="text-muted-foreground">
-        {/* TODO: make a good selector ig idk */}
-        Published: {isPublished ? 'Yes' : 'No'}
-      </span>
-    </div>
-  </>
-)

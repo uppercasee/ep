@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import CldImage from '@/lib/cloudinary'
+import { CldImage } from '@/lib/cloudinary'
 import { GetAllCourses } from '@/server/actions/courseActions'
 import Link from 'next/link'
 

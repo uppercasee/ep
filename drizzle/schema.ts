@@ -46,7 +46,10 @@ export const ContentTypeEnum = pgEnum('content_type', ['quiz', 'video'])
 export const ContentTable = pgTable('content', {
   id: uuid('id').primaryKey().defaultRandom(),
   type: ContentTypeEnum('content_type').default('video'),
-  url: text('url').notNull(),
+  url: text('url'),
+  courseId: uuid('course_id')
+    .notNull()
+    .references(() => CoursesTable.id, { onDelete: 'cascade' }),
   lessonId: uuid('lesson_id')
     .notNull()
     .references(() => LessonsTable.id, { onDelete: 'cascade' }),
