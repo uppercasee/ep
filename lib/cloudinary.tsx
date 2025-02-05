@@ -11,6 +11,6 @@ export const CldImage = (props: CldImageProps) => {
   return <CldImageDefault {...props} />
 }
 
-export const CldVideo = (props: CldVideoPlayerProps) => {
+export const CldVideoPlayer = (props: CldVideoPlayerProps) => {
   return <CldVideoDefault {...props} />
 }

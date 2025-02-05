@@ -127,6 +127,7 @@ export async function deleteLessonFromPosition({
 }
 
 export const updateLesson = async (data: typeof LessonsTable.$inferInsert) => {
+  console.log(data)
   try {
     const [updatedLesson] = await db
       .update(LessonsTable)

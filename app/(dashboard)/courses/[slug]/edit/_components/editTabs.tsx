@@ -2,10 +2,14 @@
 
 import TabSkeleton from '@/components/skeletons/lessonTabSkeleton'
 import { Separator } from '@/components/ui/separator'
+import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { updateCoursePublishedStatus } from '@/features/courses/actions/updatePublished'
 import { getCourse } from '@/server/actions/courseActions'
 import { getLessonsFromCourse } from '@/server/db/lessons'
 import { useQuery } from '@tanstack/react-query'
+import { useState, useTransition } from 'react'
+import { toast } from 'sonner'
 import CourseCategory from './courseCategory'
 import CourseDescription from './courseDescription'
 import CoursePrice from './coursePrice'
@@ -51,7 +55,7 @@ const EditTabs = ({ slug }: EditTabsInterface) => {
         <TabsTrigger value="syllabus">Curriculum</TabsTrigger>
       </TabsList>
       <TabsContent value="basic">
-        <Header isPublished={course.isPublished} />
+        <Header courseId={slug} isPublished={course.isPublished} />
         <div className="flex flex-col xl:flex-row md:gap-6 xl:gap-12">
           <div className="flex flex-col w-full xl:w-[50%] gap-6">
             <CourseTitle courseId={slug} title={course.title} />
@@ -91,22 +95,63 @@ const EditTabs = ({ slug }: EditTabsInterface) => {
 
 export default EditTabs
 
-const Header = ({
-  isPublished,
-}: { isPublished: boolean | null | undefined }) => (
-  <>
+// const Header = ({
+//   isPublished,
+//   courseId,
+// }: { isPublished: boolean | null | undefined; courseId: string }) => (
+//   return <div>Test</div>
+// )
+
+interface HeaderProps {
+  isPublished: boolean | undefined | null
+  courseId: string
+}
+
+const Header = ({ isPublished, courseId }: HeaderProps) => {
+  if (isPublished == null) {
+    isPublished = false
+  }
+  const [pending, startTransition] = useTransition()
+  const [published, setPublished] = useState(isPublished)
+
+  async function togglePublished() {
+    const previousState = published
+
+    try {
+      setPublished(!previousState)
+
+      const updated = await updateCoursePublishedStatus(
+        courseId,
+        !previousState
+      )
+      console.log('Updated published status:', updated)
+
+      toast.success(`Course ${!previousState ? 'published' : 'unpublished'}!`)
+    } catch (error) {
+      setPublished(previousState)
+      toast.error('Failed to update course status.')
+      console.error('Failed to update course status:', error)
+    }
+  }
+
+  return (
     <div className="flex text-balance gap-4 pb-1 items-center my-6">
       <div className="text-xl font-bold">Edit your course</div>
       <span className="text-muted-foreground">
         Make changes to your course and save it.
       </span>
-      <span className="flex ml-auto text-muted-foreground">
-        {/* TODO: make a good selector ig idk */}
-        Published: {isPublished ? 'Yes' : 'No'}
-      </span>
+      <div className="flex ml-auto items-center gap-2 text-muted-foreground">
+        <span>Published:</span>
+        <Switch
+          checked={published}
+          onCheckedChange={() => startTransition(togglePublished)}
+          disabled={pending}
+        />
+      </div>
     </div>
-  </>
-)
+  )
+}
+
 interface LessonTab {
   id: string | null | undefined
 }

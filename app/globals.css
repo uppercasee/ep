@@ -80,3 +80,30 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+:root {
+  --cloudinary-video-player-color: #ffffff;
+  --cloudinary-video-player-accent: #3182ce;
+  --cloudinary-video-player-base: #000000;
+}
+
+.cld-video-player {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.cld-video-player .vjs-control-bar {
+  display: flex !important;
+  opacity: 1 !important;
+  background: rgba(0, 0, 0, 0.7) !important;
+}
+
+.cld-video-player:hover .vjs-control-bar {
+  opacity: 1 !important;
+}
+
+.cld-video-player .vjs-big-play-button {
+  background: rgba(0, 0, 0, 0.7) !important;
+  border-radius: 9999px !important;
+  border: 2px solid white !important;
+}

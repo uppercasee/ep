@@ -2,6 +2,7 @@ import { AppSidebar } from '@/components/app-sidebar'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { current_user } from '@/lib/server-utils'
 import Navbar from './dashboard/_components/Navbar'
+import 'next-cloudinary/dist/cld-video-player.css'
 
 export default async function DashboardLayout({
   children,

@@ -23,11 +23,14 @@ import {
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import type { LessonsTable } from '@/drizzle/schema'
+import { getContent } from '@/features/content/actions/getContent'
+import { updateLessonContent } from '@/features/content/actions/updateLessonContent'
 import {
   createNewLesson,
   deleteLessonFromPosition,
   updateLesson,
 } from '@/server/db/lessons'
+import { useQuery } from '@tanstack/react-query'
 import { CircleX, EditIcon, PlusIcon } from 'lucide-react'
 import {
   CldUploadWidget,
@@ -60,7 +63,16 @@ const Lessons = ({ lessons, courseId }: LessonsProps) => {
     setLessons((prevLessons) => [...prevLessons, optimisticLesson])
 
     try {
-      await createNewLesson(updatedlessons)
+      const newLessonId = await createNewLesson(updatedlessons)
+
+      setLessons((prevLessons) =>
+        prevLessons.map((lesson) =>
+          lesson.id === 'optimistic-id'
+            ? { ...lesson, id: newLessonId }
+            : lesson
+        )
+      )
+
       toast.success('New Lesson has been created...')
     } catch (error) {
       setLessons((prevLessons) =>
@@ -214,45 +226,42 @@ interface EditDialogProps {
 }
 
 const EditDialog = ({ lesson, onSave }: EditDialogProps) => {
-  const [isEditing, setIsEditing] = useState(false)
-  const [lessonVideoUrl, setLessonVideoUrl] = useState(lesson.videoUrl)
+  const {
+    data: availableContent,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['availableContent', lesson.courseId],
+    queryFn: () => getContent(lesson.courseId),
+    staleTime: 1000 * 60 * 5,
+  })
+
+  console.log(availableContent)
+
   const [formData, setFormData] = useState({
     title: lesson.title,
     tier: lesson.tier || 'free',
+    selectedContentId: '',
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const updatedLesson = {
-      ...lesson,
-      ...formData,
-      videoUrl: lessonVideoUrl,
+    if (!formData.selectedContentId) {
+      toast.error('Please select content for the lesson.')
+      return
     }
-    onSave(updatedLesson)
-  }
-
-  const toggleEdit = () => {
-    setIsEditing((prev) => !prev)
-  }
-
-  const handleUploadSuccess = async (
-    result: string | CloudinaryUploadWidgetInfo | undefined
-  ) => {
-    if (!result || typeof result === 'string') {
-      console.error('Invalid result:', result)
+    if (!lesson.id) {
+      toast.error('Failed to update lesson content.')
       return
     }
 
-    const publicId = result.public_id
+    e.preventDefault()
     try {
-      // await updateLessonUrl({ lessonId, url: publicId })
-      setLessonVideoUrl(publicId)
-      toast.success('Thumbnail updated successfully!')
+      await updateLessonContent(lesson.id, formData.selectedContentId)
+      onSave({ ...lesson, ...formData })
+      toast.success('Lesson updated successfully with new content!')
     } catch (error) {
-      toast.error('Failed to update thumbnail.')
-      console.error('Error updating thumbnail:', error)
-    } finally {
-      toggleEdit()
+      toast.error('Failed to update lesson content.')
+      console.error(error)
     }
   }
 
@@ -285,8 +294,30 @@ const EditDialog = ({ lesson, onSave }: EditDialogProps) => {
           </div>
 
           <div className="space-y-2">
-            <Label className="block text-sm font-medium">Content</Label>
-            {/* let the user choose the resource that it wants this lesson to be linked to... */}
+            <Label className="block text-sm font-medium">Lesson Content</Label>
+            {isLoading ? (
+              <p>Loading content...</p>
+            ) : error ? (
+              <p className="text-red-500">Failed to load content</p>
+            ) : (
+              <Select
+                value={formData.selectedContentId}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, selectedContentId: value })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select content" />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableContent?.map((content) => (
+                    <SelectItem key={content.id} value={content.id}>
+                      {content.title} ({content.type})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
           </div>
 
           <div className="space-y-2">

@@ -94,7 +94,14 @@ const CoursePrice = ({ price, courseId }: CoursePriceProps) => {
                   <FormItem className="w-full">
                     <FormLabel>Enter the price of your course</FormLabel>
                     <FormControl>
-                      <Input placeholder={`Rs. ${coursePrice}`} {...field} />
+                      <Input
+                        type="number"
+                        placeholder={`Rs. ${coursePrice}`}
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(Number.parseFloat(e.target.value))
+                        }
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
