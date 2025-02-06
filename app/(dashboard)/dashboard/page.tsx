@@ -1,6 +1,6 @@
 import CourseSkeleton from '@/components/skeletons/courseSkeleton'
 import { Button } from '@/components/ui/button'
-import { currentUser } from '@clerk/nextjs/server'
+import { current_user } from '@/lib/server-utils'
 import Link from 'next/link'
 import { Suspense } from 'react'
 import DailyQuestWidget from './_components/dailyQuestWidget'
@@ -8,7 +8,7 @@ import LeaderboardWidget from './_components/leaderboardWidget'
 import MyCourseSection from './_components/myCourses'
 
 const Page = async () => {
-  const user = await currentUser()
+  const user = await current_user()
 
   return (
     <>
@@ -18,7 +18,7 @@ const Page = async () => {
             <div className="text-xl font-bold">
               Welcome Back,
               <Suspense fallback={'Loadiing...'}>
-                <span>{user?.username}</span>
+                <span> {user?.username}</span>
               </Suspense>
             </div>
             <div className="flex items-center justify-center">
@@ -40,7 +40,7 @@ const Page = async () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col justify-between md:justify-start gap-4">
+        <div className="flex flex-col lg:flex-row 2xl:flex-col justify-between md:justify-start gap-2 2xl:gap-4">
           <LeaderboardWidget />
           <DailyQuestWidget />
         </div>

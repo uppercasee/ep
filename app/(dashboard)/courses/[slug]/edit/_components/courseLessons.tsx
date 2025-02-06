@@ -8,7 +8,11 @@ interface CourseLessonsProps {
 const CourseLessons = async ({ courseId }: CourseLessonsProps) => {
   const lessons = await getLessonsFromCourse({ courseId })
 
-  return <Lessons lessons={lessons} courseId={courseId} />
+  return (
+    <>
+      <Lessons lessons={lessons} courseId={courseId} />
+    </>
+  )
 }
 
 export default CourseLessons

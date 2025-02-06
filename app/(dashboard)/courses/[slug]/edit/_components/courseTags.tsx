@@ -20,13 +20,13 @@ import {
 import { updateTags } from '@/server/db/courses'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { EditIcon } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
 interface CourseTagsProps {
-  tags: string[] | null
+  tags: string[] | null | undefined
   courseId: string
 }
 
@@ -78,7 +78,7 @@ const CourseTags = ({ tags, courseId }: CourseTagsProps) => {
   return (
     <>
       {toggle ? (
-        <div className="flex text-balance gap-2 items-start md:items-center justify-between flex-col md:flex-row">
+        <div className="flex text-balance gap-2 items-start sm:items-center justify-between flex-col sm:flex-row">
           <div className="pr-24">Tags</div>
           <div className="flex flex-wrap gap-2">
             {courseTags?.map((tag) => (

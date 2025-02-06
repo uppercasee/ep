@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 import { Toaster } from '@/components/ui/sonner'
+import QueryProvider from '@/context/query-provider'
 import { ThemeProvider } from '@/context/theme-provider'
 import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
@@ -36,17 +37,22 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className="">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ClerkProvider afterSignOutUrl={'/'} appearance={{ baseTheme: dark }}>
-            {children}
-            <Toaster expand={true} />
-          </ClerkProvider>
-        </ThemeProvider>
+        <QueryProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <ClerkProvider
+              afterSignOutUrl={'/'}
+              appearance={{ baseTheme: dark }}
+            >
+              {children}
+              <Toaster expand={true} />
+            </ClerkProvider>
+          </ThemeProvider>
+        </QueryProvider>
       </body>
     </html>
   )

@@ -2,11 +2,13 @@
 
 import { db } from '@/drizzle/db'
 import { UsersTable } from '@/drizzle/schema'
+import { authorization } from '@/lib/server-utils'
 import { auth } from '@clerk/nextjs/server'
 import { eq } from 'drizzle-orm'
 
 export async function toggleUserRole() {
-  const { userId } = await auth()
+  const userId = await authorization()
+
   if (!userId) {
     return Error('Not Authorized')
   }
@@ -40,7 +42,8 @@ export async function toggleUserRole() {
 }
 
 export async function getUserRole(): Promise<'teacher' | 'student'> {
-  const { userId } = await auth()
+  const userId = await authorization()
+
   if (!userId) {
     throw new Error('Not Authorized')
   }

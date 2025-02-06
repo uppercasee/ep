@@ -1,11 +1,11 @@
 import { hasPermission } from '@/lib/abac'
-import { currentUser } from '@clerk/nextjs/server'
+import { current_user } from '@/lib/server-utils'
 import { notFound, unauthorized } from 'next/navigation'
 import CourseForm from './_components/courseForm'
 import Header from './_components/header'
 
 const NewCoursePage = async () => {
-  const user = await currentUser()
+  const user = await current_user()
 
   if (!user?.id) {
     notFound()

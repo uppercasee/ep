@@ -1,4 +1,4 @@
-import { auth } from '@clerk/nextjs/server'
+import { authorization } from '@/lib/server-utils'
 import { redirect } from 'next/navigation'
 import Faq from './sections/faq'
 import Features from './sections/features'
@@ -8,7 +8,7 @@ import Hero from './sections/hero'
 // import PricingPage from './sections/pricing'
 
 const Home = async () => {
-  const { userId }: { userId: string | null } = await auth()
+  const userId = await authorization()
 
   if (userId) {
     redirect('/dashboard')

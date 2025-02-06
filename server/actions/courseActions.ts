@@ -1,18 +1,20 @@
 'use server'
 
 import { db } from '@/drizzle/db'
-import { CoursesTable } from '@/drizzle/schema'
-import { currentUser } from '@clerk/nextjs/server'
+import { CoursesTable, UsersTable } from '@/drizzle/schema'
+import { current_user } from '@/lib/server-utils'
 import { eq } from 'drizzle-orm'
 import { getUserId } from '../db/users'
 
 export async function createNewCourse(
   data: Omit<typeof CoursesTable.$inferInsert, 'createdBy'>
 ) {
-  const user = await currentUser()
+  const user = await current_user()
+
   if (!user?.id) {
     throw new Error('Not Authorized')
   }
+
   try {
     const userId = await getUserId(user.id)
     const [newCourse] = await db
@@ -23,13 +25,6 @@ export async function createNewCourse(
       })
       .returning({ insertedId: CoursesTable.id })
 
-    // TODO: update usersTable as well
-    // await db
-    //   .update(UsersTable)
-    //   .set({
-    //
-    //   })
-    //   .where(eq(UsersTable.id, user.id))
     console.log('Course Created!!')
     return newCourse.insertedId
   } catch (err) {
@@ -39,25 +34,28 @@ export async function createNewCourse(
 }
 
 export async function GetAllCreatedCourses() {
-  const user = await currentUser()
+  const user = await current_user()
   if (!user?.id) {
     throw new Error('Not Authorized')
   }
 
   try {
-    const userId = await getUserId(user.id)
-    const courses = await db
+    // const userId = await getUserId(user.id)
+    const UserCourses = await db
       .select()
       .from(CoursesTable)
-      .where(eq(CoursesTable.createdBy, userId))
+      .fullJoin(UsersTable, eq(CoursesTable.createdBy, UsersTable.id))
+      .where(eq(UsersTable.clerkUserId, user.id))
 
-    if (courses.length === 0) {
+    // Filter out records where `courses` is null
+    const validCourses = UserCourses.filter((record) => record.courses !== null)
+    if (validCourses.length === 0) {
       return []
     }
 
-    return courses.map((course) => ({
-      ...course,
-      id: course.id.toString(),
+    return validCourses.map((record) => ({
+      ...record.courses,
+      id: record.courses?.id.toString(),
     }))
   } catch (error) {
     console.error('Error fetching courses created by user:', error)
@@ -67,7 +65,10 @@ export async function GetAllCreatedCourses() {
 
 export async function GetAllCourses() {
   try {
-    const courses = await db.select().from(CoursesTable)
+    const courses = await db
+      .select()
+      .from(CoursesTable)
+      .where(eq(CoursesTable.isPublished, true))
 
     return courses.map((course) => ({
       ...course,

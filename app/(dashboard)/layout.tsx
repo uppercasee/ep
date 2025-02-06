@@ -1,14 +1,15 @@
 import { AppSidebar } from '@/components/app-sidebar'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { currentUser } from '@clerk/nextjs/server'
+import { current_user } from '@/lib/server-utils'
 import Navbar from './dashboard/_components/Navbar'
+import 'next-cloudinary/dist/cld-video-player.css'
 
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const user = await currentUser()
+  const user = await current_user()
 
   if (!user?.id) {
     throw new Error('Not Authorized')

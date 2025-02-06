@@ -72,7 +72,7 @@ const CourseCategory = ({ category, courseId }: CourseCategoryProps) => {
   return (
     <>
       {toggle ? (
-        <div className="flex text-balance gap-2 items-start md:items-center justify-between flex-col md:flex-row">
+        <div className="flex text-balance gap-2 items-start sm:items-center justify-between flex-col sm:flex-row">
           <div className="pr-24">Category</div>
           <div className="text-lg pr-2">{courseCategory}</div>
           <Button

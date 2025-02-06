@@ -9,17 +9,21 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import CldImage from '@/lib/cloudinary'
+import { CldImage } from '@/lib/cloudinary'
 import { GetAllCreatedCourses } from '@/server/actions/courseActions'
 import Link from 'next/link'
+import DeleteCourseButton from './deleteButton'
 
 const CourseCards = async () => {
   const courses = await GetAllCreatedCourses()
+  console.log(courses)
 
   if (courses.length === 0) {
     return (
-      <div className="flex h-full">
-        <p className="text-center">You have not created any courses</p>
+      <div className="flex h-screen justify-center items-center">
+        <p className="text-center text-2xl font-bold">
+          You have not created any courses
+        </p>
       </div>
     )
   }
@@ -43,24 +47,21 @@ const CourseCards = async () => {
                 // TODO: Add a placeholder blur effect here if required
               />
             ) : (
-              <Skeleton className="w-full h-48 sm:h-60 md:h-72" />
+              <Skeleton className="w-full h-60" />
             )}
-            <div className="flex gap-1">
+            <div className="flex flex-wrap gap-1 w-auto">
               {(course.tags ?? []).map((tag) => (
-                <Badge variant={'secondary'} key={tag}>
+                <Badge variant={'secondary'} key={tag} className="h-auto">
                   {tag}
                 </Badge>
               ))}
             </div>
           </CardContent>
           <CardFooter className="flex gap-2 items-center justify-between">
-            {/* <Link href={`/courses/${course._id}/view`}> */}
-            {/*   <Button>View</Button> */}
-            {/* </Link> */}
-
-            <Link href={`/courses/${course.id}/edit`}>
+            <Link href={`/courses/${course.id}/edit`} prefetch>
               <Button>Edit</Button>
             </Link>
+            <DeleteCourseButton id={course.id} />
           </CardFooter>
         </Card>
       ))}

@@ -74,17 +74,19 @@ const CourseDescription = ({
   return (
     <>
       {toggle ? (
-        <div className="flex text-balance gap-2 items-start md:items-center justify-between flex-col md:flex-row">
+        <div className="flex flex-col text-balance gap-2 items-start xl:items-center justify-between">
           <div className="pr-12">Description</div>
-          <div className="text-lg pr-2">{courseDesc}</div>
-          <Button
-            variant={'ghost'}
-            onClick={handleToggle}
-            className="flex gap-1 px-1"
-          >
-            <EditIcon />
-            Edit
-          </Button>
+          <div>
+            <div className="text-lg pr-2">{courseDesc}</div>
+            <Button
+              variant={'ghost'}
+              onClick={handleToggle}
+              className="flex gap-1 px-1"
+            >
+              <EditIcon />
+              Edit
+            </Button>
+          </div>
         </div>
       ) : (
         <div className="flex text-balance gap-2 items-start md:items-center justify-between flex-col md:flex-row">
@@ -101,7 +103,7 @@ const CourseDescription = ({
                   <FormItem className="w-full">
                     <FormLabel>Enter the description of your course</FormLabel>
                     <FormControl>
-                      <Textarea rows={6} placeholder={courseDesc} {...field} />
+                      <Textarea rows={12} placeholder={courseDesc} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

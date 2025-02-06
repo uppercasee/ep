@@ -1,31 +1,22 @@
-import { relations, sql } from 'drizzle-orm'
 import {
-  boolean,
-  check,
   index,
   integer,
   pgEnum,
   pgTable,
   text,
-  timestamp,
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
-
-const createdAt = timestamp('created_at', { withTimezone: true })
-  .notNull()
-  .defaultNow()
-const updatedAt = timestamp('updated_at', { withTimezone: true })
-  .notNull()
-  .defaultNow()
-  .$onUpdate(() => new Date())
+import { CoursesTable } from './schema/course'
+import { QuizTable } from './schema/quiz'
+import { createdAt, id, updatedAt } from './schemaHelpers'
 
 export const RoleEnum = pgEnum('role', ['student', 'teacher'])
 
 export const UsersTable = pgTable(
   'users',
   {
-    id: uuid('id').primaryKey().defaultRandom(),
+    id,
     clerkUserId: text('clerk_user_id').notNull().unique(),
     role: RoleEnum('role').default('student'),
     createdAt,
@@ -40,33 +31,21 @@ export const UsersTable = pgTable(
   ]
 )
 
-export const CoursesTable = pgTable(
-  'courses',
-  {
-    id: uuid('id').primaryKey().defaultRandom(),
-    title: varchar('title', { length: 100 }).notNull(),
-    description: varchar('description', { length: 500 }).notNull(),
-    createdBy: uuid('created_by')
-      .notNull()
-      .references(() => UsersTable.id, { onDelete: 'cascade' }),
-    category: varchar('category', { length: 255 }).notNull(),
-    isPublished: boolean('is_published').default(false),
-    price: integer('price'),
-    tags: text('tags').array(),
-    thumbnailUrl: text('thumbnail_url'),
-    createdAt,
-    updatedAt,
-  },
-  (table) => [
-    {
-      checkConstraint: check('price_check1', sql`${table.price} > 0`),
-    },
-  ]
-)
+export const ContentTypeEnum = pgEnum('content_type', ['quiz', 'video'])
 
-// export const UserRelation = relations(UsersTable, ({ one, many }) => ({
-//   CreatedCourse: many(CoursesTable),
-// }))
+export const ContentTable = pgTable('content', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  type: ContentTypeEnum('content_type').default('video'),
+  title: varchar('title', { length: 255 }).notNull(),
+  url: text('url'),
+  courseId: uuid('course_id')
+    .notNull()
+    .references(() => CoursesTable.id, { onDelete: 'cascade' }),
+  lessonId: uuid('lesson_id').references(() => LessonsTable.id),
+  quizId: uuid('quiz_id').references(() => QuizTable.id),
+  createdAt,
+  updatedAt,
+})
 
 export const UserCoursesTable = pgTable(
   'user_courses',
@@ -94,7 +73,6 @@ export const LessonsTable = pgTable(
     id: uuid('id').primaryKey().defaultRandom(),
     title: varchar('title', { length: 255 }).notNull(),
     videoUrl: text('video_url').notNull(),
-    progress: boolean('progress').default(false),
     courseId: uuid('course_id')
       .notNull()
       .references(() => CoursesTable.id, { onDelete: 'cascade' }),
@@ -118,3 +96,6 @@ export const CourseLessonsTable = pgTable('course_lessons', {
     .notNull()
     .references(() => LessonsTable.id),
 })
+
+export * from './schema/course'
+export * from './schema/quiz'

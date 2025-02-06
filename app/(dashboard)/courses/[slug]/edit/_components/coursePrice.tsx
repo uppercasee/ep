@@ -19,7 +19,7 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 
 interface CoursePriceProps {
-  price: number | null
+  price: number | null | undefined
   courseId: string
 }
 
@@ -67,7 +67,7 @@ const CoursePrice = ({ price, courseId }: CoursePriceProps) => {
   return (
     <>
       {toggle ? (
-        <div className="flex text-balance gap-2 items-start md:items-center justify-between flex-col md:flex-row">
+        <div className="flex text-balance gap-2 items-start sm:items-center justify-between flex-col sm:flex-row">
           <div className="pr-24">Price</div>
           <div className="text-lg pr-2">Rs. {coursePrice}</div>
           <Button
@@ -94,7 +94,14 @@ const CoursePrice = ({ price, courseId }: CoursePriceProps) => {
                   <FormItem className="w-full">
                     <FormLabel>Enter the price of your course</FormLabel>
                     <FormControl>
-                      <Input placeholder={`Rs. ${coursePrice}`} {...field} />
+                      <Input
+                        type="number"
+                        placeholder={`Rs. ${coursePrice}`}
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(Number.parseFloat(e.target.value))
+                        }
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
