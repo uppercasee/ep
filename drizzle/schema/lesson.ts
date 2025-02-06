@@ -10,6 +10,7 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core'
 import { createdAt, id, updatedAt } from '../schemaHelpers'
+import { ContentTable } from './content'
 import { CoursesTable } from './course'
 import { UsersTable } from './user'
 
@@ -18,8 +19,9 @@ export const TierEnum = pgEnum('tier', ['free', 'paid'])
 export const LessonsTable = pgTable(
   'lessons',
   {
-    id: uuid('id').primaryKey().defaultRandom(),
+    id,
     title: varchar('title', { length: 255 }).notNull(),
+    //TODO: remove videoUrl
     videoUrl: text('video_url').notNull(),
     courseId: uuid('course_id')
       .notNull()
@@ -66,6 +68,10 @@ export const LessonRelationships = relations(LessonsTable, ({ one }) => ({
   course: one(CoursesTable, {
     fields: [LessonsTable.courseId],
     references: [CoursesTable.id],
+  }),
+  contents: one(ContentTable, {
+    fields: [LessonsTable.id],
+    references: [ContentTable.lessonId],
   }),
 }))
 
