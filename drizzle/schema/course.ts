@@ -2,6 +2,7 @@ import { relations, sql } from 'drizzle-orm'
 import {
   boolean,
   check,
+  index,
   integer,
   pgTable,
   text,
@@ -35,4 +36,41 @@ export const CoursesTable = pgTable(
   ]
 )
 
-export const CourseRelationships = relations(CoursesTable, ({ many }) => ({}))
+export const UserCoursesTable = pgTable(
+  'user_courses',
+  {
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => UsersTable.id, { onDelete: 'cascade' }),
+    courseId: uuid('course_id')
+      .notNull()
+      .references(() => CoursesTable.id, { onDelete: 'cascade' }),
+    isCompleted: boolean('is_completed').default(false),
+    createdAt,
+    updatedAt,
+  },
+  (table) => [
+    {
+      clerkUserIdIndex: index('user_courses.user_id_index').on(table.userId),
+      courseIdIndex: index('user_courses.course_id_index').on(table.courseId),
+    },
+  ]
+)
+
+export const CourseRelationships = relations(CoursesTable, ({ many }) => ({
+  users: many(UserCoursesTable),
+}))
+
+export const UserCoursesRelationships = relations(
+  UserCoursesTable,
+  ({ one }) => ({
+    user: one(UsersTable, {
+      fields: [UserCoursesTable.userId],
+      references: [UsersTable.id],
+    }),
+    course: one(CoursesTable, {
+      fields: [UserCoursesTable.courseId],
+      references: [CoursesTable.id],
+    }),
+  })
+)
