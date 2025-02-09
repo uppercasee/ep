@@ -71,3 +71,14 @@ export async function hasPermission<Resource extends keyof Permissions>(
   if (typeof permission === 'boolean') return permission
   return data != null && permission(user, data)
 }
+
+export async function getRole(userId: string) {
+  const user = await getUserFromClerkId(userId)
+
+  if (!user) return false
+
+  const role = user.role as Role
+  if (!role || !(role in ROLES)) return false
+
+  return role
+}
