@@ -50,7 +50,7 @@ const CourseExplore = async () => {
             </div>
           </CardContent>
           <CardFooter className="flex gap-2 items-center justify-between">
-            <Link href={`/courses/${course.id}/view`}>
+            <Link href={`/courses/${course.id}/preview`}>
               <Button>View</Button>
             </Link>
           </CardFooter>

@@ -46,7 +46,7 @@ const MyCourseSection = async () => {
             </div>
           </CardContent>
           <CardFooter className="flex gap-2 items-center justify-between">
-            <Link href={`/courses/${course.id}/`}>
+            <Link href={`/courses/${course.id}/view`}>
               <Button>Resume</Button>
             </Link>
           </CardFooter>
