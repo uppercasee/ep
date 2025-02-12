@@ -53,15 +53,16 @@ export default async function TeacherDashboard() {
       </div>
 
       <h2 className="text-xl font-semibold">Your Courses</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-6">
         {all_course.map((course) => (
-          <Card key={course.id} className="overflow-hidden shadow-lg">
+          <Card key={course.id} className="shadow-lg">
             <CldImage
               src={course.thumbnailUrl ?? ''}
               alt={course.title ?? 'title'}
               width="200"
               height="200"
               className="w-full"
+              crop={{ type: 'fill' }}
             />
             <CardHeader>
               <CardTitle className="text-lg font-semibold">
