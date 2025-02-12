@@ -30,6 +30,10 @@ export const getAllEnrolledCourses = async () => {
       .innerJoin(CoursesTable, eq(CoursesTable.id, UserCoursesTable.courseId))
       .where(eq(UserCoursesTable.userId, userId))
 
+    if (enrolledCourses.length === 0) {
+      return []
+    }
+
     const courses = await Promise.all(
       enrolledCourses.map(async (course) => {
         const courseDetails = await db
@@ -41,7 +45,7 @@ export const getAllEnrolledCourses = async () => {
       })
     )
 
-    return courses[0]
+    return courses.flat()
   } catch (error) {
     console.error('Error fetching enrolled courses:', error)
     throw new Error('Failed to fetch enrolled courses')
