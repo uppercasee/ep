@@ -59,7 +59,6 @@ const StudentDashboard = async () => {
           </div>
 
           <div className="gap-2 flex flex-col">
-            <div className="text-md font-semibold">Continue Studying...</div>
             <div>
               <Suspense fallback={<CourseSkeleton />}>
                 <MyCourseSection />
