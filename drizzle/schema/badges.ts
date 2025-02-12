@@ -30,6 +30,7 @@ export const BadgesTable = pgTable(
 export const UserBadgesTable = pgTable(
   'user_badges',
   {
+    id,
     userId: uuid('user_id')
       .notNull()
       .references(() => UsersTable.id, { onDelete: 'cascade' }),
@@ -40,7 +41,6 @@ export const UserBadgesTable = pgTable(
     updatedAt,
   },
   (table) => [
-    primaryKey({ columns: [table.userId, table.badgeId] }),
     {
       userIdIndex: index('user_badges.user_id_index').on(table.userId),
       badgeIdIndex: index('user_badges.badge_id_index').on(table.badgeId),

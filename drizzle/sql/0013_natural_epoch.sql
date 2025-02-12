@@ -1,0 +1,1 @@
+ALTER TABLE "user_lessons" ADD CONSTRAINT "user_lessons_user_id_lesson_id_pk" PRIMARY KEY("user_id","lesson_id");

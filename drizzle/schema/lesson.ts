@@ -5,6 +5,7 @@ import {
   integer,
   pgEnum,
   pgTable,
+  primaryKey,
   text,
   uuid,
   varchar,
@@ -48,6 +49,7 @@ export const UserLessonsTable = pgTable(
     updatedAt,
   },
   (table) => [
+    primaryKey(table.userId, table.lessonId),
     {
       userIdIndex: index('user_lessons.user_id_index').on(table.userId),
       lessonIdIndex: index('user_lessons.lesson_id_index').on(table.lessonId),

@@ -30,6 +30,8 @@ export const getAllEnrolledCourses = async () => {
       .innerJoin(CoursesTable, eq(CoursesTable.id, UserCoursesTable.courseId))
       .where(eq(UserCoursesTable.userId, userId))
 
+    console.log(enrolledCourses)
+
     if (enrolledCourses.length === 0) {
       return []
     }

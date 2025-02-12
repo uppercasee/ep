@@ -1,0 +1,1 @@
+ALTER TABLE "user_courses" ADD CONSTRAINT "user_courses_user_id_course_id_pk" PRIMARY KEY("user_id","course_id");

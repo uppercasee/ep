@@ -52,6 +52,7 @@ export const AnswerTable = pgTable('answer', {
 })
 
 export const UserResponsesTable = pgTable('user_responses', {
+  id,
   userId: uuid('user_id').notNull(),
   questionId: uuid('question_id').notNull(),
   answerId: uuid('answer_id').notNull(),
