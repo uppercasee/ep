@@ -7,9 +7,18 @@ import { eq } from 'drizzle-orm'
 export async function updatePaymentTransaction({
   paymentId,
   transactionId,
+  paymentMethod,
 }: {
   paymentId: string
   transactionId: string
+  paymentMethod:
+    | 'esewa'
+    | 'khalti'
+    | 'ime_pay'
+    | 'bank_transfer'
+    | 'stripe'
+    | null
+    | undefined
 }) {
   try {
     const updatedPayment = await db
@@ -17,6 +26,7 @@ export async function updatePaymentTransaction({
       .set({
         transactionId,
         status: 'pending',
+        paymentMethod: paymentMethod,
       })
       .where(eq(PaymentTable.id, paymentId))
       .returning({ updatedId: PaymentTable.courseId })

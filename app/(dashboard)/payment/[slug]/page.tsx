@@ -1,8 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { getCoursePaymentDetail } from '@/features/payment/actions/get_payment'
 import { notFound } from 'next/navigation'
 import QRCode from 'react-qr-code'
 import PaymentMethod from './method'
+import PaymentTabs from './tab'
 
 export default async function PaymentPage({
   params,
@@ -15,8 +17,15 @@ export default async function PaymentPage({
   if (!course) return notFound()
   console.log(course)
 
-  const qrData = JSON.stringify({
+  // eSewa QR data
+  const eSewaQRData = JSON.stringify({
     eSewa_id: course.userNumber ?? '',
+    name: course.userName ?? '',
+  })
+
+  // Khalti QR data
+  const khaltiQRData = JSON.stringify({
+    Khalti_ID: course.userNumber ?? '',
     name: course.userName ?? '',
   })
 
@@ -51,16 +60,14 @@ export default async function PaymentPage({
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <p className="">
-                  Choose a payment method and scan the QR code to proceed:
-                </p>
-                <ul className="space-y-2">
-                  <li>✅ eSewa</li>
-                </ul>
-                <div className="flex flex-col items-center">
-                  <QRCode value={qrData} size={160} />
-                  <p className="text-sm mt-2">Send to: {course.userNumber}</p>
-                </div>
+                <p>Choose a payment method and scan the QR code to proceed:</p>
+                <PaymentTabs
+                  id={slug}
+                  course={{
+                    userNumber: course.userNumber,
+                    userName: course.userName,
+                  }}
+                />
               </div>
             </CardContent>
           </Card>
