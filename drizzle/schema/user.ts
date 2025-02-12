@@ -1,5 +1,12 @@
 import { relations } from 'drizzle-orm'
-import { index, integer, pgEnum, pgTable, text } from 'drizzle-orm/pg-core'
+import {
+  index,
+  integer,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+} from 'drizzle-orm/pg-core'
 import { createdAt, id, updatedAt } from '../schemaHelpers'
 import { UserBadgesTable } from './badges'
 import { UserCoursesTable } from './course'
@@ -16,6 +23,8 @@ export const UsersTable = pgTable(
     role: RoleEnum('role').default('student'),
     status: StatusEnum('status').default('active'),
     xp: integer('xp').default(0),
+    lastXpUpdate: timestamp('last_xp_update', { withTimezone: true }),
+    streak: integer('streak').default(0),
     createdAt,
     updatedAt,
   },

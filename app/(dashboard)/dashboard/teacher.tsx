@@ -11,7 +11,6 @@ import {
 } from 'lucide-react'
 
 export default async function TeacherDashboard() {
-  // Mock data (Replace with actual database fetching logic in server components)
   const courses = [
     {
       id: 1,

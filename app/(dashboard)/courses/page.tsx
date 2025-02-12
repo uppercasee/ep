@@ -1,9 +1,13 @@
+import CourseSkeleton from '@/components/skeletons/courseSkeleton'
+import { Suspense } from 'react'
+import MyCourseSection from '../dashboard/_components/myCourses'
+
 const EnrolledPage = () => {
   return (
-    <div className="flex h-screen justify-center items-center">
-      <p className="text-center text-2xl font-bold">
-        You have not enrolled in any course.
-      </p>
+    <div className="">
+      <Suspense fallback={<CourseSkeleton />}>
+        <MyCourseSection />
+      </Suspense>
     </div>
   )
 }
