@@ -38,8 +38,6 @@ export async function getPendingPaymentDetail() {
       )
     )
 
-  console.log(result)
-
   const resultsWithUsernames = await Promise.all(
     result.map(async (payment) => {
       const userDetails = await client.users.getUser(payment.userId)
@@ -50,8 +48,6 @@ export async function getPendingPaymentDetail() {
       }
     })
   )
-
-  console.log(resultsWithUsernames)
 
   return resultsWithUsernames || null
 }
