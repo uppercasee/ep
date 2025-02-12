@@ -17,7 +17,9 @@ import { useQuery } from '@tanstack/react-query'
 import { Crown, Medal } from 'lucide-react'
 
 const LeaderboardPage = () => {
-  const { data, isLoading, error } = useQuery(['leaderboard'], getAllUserXp)
+  const { data, isLoading, error } = useQuery(['leaderboard'], getAllUserXp, {
+    refetchInterval: 60000,
+  })
 
   if (isLoading) {
     return <div>Loading...</div>

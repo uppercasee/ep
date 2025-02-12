@@ -1,4 +1,5 @@
 import { relations } from 'drizzle-orm'
+import { varchar } from 'drizzle-orm/mysql-core'
 import {
   index,
   integer,
@@ -20,11 +21,13 @@ export const UsersTable = pgTable(
   {
     id,
     clerkUserId: text('clerk_user_id').notNull().unique(),
+    fullname: text('full_name').default('John Doe'),
     role: RoleEnum('role').default('student'),
     status: StatusEnum('status').default('active'),
     xp: integer('xp').default(0),
     lastXpUpdate: timestamp('last_xp_update', { withTimezone: true }),
     streak: integer('streak').default(0),
+    phoneNumber: text('phone_number').default('9840123456'),
     createdAt,
     updatedAt,
   },

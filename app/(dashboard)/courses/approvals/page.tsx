@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/table'
 import { approveCourse } from '@/features/courses/actions/approve_course'
 import { getPendingPaymentDetail } from '@/features/payment/actions/get_pending_payment'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { CheckCircle, Eye, XCircle } from 'lucide-react'
 import { CldImage } from 'next-cloudinary'
 import { useState } from 'react'
@@ -37,7 +37,7 @@ export default function CoursesApproval() {
     date: string
   } | null>(null)
 
-  const { data, error, isLoading } = useQuery(
+  const { data, error, isLoading, refetch } = useQuery(
     ['pendingPayments'],
     getPendingPaymentDetail
   )
@@ -55,24 +55,27 @@ export default function CoursesApproval() {
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error loading data</div>
 
+  const { mutateAsync: approvePayment, isLoading: isApproving } = useMutation(
+    approveCourse,
+    {
+      onSuccess: async () => {
+        toast.success('Course Approved!')
+        await refetch()
+      },
+      onError: () => {
+        toast.error('An error occurred while approving the course')
+      },
+    }
+  )
+
   const handleApproval = async (paymentId: string | null | undefined) => {
     if (!paymentId) {
       toast.error('Approval payment id failed!')
       return false
     }
-
-    try {
-      const success = await approveCourse(paymentId)
-
-      if (success) {
-        toast.success('Course Approved!')
-      } else {
-        toast.error('Approval failed!')
-      }
-    } catch (error) {
-      toast.error('An error occurred while approving the course')
-    }
+    await approvePayment(paymentId)
   }
+
   return (
     <div className="p-6 space-y-6">
       <h1 className="text-2xl font-bold">Pending Course Approvals</h1>
@@ -149,8 +152,10 @@ export default function CoursesApproval() {
                 <Button
                   className="bg-green-500 text-white"
                   onClick={() => handleApproval(request.id)}
+                  disabled={isApproving}
                 >
-                  <CheckCircle className="w-4 h-4" /> Approve
+                  <CheckCircle className="w-4 h-4" />
+                  {isApproving ? 'Approving...' : 'Approve'}
                 </Button>
                 <Button className="bg-red-500 text-white">
                   <XCircle className="w-4 h-4" /> Disapprove

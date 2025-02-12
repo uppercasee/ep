@@ -30,13 +30,15 @@ export async function getPendingPaymentDetail() {
     })
     .from(PaymentTable)
     .innerJoin(CoursesTable, eq(CoursesTable.id, PaymentTable.courseId))
-    .innerJoin(UsersTable, eq(UsersTable.id, CoursesTable.createdBy))
+    .innerJoin(UsersTable, eq(UsersTable.id, PaymentTable.userId))
     .where(
       and(
         eq(PaymentTable.status, 'pending'),
         eq(CoursesTable.createdBy, userId)
       )
     )
+
+  console.log(result)
 
   const resultsWithUsernames = await Promise.all(
     result.map(async (payment) => {

@@ -71,6 +71,20 @@
       "when": 1739348509692,
       "tag": "0009_dusty_mister_sinister",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1739361604415,
+      "tag": "0010_black_deathstrike",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1739362273212,
+      "tag": "0011_thin_deathstrike",
+      "breakpoints": true
     }
   ]
 }
