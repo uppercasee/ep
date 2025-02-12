@@ -70,6 +70,7 @@ export async function GetAllCourses() {
       .from(CoursesTable)
       .where(eq(CoursesTable.isPublished, true))
 
+    console.log(courses)
     return courses.map((course) => ({
       ...course,
       id: course.id.toString(),
