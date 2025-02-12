@@ -3,12 +3,14 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { updateResourceTitle } from '@/features/content/actions/update_resource_title'
+import { CldVideoPlayer } from '@/lib/cloudinary'
 import { TrashIcon } from 'lucide-react'
 import {
   CldUploadWidget,
   type CloudinaryUploadWidgetInfo,
 } from 'next-cloudinary'
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import { toast } from 'sonner'
 import { uploadVideo } from '../actions/uploadVideo'
 
@@ -38,11 +40,8 @@ const VideoResource = ({
   onEditChange,
   onDelete,
 }: VideoResourceProps) => {
-  const [formState, formAction] = useActionState(uploadVideo, {
-    success: false,
-    message: '',
-    videoUrl: '',
-  })
+  const [isEditing, setIsEditing] = useState(false)
+  const [newTitle, setNewTitle] = useState(resource.title)
 
   const handleVideoUploadSuccess = async (
     result: string | CloudinaryUploadWidgetInfo | undefined
@@ -74,51 +73,119 @@ const VideoResource = ({
     }
   }
 
+  const handleEditTitle = () => {
+    setIsEditing(true)
+  }
+
+  const handleSubmitTitle = async () => {
+    const response = await updateResourceTitle(resource.id, newTitle)
+
+    if (response.success) {
+      onEditChange(resource.id, 'title', newTitle)
+      toast.success(response.message)
+      setIsEditing(false)
+    } else {
+      toast.error(response.message)
+    }
+  }
+
+  const handleCancelEdit = () => {
+    setNewTitle(resource.title)
+    setIsEditing(false)
+  }
+
   return (
-    <div className="space-y-4 p-4 flex flex-col gap-1">
-      {/* Title Field */}
-      <div>
-        <Label>Title</Label>
-        <Input
-          value={resource.title}
-          onChange={(e) => onEditChange(resource.id, 'title', e.target.value)}
-        />
-      </div>
-
-      {/* Video Upload */}
-      <Label>Video</Label>
-      <CldUploadWidget
-        uploadPreset="elearning_videos"
-        onSuccess={(result) => handleVideoUploadSuccess(result?.info)}
-      >
-        {({ open }: { open: () => void }) => (
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => open()}
-            className="w-fit"
-          >
-            Upload Video
-          </Button>
-        )}
-      </CldUploadWidget>
-
-      {/* Display the uploaded video URL */}
-      {resource.url && (
-        <div className="mt-2">
-          <Label>Uploaded Video: {resource.url} </Label>
-          <Input className="hidden" value={resource.url} readOnly />
+    <div className="flex gap-6 justify-between md:flex-row flex-col">
+      <div className="space-y-4 p-4 flex flex-col gap-1 w-full">
+        {/* Title Field */}
+        <div>
+          <Label>Title</Label>
+          {!isEditing ? (
+            <div className="flex items-center">
+              <span className="mr-2">{resource.title}</span>
+              <Button
+                variant="outline"
+                onClick={handleEditTitle}
+                className="w-fit"
+              >
+                Edit
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Input
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+              />
+              <Button
+                variant="outline"
+                onClick={handleSubmitTitle}
+                className="w-fit"
+              >
+                Submit
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={handleCancelEdit}
+                className="w-fit"
+              >
+                Cancel
+              </Button>
+            </div>
+          )}
         </div>
-      )}
 
-      {/* Delete Button */}
-      <Button
-        variant="destructive"
-        onClick={() => onDelete(resource.id)}
-        className="mt-4 w-fit"
-      >
-        <TrashIcon className="h-4 w-4" />
-      </Button>
+        {/* Video Upload */}
+        <Label>Video</Label>
+        <CldUploadWidget
+          uploadPreset="elearning_videos"
+          onSuccess={(result) => handleVideoUploadSuccess(result?.info)}
+        >
+          {({ open }: { open: () => void }) => (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => open()}
+              className="w-fit"
+            >
+              Upload Video
+            </Button>
+          )}
+        </CldUploadWidget>
+
+        {/* Delete Button */}
+        <Button
+          variant="destructive"
+          onClick={() => onDelete(resource.id)}
+          className="mt-4 w-fit"
+        >
+          <TrashIcon className="h-4 w-4" />
+        </Button>
+      </div>
+      <div className="p-4 w-full">
+        {resource.url && (
+          <div className="relative max-w-lg">
+            <Label className="block text-lg font-medium mb-2">
+              Video Preview
+            </Label>
+
+            <CldVideoPlayer
+              width="1920"
+              height="1080"
+              src={resource.url}
+              colors={{
+                base: '#4a5568',
+                accent: '#3182ce',
+                text: '#ffffff',
+              }}
+              controls={true}
+              showJumpControls={true}
+              autoPlay="on-scroll"
+              logo={false}
+            />
+          </div>
+        )}
+      </div>
     </div>
   )
 }
