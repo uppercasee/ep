@@ -54,9 +54,9 @@ const studentItems = [
 
 const teacherItems = [
   { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboardIcon },
-  { title: 'My Courses', url: '/courses/created', icon: BookIcon },
-  { title: 'Course Approvals', url: '/course-approvals', icon: FileCheck },
-  { title: 'Manage Students', url: '/students', icon: UserCheck },
+  { title: 'Courses', url: '/courses/created', icon: BookIcon },
+  { title: 'Course Approvals', url: '/courses/approvals', icon: FileCheck },
+  // { title: 'Manage Students', url: '/students', icon: UserCheck },
   { title: 'Analytics', url: '/analytics', icon: BarChart2 },
   { title: 'Settings', url: '/profile', icon: Settings },
 ]

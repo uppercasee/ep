@@ -1,7 +1,12 @@
 'use server'
 
 import { db } from '@/drizzle/db'
-import { ContentTable, CoursesTable, LessonsTable } from '@/drizzle/schema'
+import {
+  ContentTable,
+  CoursesTable,
+  LessonsTable,
+  UserLessonsTable,
+} from '@/drizzle/schema'
 import { and, eq } from 'drizzle-orm'
 
 type Lesson = {

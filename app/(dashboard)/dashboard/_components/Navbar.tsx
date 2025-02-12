@@ -1,39 +1,42 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import { SearchBox } from '@/components/ui/searchBoxwithIcon'
-import { getRole } from '@/lib/abac'
-import { Permission } from '@/lib/abac_permissions'
-import { current_user } from '@/lib/server-utils'
-import { FlameIcon, PlusIcon } from 'lucide-react'
-import Link from 'next/link'
+import { getCookie, setCookie } from '@/lib/cookies'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import NavbarStreak from './NavbarStreak'
 import UserLogo from './userButton'
 
-const Navbar = async () => {
-  const user = await current_user()
-  if (!user?.id) {
-    throw new Error('Not Authorized')
-  }
+const Navbar = () => {
+  const router = useRouter()
+  const [mode, setMode] = useState<'student' | 'teacher'>('student')
 
-  // const streak = getStreakforUser(user.id)
-  const streak = 0
+  useEffect(() => {
+    const savedMode = getCookie('mode') || 'student'
+    setMode(savedMode as 'student' | 'teacher')
+  }, [])
+
+  const toggleMode = () => {
+    const newMode = mode === 'student' ? 'teacher' : 'student'
+    setCookie('mode', newMode, 365) // Store for 1 year
+    setMode(newMode)
+    router.refresh()
+  }
 
   return (
     <header className="flex items-center justify-between px-4 py-2 w-full">
       <SearchBox />
       <div className="flex flex-row items-center justify-end gap-3">
-        <Button variant={'ghost'} size={'sm'} className="flex gap-1">
-          Teachers Mode
+        <Button
+          variant="ghost"
+          size="sm"
+          className="flex gap-1"
+          onClick={toggleMode}
+        >
+          {mode === 'teacher' ? 'Student Mode' : 'Teacher Mode'}
         </Button>
-        <Button variant={'ghost'} size={'sm'} className="flex gap-1">
-          <FlameIcon /> {streak}
-        </Button>
-        <Permission userId={user.id} resource="courses" action="create">
-          <Button asChild size={'sm'} variant={'secondary'} className="">
-            <Link href="/courses/create">
-              <PlusIcon className="md:mr-2" />{' '}
-              <span className="hidden md:block">Create Course</span>
-            </Link>
-          </Button>
-        </Permission>
+        <NavbarStreak />
         <UserLogo />
       </div>
     </header>

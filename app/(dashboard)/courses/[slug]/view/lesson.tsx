@@ -10,20 +10,26 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
-import { RadioGroup } from '@/components/ui/radio-group'
 import { getEntireCourse } from '@/features/courses/actions/getEntireCourse'
+import { getUserLessons } from '@/features/lessons/actions/get_user_lesson'
+import { markLessonComplete } from '@/features/lessons/actions/mark_lesson_complete'
 import { CldVideoPlayer } from '@/lib/cloudinary'
 import { useQuery } from '@tanstack/react-query'
-import { Menu } from 'lucide-react'
-import { useState } from 'react'
+import { CheckCircle, Menu } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 interface LessonProps {
   slug: string
+  auth: boolean
 }
 
-const Lesson = ({ slug }: LessonProps) => {
+const Lesson = ({ slug, auth }: LessonProps) => {
   const [selectedLessonIndex, setSelectedLessonIndex] = useState(0)
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
+  const [lessonCompletion, setLessonCompletion] = useState<
+    Record<string, boolean>
+  >({})
 
   const {
     data: course,
@@ -33,29 +39,48 @@ const Lesson = ({ slug }: LessonProps) => {
     enabled: !!slug,
   })
 
+  const { data: completionStatus } = useQuery(
+    ['lessonCompletion', slug],
+    () => (auth ? getUserLessons(slug) : []),
+    {
+      enabled: !!auth && !!slug,
+    }
+  )
+
+  useEffect(() => {
+    if (completionStatus) {
+      const completionMap = completionStatus.reduce(
+        (acc: Record<string, boolean>, lesson) => {
+          acc[lesson.lessonId] = lesson.isCompleted ?? false
+          return acc
+        },
+        {}
+      )
+      setLessonCompletion(completionMap)
+    }
+  }, [completionStatus])
+
   if (isLoading) return <p>Loading...</p>
   if (error instanceof Error) return <p>Error: {error.message}</p>
   if (!course) {
     return <p>Course Not Found...</p>
   }
   const currentLesson = course?.lessons[selectedLessonIndex]
-  console.log(course)
 
-  // const handleLessonComplete = () => {
-  //   const updatedLessons = course.lessons.map((lesson, index) =>
-  //     index === selectedLessonIndex
-  //       ? { ...lesson, isCompleted: !lesson.isCompleted }
-  //       : lesson
-  //   )
-  //
-  //   const allCompleted = updatedLessons.every((lesson) => lesson.isCompleted)
-  //
-  //   setCourse({
-  //     ...course,
-  //     lessons: updatedLessons,
-  //     completed: allCompleted,
-  //   })
-  // }
+  const handleLessonComplete = async () => {
+    if (!auth) return
+
+    setLessonCompletion((prev) => ({
+      ...prev,
+      [String(currentLesson.id)]: true,
+    }))
+    try {
+      await markLessonComplete(currentLesson.id)
+      toast.success('Lesson Completed!!')
+    } catch (err) {
+      console.error('Error marking lesson as complete:', err)
+    }
+  }
 
   const handleNavigation = (direction: 'prev' | 'next') => {
     setSelectedLessonIndex((prev) => {
@@ -69,7 +94,7 @@ const Lesson = ({ slug }: LessonProps) => {
   return (
     <div className="flex flex-col md:flex-row h-screen">
       {/* Mobile Navigation */}
-      <div className="md:hidden border-b p-4 flex items-center justify-between">
+      <div className="md:hidden border-b p-4 flex items-center justify-start gap-8">
         <Drawer open={isMobileNavOpen} onOpenChange={setIsMobileNavOpen}>
           <DrawerTrigger asChild>
             <Button variant="ghost" size="icon">
@@ -95,21 +120,12 @@ const Lesson = ({ slug }: LessonProps) => {
                         : 'hover:bg-muted/50'
                     }`}
                   >
-                    {/* <CardContent className="p-4"> */}
-                    {/*   <div className="flex items-center justify-between"> */}
-                    {/*     <span>{lesson.title}</span> */}
-                    {/*     {lesson.isCompleted && ( */}
-                    {/*       <CheckCircle className="h-4 w-4 text-green-500" /> */}
-                    {/*     )} */}
-                    {/*   </div> */}
-                    {/*   <Badge variant="outline" className="mt-2"> */}
-                    {/*     {lesson.content.type === 'video' ? 'Video' : 'Quiz'} */}
-                    {/*   </Badge> */}
-                    {/* </CardContent> */}
-
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between">
                         <span>{lesson.title}</span>
+                        {lesson.id && lessonCompletion[String(lesson.id)] && (
+                          <CheckCircle className="h-4 w-4 text-green-500" />
+                        )}
                       </div>
                       <Badge variant="outline" className="mt-2">
                         {lesson.type === 'video' ? 'Video' : 'Quiz'}
@@ -140,22 +156,14 @@ const Lesson = ({ slug }: LessonProps) => {
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <span>{lesson.title}</span>
+                  {lesson.id && lessonCompletion[String(lesson.id)] && (
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                  )}
                 </div>
                 <Badge variant="outline" className="mt-2">
                   {lesson.type === 'video' ? 'Video' : 'Quiz'}
                 </Badge>
               </CardContent>
-              {/* <CardContent className="p-4"> */}
-              {/*   <div className="flex items-center justify-between"> */}
-              {/*     <span>{lesson.title}</span> */}
-              {/*     {lesson.isCompleted && ( */}
-              {/*       <CheckCircle className="h-4 w-4 text-green-500" /> */}
-              {/*     )} */}
-              {/*   </div> */}
-              {/*   <Badge variant="outline" className="mt-2"> */}
-              {/*     {lesson.type === 'video' ? 'Video' : 'Quiz'} */}
-              {/*   </Badge> */}
-              {/* </CardContent> */}
             </Card>
           ))}
         </CardContent>
@@ -183,30 +191,14 @@ const Lesson = ({ slug }: LessonProps) => {
                 showJumpControls={true}
                 autoPlay="on-scroll"
                 className="w-full aspect-video"
+                logo={false}
               />
             </div>
           ) : (
             <Card>
               <CardContent className="p-4 md:p-6 space-y-4">
-                <h3 className="text-base md:text-lg font-semibold">
-                  {/* {currentLesson?.quiz?.question} */}
-                </h3>
-                <RadioGroup className="space-y-2">
-                  {/* {currentLesson?.quiz?.options.map((option, index) => ( */}
-                  {/*   <div */}
-                  {/*     key={option} */}
-                  {/*     className="flex items-center space-x-2 p-2" */}
-                  {/*   > */}
-                  {/*     <RadioGroupItem value={option} id={`option-${index}`} /> */}
-                  {/*     <Label */}
-                  {/*       htmlFor={`option-${index}`} */}
-                  {/*       className="text-sm md:text-base" */}
-                  {/*     > */}
-                  {/*       {option} */}
-                  {/*     </Label> */}
-                  {/*   </div> */}
-                  {/* ))} */}
-                </RadioGroup>
+                <h3 className="text-base md:text-lg font-semibold">Quiz</h3>
+                {/* Quiz options */}
               </CardContent>
             </Card>
           )}
@@ -231,20 +223,26 @@ const Lesson = ({ slug }: LessonProps) => {
               </Button>
             </div>
 
-            {/* <div className="flex flex-col md:flex-row items-center gap-2"> */}
-            {/*   {course.completed && ( */}
-            {/*     <Badge variant="secondary" className="md:mr-2 text-center"> */}
-            {/*       Course Completed */}
-            {/*     </Badge> */}
-            {/*   )} */}
-            {/*   <Button */}
-            {/*     variant={currentLesson.isCompleted ? 'default' : 'secondary'} */}
-            {/*     className="w-full md:w-auto" */}
-            {/*     onClick={handleLessonComplete} */}
-            {/*   > */}
-            {/*     {currentLesson.isCompleted ? 'Completed' : 'Mark Complete'} */}
-            {/*   </Button> */}
-            {/* </div> */}
+            <div className="flex flex-col md:flex-row items-center gap-2">
+              {lessonCompletion[String(currentLesson.id)] && (
+                <Badge variant="secondary" className="md:mr-2 text-center">
+                  Lesson Completed
+                </Badge>
+              )}
+              <Button
+                variant={
+                  lessonCompletion[String(currentLesson.id)]
+                    ? 'default'
+                    : 'secondary'
+                }
+                className="w-full md:w-auto"
+                onClick={handleLessonComplete}
+              >
+                {lessonCompletion[String(currentLesson.id)]
+                  ? 'Completed'
+                  : 'Mark Complete'}
+              </Button>
+            </div>
           </div>
         </div>
       </div>
