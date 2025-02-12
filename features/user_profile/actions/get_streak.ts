@@ -21,34 +21,60 @@ export const getUserStreak = async () => {
   })
   if (!user) return 0
 
-  const lastXPDate = user.lastXpUpdate
-    ? new Date(user.lastXpUpdate)
-    : new Date(0)
-  const today = new Date()
-  const yesterday = new Date()
-  yesterday.setDate(today.getDate() - 1)
+  // Get the current time in UTC (set hours/minutes/seconds to zero)
+  const now = new Date()
+  const nowUtc = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())
+  )
 
-  const currentStreak = user.streak ?? 0
-
-  // If lastXPUpdate is today, return the current streak
-  if (lastXPDate.toDateString() === today.toDateString()) {
-    return currentStreak
+  // Convert the stored lastXpUpdate into a UTC date (or use epoch if missing)
+  let lastXpUtc: Date
+  if (user.lastXpUpdate) {
+    const lastUpdate = new Date(user.lastXpUpdate)
+    lastXpUtc = new Date(
+      Date.UTC(
+        lastUpdate.getUTCFullYear(),
+        lastUpdate.getUTCMonth(),
+        lastUpdate.getUTCDate()
+      )
+    )
+  } else {
+    lastXpUtc = new Date(0)
   }
 
-  // If lastXPUpdate is yesterday, increment streak
-  if (lastXPDate.toDateString() === yesterday.toDateString()) {
+  // Calculate the difference in days between now and the last XP update (using UTC dates)
+  const diffDays =
+    (nowUtc.getTime() - lastXpUtc.getTime()) / (1000 * 60 * 60 * 24)
+  const currentStreak = user.streak ?? 0
+  let newStreak: number
+
+  // If the XP was already received today:
+  if (diffDays === 0) {
+    newStreak = currentStreak === 0 ? 1 : currentStreak
+    if (currentStreak === 0) {
+      await db
+        .update(UsersTable)
+        .set({ streak: newStreak, lastXpUpdate: nowUtc })
+        .where(eq(UsersTable.clerkUserId, user_data.id))
+    }
+    return newStreak
+  }
+
+  // If the last XP update was exactly yesterday:
+  if (diffDays === 1) {
+    newStreak = currentStreak + 1
     await db
       .update(UsersTable)
-      .set({ streak: currentStreak + 1, lastXpUpdate: today })
+      .set({ streak: newStreak, lastXpUpdate: nowUtc })
       .where(eq(UsersTable.clerkUserId, user_data.id))
-    return currentStreak + 1
+    return newStreak
   }
 
-  // Otherwise, reset streak
+  // If the gap is more than 1 day, reset the streak (start a new streak at 1)
+  newStreak = 1
   await db
     .update(UsersTable)
-    .set({ streak: 0, lastXpUpdate: today })
+    .set({ streak: newStreak, lastXpUpdate: nowUtc })
     .where(eq(UsersTable.clerkUserId, user_data.id))
-
-  return 0
+  return newStreak
 }
