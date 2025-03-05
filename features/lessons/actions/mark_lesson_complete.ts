@@ -2,6 +2,7 @@
 
 import { db } from '@/drizzle/db'
 import { UserLessonsTable, UsersTable } from '@/drizzle/schema'
+import { setQuest } from '@/features/quests/actions/setQuest'
 import { current_user } from '@/lib/server-utils'
 import { getUserId } from '@/server/db/users'
 import { and, eq } from 'drizzle-orm'
@@ -52,12 +53,10 @@ export async function markLessonComplete(lessonId: string | null) {
         .where(eq(UsersTable.id, userId))
     }
 
-    //TODO: update quests
+    const questLog = await setQuest('lessons_completed', 1)
+    const xpLog = await setQuest('xp_earned', 25)
 
-    console.log(
-      `Lesson ${lessonId} marked as complete for user ${user.id}, XP updated`
-    )
-
+    console.log(questLog, xpLog)
     console.log(`Lesson ${lessonId} marked as complete for user ${user.id}`)
   } catch (error) {
     console.error('Error updating lesson completion:', error)

@@ -24,12 +24,30 @@ interface LessonProps {
   auth: boolean
 }
 
+type Question = {
+  id: string | null
+  text: string | null
+  type: 'mcq' | 'truefalse' | null
+  points: number | null
+  answers: Answer[] // Added answers field
+}
+
+type Answer = {
+  id: string | null
+  text: string | null
+  isCorrect: boolean | null
+}
+
 const Lesson = ({ slug, auth }: LessonProps) => {
   const [selectedLessonIndex, setSelectedLessonIndex] = useState(0)
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
   const [lessonCompletion, setLessonCompletion] = useState<
     Record<string, boolean>
   >({})
+  const [userAnswers, setUserAnswers] = useState<
+    Record<string, string | undefined>
+  >({})
+  const [isQuizSubmitted, setIsQuizSubmitted] = useState(false)
 
   const {
     data: course,
@@ -89,6 +107,54 @@ const Lesson = ({ slug, auth }: LessonProps) => {
         return prev + 1
       return prev
     })
+  }
+
+  // Merging questions by ID
+  const mergeQuestions = (questions: Question[]) => {
+    const mergedQuestions: Record<string, Question> = {}
+
+    for (const question of questions) {
+      // Ensure question.id is not null
+      if (question.id) {
+        if (!mergedQuestions[question.id]) {
+          mergedQuestions[question.id] = { ...question, answers: [] }
+        }
+        for (const answer of question.answers) {
+          // Ensure answer.id is not null before using it
+          if (answer.id) {
+            mergedQuestions[question.id].answers.push(answer)
+          }
+        }
+      }
+    }
+
+    return Object.values(mergedQuestions)
+  }
+
+  const mergedQuestions = mergeQuestions(currentLesson.questions || [])
+  // Check answers and display result
+  const handleSubmitQuiz = () => {
+    setIsQuizSubmitted(true)
+    const correctAnswers = mergedQuestions.map((question: Question) => {
+      const userAnswer = userAnswers[question.id || '']
+      const correct =
+        question.answers.find((a: Answer) => a.isCorrect)?.id === userAnswer
+      return { questionId: question.id, correct }
+    })
+    // Handle feedback after quiz submission
+    const totalCorrect = correctAnswers.filter((ans) => ans.correct).length
+    toast.info(
+      `You got ${totalCorrect} out of ${mergedQuestions.length} correct!`
+    )
+  }
+
+  const handleAnswerChange = (questionId: string | null, answerId: string) => {
+    if (questionId) {
+      setUserAnswers((prevAnswers: Record<string, string | undefined>) => ({
+        ...prevAnswers,
+        [questionId]: answerId,
+      }))
+    }
   }
 
   return (
@@ -181,7 +247,7 @@ const Lesson = ({ slug, auth }: LessonProps) => {
               <CldVideoPlayer
                 width="1920"
                 height="1080"
-                src="samples/sea-turtle"
+                src={currentLesson.url}
                 colors={{
                   base: '#4a5568',
                   accent: '#3182ce',
@@ -198,7 +264,58 @@ const Lesson = ({ slug, auth }: LessonProps) => {
             <Card>
               <CardContent className="p-4 md:p-6 space-y-4">
                 <h3 className="text-base md:text-lg font-semibold">Quiz</h3>
-                {/* Quiz options */}
+                <h4 className="font-medium text-sm">{currentLesson.title}</h4>
+                {/* <p>Time Limit: {currentLesson.timeLimit} minutes</p> */}
+                {/* <p>Passing Score: {currentLesson.passingScore}%</p> */}
+
+                {mergedQuestions.map((question) => {
+                  if (question.id) {
+                    return (
+                      <div key={question.id} className="mt-4 space-y-2">
+                        <p className="font-semibold">{question.text}</p>
+                        <ul>
+                          {question.answers?.map((answer) => {
+                            if (answer.id && question.id) {
+                              return (
+                                <li
+                                  key={answer.id}
+                                  className="flex items-center space-x-2"
+                                >
+                                  <input
+                                    type="radio"
+                                    name={`question-${question.id}`}
+                                    onChange={() => {
+                                      if (answer.id) {
+                                        handleAnswerChange(
+                                          question.id,
+                                          answer.id
+                                        )
+                                      }
+                                    }}
+                                    checked={
+                                      userAnswers[question.id] === answer.id
+                                    }
+                                  />
+                                  <span>{answer.text}</span>
+                                </li>
+                              )
+                            }
+                            return null // If answer.id is null or undefined, skip this answer
+                          })}
+                        </ul>
+                      </div>
+                    )
+                  }
+                  return null // If question.id is null or undefined, skip this question
+                })}
+
+                <Button
+                  className="mt-4 w-full"
+                  onClick={handleSubmitQuiz}
+                  disabled={isQuizSubmitted}
+                >
+                  {isQuizSubmitted ? 'Submitted' : 'Submit Quiz'}
+                </Button>
               </CardContent>
             </Card>
           )}

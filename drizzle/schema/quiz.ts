@@ -13,9 +13,9 @@ import { createdAt, id, updatedAt } from '../schemaHelpers'
 export const QuizTable = pgTable('quiz', {
   id,
   title: varchar('title', { length: 100 }).notNull(),
-  lesson: uuid('lesson')
-    .notNull()
-    .references(() => LessonsTable.id, { onDelete: 'cascade' }),
+  lesson: uuid('lesson').references(() => LessonsTable.id, {
+    onDelete: 'cascade',
+  }),
   timeLimit: integer('time_limit').default(60),
   passingScore: integer('passing_score').default(60),
   maxAttempts: integer('max_attempts').default(1),

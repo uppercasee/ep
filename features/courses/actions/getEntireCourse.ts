@@ -2,10 +2,12 @@
 
 import { db } from '@/drizzle/db'
 import {
+  AnswerTable,
   ContentTable,
   CoursesTable,
   LessonsTable,
-  UserLessonsTable,
+  QuestionTable,
+  QuizTable,
 } from '@/drizzle/schema'
 import { and, eq } from 'drizzle-orm'
 
@@ -16,6 +18,24 @@ type Lesson = {
   position: number | null
   type: 'quiz' | 'video' | null
   url: string
+  timeLimit?: number | null
+  passingScore?: number | null
+  maxAttempts?: number | null
+  questions?: Question[] // Add questions for each quiz
+}
+
+type Question = {
+  id: string | null
+  text: string | null
+  type: 'mcq' | 'truefalse' | null
+  points: number | null
+  answers: Answer[] // Added answers field
+}
+
+type Answer = {
+  id: string | null
+  text: string | null
+  isCorrect: boolean | null
 }
 
 type Course = {
@@ -45,10 +65,25 @@ export async function getEntireCourse(courseId: string) {
         contentUrl: ContentTable.url,
         contentType: ContentTable.type,
         contentCreatedAt: ContentTable.createdAt,
+        quizId: QuizTable.id, // Fetch quizId
+        quizTitle: QuizTable.title, // Fetch quiz title
+        quizTimeLimit: QuizTable.timeLimit, // Fetch quiz timeLimit
+        quizPassingScore: QuizTable.passingScore, // Fetch passingScore
+        quizMaxAttempts: QuizTable.maxAttempts, // Fetch maxAttempts
+        questionId: QuestionTable.id, // Fetch questionId
+        questionText: QuestionTable.text, // Fetch question text
+        questionType: QuestionTable.type, // Fetch question type
+        questionPoints: QuestionTable.points, // Fetch question points
+        answerId: AnswerTable.id, // Fetch answerId
+        answerText: AnswerTable.text, // Fetch answer text
+        answerIsCorrect: AnswerTable.isCorrect, // Fetch answer correctness
       })
       .from(CoursesTable)
       .leftJoin(LessonsTable, eq(LessonsTable.courseId, CoursesTable.id))
       .leftJoin(ContentTable, and(eq(ContentTable.lessonId, LessonsTable.id)))
+      .leftJoin(QuizTable, eq(ContentTable.quizId, QuizTable.id))
+      .leftJoin(QuestionTable, eq(QuestionTable.quizId, QuizTable.id)) // Join Questions based on quizId
+      .leftJoin(AnswerTable, eq(AnswerTable.questionId, QuestionTable.id)) // Join Answers based on questionId
       .where(eq(CoursesTable.id, courseId))
       .orderBy(LessonsTable.position)
 
@@ -76,7 +111,34 @@ export async function getEntireCourse(courseId: string) {
           position: row.lessonPosition ?? null,
           type: row.contentType ?? null,
           url: row.contentUrl ?? '',
+          timeLimit: row.quizTimeLimit ?? null,
+          passingScore: row.quizPassingScore ?? null,
+          maxAttempts: row.quizMaxAttempts ?? null,
+          questions: [],
         })
+      }
+
+      if (row.questionId) {
+        const existingQuiz = courseData.lessons.find(
+          (lesson) => lesson.id === row.lessonId
+        )
+
+        if (existingQuiz) {
+          // Add question to the corresponding quiz
+          existingQuiz.questions?.push({
+            id: row.questionId,
+            text: row.questionText ?? null,
+            type: row.questionType ?? null,
+            points: row.questionPoints ?? null,
+            answers: [
+              {
+                id: row.answerId,
+                text: row.answerText ?? null,
+                isCorrect: row.answerIsCorrect ?? false,
+              },
+            ],
+          })
+        }
       }
     }
 

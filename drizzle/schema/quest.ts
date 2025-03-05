@@ -1,12 +1,9 @@
-import { relations, sql } from 'drizzle-orm'
 import {
-  check,
-  index,
+  boolean,
   integer,
   pgEnum,
   pgTable,
-  primaryKey,
-  text,
+  timestamp,
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
@@ -15,59 +12,23 @@ import { UsersTable } from './user'
 
 export const QuestStatusEnum = pgEnum('quest_status', ['completed', 'pending'])
 
-export const QuestTable = pgTable(
-  'quest',
-  {
-    id,
-    title: varchar('title', { length: 255 }).notNull(),
-    description: text('description').notNull(),
-    points: integer('points').notNull(),
-    createdAt,
-    updatedAt,
-  },
-  (table) => [
-    {
-      checkConstraint: check('points_check', sql`${table.points} > 0`),
-    },
-  ]
-)
+export const questTypeEnum = pgEnum('quest_type', [
+  'lessons_completed',
+  'quiz_answers',
+  'xp_earned',
+])
 
-export const UserQuestsTable = pgTable(
-  'user_quests',
-  {
-    userId: uuid('user_id')
-      .notNull()
-      .references(() => UsersTable.id, { onDelete: 'cascade' }),
-    questId: uuid('quest_id')
-      .notNull()
-      .references(() => QuestTable.id, { onDelete: 'cascade' }),
-    status: QuestStatusEnum('status').default('pending'),
-    createdAt,
-    updatedAt,
-  },
-  (table) => [
-    primaryKey(table.userId, table.questId),
-    {
-      userIdIndex: index('user_quests.user_id_index').on(table.userId),
-      questIdIndex: index('user_quests.quest_id_index').on(table.questId),
-    },
-  ]
-)
-
-export const QuestRelationships = relations(QuestTable, ({ many }) => ({
-  userQuests: many(UserQuestsTable),
-}))
-
-export const UserQuestsRelationships = relations(
-  UserQuestsTable,
-  ({ one }) => ({
-    user: one(UsersTable, {
-      fields: [UserQuestsTable.userId],
-      references: [UsersTable.id],
-    }),
-    quest: one(QuestTable, {
-      fields: [UserQuestsTable.questId],
-      references: [QuestTable.id],
-    }),
-  })
-)
+export const QuestTable = pgTable('quest', {
+  id,
+  title: varchar('title', { length: 255 }).notNull(),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => UsersTable.id, { onDelete: 'cascade' }),
+  questType: questTypeEnum('type').notNull(),
+  target: integer('target').notNull(),
+  progress: integer('progress').default(0),
+  claimed: boolean('claimed').default(false),
+  expiresAt: timestamp('expires_at').notNull(),
+  createdAt,
+  updatedAt,
+})

@@ -3,25 +3,29 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
+import { claimQuest } from '@/features/quests/actions/claimQuest'
+import { fetchDailyQuests } from '@/features/quests/actions/getQuests'
+import { useQuery } from '@tanstack/react-query'
 import { CheckCircle } from 'lucide-react'
-import React, { useState } from 'react'
-
-const initialQuests = [
-  { id: 1, title: 'Complete 3 lessons', progress: 67, claimed: false },
-  { id: 2, title: 'Answer 5 quiz questions', progress: 40, claimed: false },
-  { id: 3, title: 'Earn 100 XP', progress: 100, claimed: false },
-]
 
 export default function DailyQuestWidget() {
-  const [quests, setQuests] = useState(initialQuests)
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ['dailyQuests'],
+    queryFn: fetchDailyQuests,
+  })
 
-  const handleClaim = (id: number) => {
-    setQuests((prevQuests) =>
-      prevQuests.map((quest) =>
-        quest.id === id ? { ...quest, claimed: true } : quest
-      )
-    )
+  const quests = data || []
+
+  console.log(quests)
+
+  const handleClaim = async (id: string) => {
+    console.log(id)
+    await claimQuest(id)
+    refetch()
   }
+
+  if (isLoading) return <p>Loading quests...</p>
+  if (error) return <p>Error loading quests</p>
 
   return (
     <Card className="w-full max-w-md mx-auto p-4 shadow-lg border border-gray-200">
@@ -32,28 +36,47 @@ export default function DailyQuestWidget() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {quests.map((quest) => (
-            <div key={quest.id} className="flex items-center justify-between">
-              <div className="w-full">
-                <p className="font-medium text-sm">{quest.title}</p>
-                <Progress value={quest.progress} className="mt-2" />
-              </div>
-              {quest.progress === 100 && quest.claimed ? (
-                <Button variant="ghost" className="text-green-500" disabled>
-                  <CheckCircle className="mr-2 h-4 w-4" /> Done
-                </Button>
-              ) : (
-                <Button
-                  variant="secondary"
-                  className="ml-4"
-                  onClick={() => handleClaim(quest.id)}
-                  disabled={quest.progress < 100 || quest.claimed}
+          {quests.map(
+            (quest) =>
+              quest ? (
+                <div
+                  key={quest.id}
+                  className="flex items-center justify-between"
                 >
-                  Claim
-                </Button>
-              )}
-            </div>
-          ))}
+                  <div className="w-full">
+                    <p className="font-medium text-sm">
+                      {quest.title}
+                      <br />({quest.progress ?? 0} / {quest.target})
+                    </p>
+
+                    <Progress
+                      value={Math.min(
+                        ((quest.progress ?? 0) / quest.target) * 100,
+                        100
+                      )}
+                      className="mt-2"
+                    />
+                  </div>
+                  {quest.claimed ? (
+                    <Button variant="ghost" className="text-green-500" disabled>
+                      <CheckCircle className="mr-2 h-4 w-4" /> Done
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="secondary"
+                      className="ml-4 flex items-center justify-center"
+                      onClick={() => handleClaim(quest.id)}
+                      disabled={
+                        (quest.progress ?? 0) < (quest.target ?? 1) ||
+                        !!quest.claimed
+                      }
+                    >
+                      Claim
+                    </Button>
+                  )}
+                </div>
+              ) : null // If quest is null or undefined, don't render anything
+          )}
         </div>
       </CardContent>
     </Card>

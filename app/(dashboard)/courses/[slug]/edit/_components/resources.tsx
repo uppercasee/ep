@@ -28,6 +28,9 @@ interface Resource {
   quizId?: string | null
   createdAt?: Date
   updatedAt?: Date
+  timeLimit?: number | null
+  passingScore?: number | null
+  maxAttempts?: number | null
 }
 
 interface ResourceProps {
@@ -37,7 +40,7 @@ interface ResourceProps {
 const Resource = ({ courseId }: ResourceProps) => {
   const [resources, setResources] = useState<Resource[]>([])
 
-  const { data: fetchedResources = [], refetch } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['resources', courseId],
     queryFn: () => getContent(courseId),
     onSuccess: (data) => setResources(data),
@@ -120,7 +123,17 @@ const Resource = ({ courseId }: ResourceProps) => {
                   onDelete={deleteResource}
                 />
               ) : (
-                <span>TODO: QUIZZ</span>
+                <QuizResource
+                  courseId={courseId}
+                  resource={{
+                    ...resource,
+                    timeLimit: resource.timeLimit ?? 60,
+                    passingScore: resource.passingScore ?? 60,
+                    maxAttempts: resource.maxAttempts ?? 1,
+                  }}
+                  onEditChange={handleEditChange}
+                  onDelete={deleteResource}
+                />
               )}
             </AccordionContent>
           </AccordionItem>

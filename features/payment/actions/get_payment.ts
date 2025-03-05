@@ -18,6 +18,7 @@ export async function getCoursePaymentDetail(id: string) {
     .from(PaymentTable)
     .innerJoin(CoursesTable, eq(CoursesTable.id, PaymentTable.courseId))
     .innerJoin(UsersTable, eq(UsersTable.id, CoursesTable.createdBy))
+    .where(eq(PaymentTable.id, id))
     .limit(1)
 
   console.log(result)
