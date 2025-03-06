@@ -1,6 +1,6 @@
 import { db } from '@/drizzle/db'
 import { QuestTable } from '@/drizzle/schema'
-import { and, eq } from 'drizzle-orm'
+import { and, desc, eq } from 'drizzle-orm'
 
 export async function setQuest(
   questType: 'lessons_completed' | 'quiz_answers' | 'xp_earned',
@@ -12,7 +12,7 @@ export async function setQuest(
     .where(
       and(eq(QuestTable.questType, questType), eq(QuestTable.claimed, false))
     )
-    .orderBy(QuestTable.createdAt)
+    .orderBy(desc(QuestTable.createdAt)) // desc: to update the "todays" quest..
     .limit(1)
     .execute()
 
@@ -31,5 +31,5 @@ export async function setQuest(
     .where(eq(QuestTable.id, questToUpdate.id))
     .execute()
 
-  return `Quest progress for ${questType} set to ${value}`
+  return `${questToUpdate.id}: Quest progress for ${questType} set to ${value}`
 }
