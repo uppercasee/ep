@@ -100,12 +100,8 @@
           "name": "user_badges_user_id_users_id_fk",
           "tableFrom": "user_badges",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -113,12 +109,8 @@
           "name": "user_badges_badge_id_badges_id_fk",
           "tableFrom": "user_badges",
           "tableTo": "badges",
-          "columnsFrom": [
-            "badge_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["badge_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -199,12 +191,8 @@
           "name": "content_course_id_courses_id_fk",
           "tableFrom": "content",
           "tableTo": "courses",
-          "columnsFrom": [
-            "course_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["course_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -212,12 +200,8 @@
           "name": "content_lesson_id_lessons_id_fk",
           "tableFrom": "content",
           "tableTo": "lessons",
-          "columnsFrom": [
-            "lesson_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["lesson_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -225,12 +209,8 @@
           "name": "content_quiz_id_quiz_id_fk",
           "tableFrom": "content",
           "tableTo": "quiz",
-          "columnsFrom": [
-            "quiz_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["quiz_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -322,12 +302,8 @@
           "name": "courses_created_by_users_id_fk",
           "tableFrom": "courses",
           "tableTo": "users",
-          "columnsFrom": [
-            "created_by"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["created_by"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -382,12 +358,8 @@
           "name": "user_courses_user_id_users_id_fk",
           "tableFrom": "user_courses",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -395,12 +367,8 @@
           "name": "user_courses_course_id_courses_id_fk",
           "tableFrom": "user_courses",
           "tableTo": "courses",
-          "columnsFrom": [
-            "course_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["course_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -408,10 +376,7 @@
       "compositePrimaryKeys": {
         "user_courses_user_id_course_id_pk": {
           "name": "user_courses_user_id_course_id_pk",
-          "columns": [
-            "user_id",
-            "course_id"
-          ]
+          "columns": ["user_id", "course_id"]
         }
       },
       "uniqueConstraints": {},
@@ -521,12 +486,8 @@
           "name": "replies_post_id_posts_id_fk",
           "tableFrom": "replies",
           "tableTo": "posts",
-          "columnsFrom": [
-            "post_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["post_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -560,12 +521,8 @@
           "name": "course_lessons_course_id_courses_id_fk",
           "tableFrom": "course_lessons",
           "tableTo": "courses",
-          "columnsFrom": [
-            "course_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["course_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -573,12 +530,8 @@
           "name": "course_lessons_lesson_id_lessons_id_fk",
           "tableFrom": "course_lessons",
           "tableTo": "lessons",
-          "columnsFrom": [
-            "lesson_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["lesson_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -653,12 +606,8 @@
           "name": "lessons_course_id_courses_id_fk",
           "tableFrom": "lessons",
           "tableTo": "courses",
-          "columnsFrom": [
-            "course_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["course_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -712,10 +661,7 @@
       "compositePrimaryKeys": {
         "user_lessons_user_id_lesson_id_pk": {
           "name": "user_lessons_user_id_lesson_id_pk",
-          "columns": [
-            "user_id",
-            "lesson_id"
-          ]
+          "columns": ["user_id", "lesson_id"]
         }
       },
       "uniqueConstraints": {},
@@ -801,12 +747,8 @@
           "name": "payment_user_id_users_id_fk",
           "tableFrom": "payment",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -814,12 +756,8 @@
           "name": "payment_course_id_courses_id_fk",
           "tableFrom": "payment",
           "tableTo": "courses",
-          "columnsFrom": [
-            "course_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["course_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -907,12 +845,8 @@
           "name": "quest_user_id_users_id_fk",
           "tableFrom": "quest",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -980,12 +914,8 @@
           "name": "answer_question_id_question_id_fk",
           "tableFrom": "answer",
           "tableTo": "question",
-          "columnsFrom": [
-            "question_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["question_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1067,12 +997,8 @@
           "name": "question_quiz_id_quiz_id_fk",
           "tableFrom": "question",
           "tableTo": "quiz",
-          "columnsFrom": [
-            "quiz_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["quiz_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1148,12 +1074,8 @@
           "name": "quiz_lesson_lessons_id_fk",
           "tableFrom": "quiz",
           "tableTo": "lessons",
-          "columnsFrom": [
-            "lesson"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["lesson"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1312,9 +1234,7 @@
         "users_clerk_user_id_unique": {
           "name": "users_clerk_user_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "clerk_user_id"
-          ]
+          "columns": ["clerk_user_id"]
         }
       },
       "policies": {},
@@ -1326,80 +1246,47 @@
     "public.content_type": {
       "name": "content_type",
       "schema": "public",
-      "values": [
-        "quiz",
-        "video"
-      ]
+      "values": ["quiz", "video"]
     },
     "public.tier": {
       "name": "tier",
       "schema": "public",
-      "values": [
-        "free",
-        "paid"
-      ]
+      "values": ["free", "paid"]
     },
     "public.payment_method": {
       "name": "payment_method",
       "schema": "public",
-      "values": [
-        "esewa",
-        "khalti",
-        "ime_pay",
-        "bank_transfer",
-        "stripe"
-      ]
+      "values": ["esewa", "khalti", "ime_pay", "bank_transfer", "stripe"]
     },
     "public.payment_status": {
       "name": "payment_status",
       "schema": "public",
-      "values": [
-        "success",
-        "pending",
-        "failed"
-      ]
+      "values": ["success", "pending", "failed"]
     },
     "public.quest_status": {
       "name": "quest_status",
       "schema": "public",
-      "values": [
-        "completed",
-        "pending"
-      ]
+      "values": ["completed", "pending"]
     },
     "public.quest_type": {
       "name": "quest_type",
       "schema": "public",
-      "values": [
-        "lessons_completed",
-        "quiz_answers",
-        "xp_earned"
-      ]
+      "values": ["lessons_completed", "quiz_answers", "xp_earned"]
     },
     "public.question_type": {
       "name": "question_type",
       "schema": "public",
-      "values": [
-        "mcq",
-        "truefalse"
-      ]
+      "values": ["mcq", "truefalse"]
     },
     "public.role": {
       "name": "role",
       "schema": "public",
-      "values": [
-        "student",
-        "teacher"
-      ]
+      "values": ["student", "teacher"]
     },
     "public.status": {
       "name": "status",
       "schema": "public",
-      "values": [
-        "active",
-        "inactive",
-        "banned"
-      ]
+      "values": ["active", "inactive", "banned"]
     }
   },
   "schemas": {},
