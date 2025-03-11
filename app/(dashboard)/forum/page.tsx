@@ -18,47 +18,77 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 
+interface Post {
+  id: string
+  title: string
+  content: string
+  author: string
+  replies: Reply[]
+}
+
+interface Reply {
+  id: string
+  content: string
+  author: string
+}
+
 export default function Forum() {
   const queryClient = useQueryClient()
 
   // Fetch posts
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ['posts'],
     queryFn: getPosts,
   })
 
-  const posts =
-    data?.map((item) => ({
-      id: item.posts.id,
-      title: item.posts.title,
-      content: item.posts.content,
-      author: item.posts.author,
-      createdAt: item.posts.createdAt,
-      replies: item.replies ? [item.replies] : [],
-    })) || []
+  // Ensure unique posts and replies
+  const postsMap = new Map<string, Post>()
+
+  if (data) {
+    for (const item of data) {
+      const postId = item.posts.id
+
+      if (!postsMap.has(postId)) {
+        postsMap.set(postId, {
+          id: postId,
+          title: item.posts.title,
+          content: item.posts.content,
+          author: item.posts.author,
+          replies: [],
+        })
+      }
+
+      // Use a Set to filter unique replies
+      const post = postsMap.get(postId)
+      if (post && item.replies) {
+        const uniqueReplies = new Map<string, Reply>(
+          post.replies.map((r: Reply) => [r.id, r])
+        )
+        uniqueReplies.set(item.replies.id, item.replies) // Add only unique replies
+        post.replies = Array.from(uniqueReplies.values())
+      }
+    }
+  }
+
+  const posts = Array.from(postsMap.values())
+  console.log(posts)
 
   // Mutation for adding a post
   const addPostMutation = useMutation({
     mutationFn: ({ title, content }: { title: string; content: string }) =>
       createPost(title, content),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] }) // Refetch posts
-    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] }),
   })
 
   // Mutation for adding a reply
   const addReplyMutation = useMutation({
     mutationFn: ({ postId, content }: { postId: string; content: string }) =>
-      createReply(content, postId.toString()),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] }) // Refetch posts
-    },
+      createReply(content, postId),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] }),
   })
 
   const [newPost, setNewPost] = useState({ title: '', content: '' })
   const [replies, setReplies] = useState<{ [key: string]: string }>({})
-
-  if (isLoading) return <p>Loading posts...</p>
 
   return (
     <div className="p-6 space-y-6">
@@ -90,7 +120,7 @@ export default function Forum() {
 
       {/* Posts List */}
       <div className="space-y-4">
-        {posts?.map((post) => (
+        {posts.map((post: Post) => (
           <Card key={post.id} className="p-4">
             <h4 className="font-semibold text-lg">{post.title}</h4>
             <p>{post.content}</p>
@@ -110,9 +140,10 @@ export default function Forum() {
               <SheetContent className="w-[550px] p-4 space-y-4">
                 <h5 className="text-lg font-semibold">Replies</h5>
 
-                {/* List all replies */}
-                <div className="space-y-2">
-                  {post.replies.map((reply) => (
+                {/* List all unique replies */}
+                <div className="space-y-2 max-h-96 overflow-y-auto">
+                  {/* Set max height and scroll */}
+                  {post.replies.map((reply: Reply) => (
                     <Card key={reply.id} className="p-4">
                       <p>{reply.content}</p>
                       <p className="text-sm text-gray-500">By {reply.author}</p>

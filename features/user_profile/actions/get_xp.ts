@@ -16,5 +16,8 @@ export const getXp = async () => {
     .where(eq(UsersTable.clerkUserId, user.id))
     .limit(1)
 
-  return user_data[0].xp
+  const xp = user_data[0]?.xp ?? 0
+  console.log(xp)
+
+  return xp
 }
