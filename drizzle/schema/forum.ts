@@ -1,4 +1,4 @@
-import { integer, pgTable, text, uuid, varchar } from 'drizzle-orm/pg-core'
+import { pgTable, text, uuid, varchar } from 'drizzle-orm/pg-core'
 import { createdAt, id, updatedAt } from '../schemaHelpers'
 
 // Post Table
@@ -18,7 +18,7 @@ export const ReplyTable = pgTable('replies', {
   author: varchar('author', { length: 100 }).notNull(),
   postId: uuid('post_id')
     .notNull()
-    .references(() => PostTable.id),
+    .references(() => PostTable.id, { onDelete: 'cascade' }),
   createdAt,
   updatedAt,
 })

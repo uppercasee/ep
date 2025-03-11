@@ -10,96 +10,55 @@ import {
 } from '@/components/ui/sheet'
 import { Textarea } from '@/components/ui/textarea'
 import { VisuallyHidden } from '@/components/ui/visually-hidden'
+import {
+  createPost,
+  createReply,
+  getPosts,
+} from '@/features/forum/actions/forum'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 
-// Type for the Post and Reply objects
-type Reply = {
-  id: number
-  content: string
-  author: string
-}
-
-type Post = {
-  id: number
-  title: string
-  content: string
-  author: string
-  replies: Reply[]
-}
-
-const initialPosts: Post[] = [
-  {
-    id: 1,
-    title: 'Best way to learn JavaScript?',
-    content:
-      'I am new to JavaScript and looking for recommendations on learning resources.',
-    author: 'Alice Johnson',
-    replies: [
-      {
-        id: 1,
-        content: 'Start with the basics, like variables and loops!',
-        author: 'Bob',
-      },
-      {
-        id: 2,
-        content: 'Check out freeCodeCamp for great tutorials!',
-        author: 'Charlie',
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: 'How to improve problem-solving skills?',
-    content:
-      'What are some good ways to practice and enhance problem-solving skills?',
-    author: 'John Doe',
-    replies: [
-      {
-        id: 3,
-        content: 'Try solving coding challenges on Codewars!',
-        author: 'Alice',
-      },
-      {
-        id: 4,
-        content: 'Practice daily and break problems into smaller steps.',
-        author: 'Eve',
-      },
-    ],
-  },
-]
-
 export default function Forum() {
-  const [posts, setPosts] = useState<Post[]>(initialPosts)
+  const queryClient = useQueryClient()
+
+  // Fetch posts
+  const { data, isLoading } = useQuery({
+    queryKey: ['posts'],
+    queryFn: getPosts,
+  })
+
+  const posts =
+    data?.map((item) => ({
+      id: item.posts.id,
+      title: item.posts.title,
+      content: item.posts.content,
+      author: item.posts.author,
+      createdAt: item.posts.createdAt,
+      replies: item.replies ? [item.replies] : [],
+    })) || []
+
+  // Mutation for adding a post
+  const addPostMutation = useMutation({
+    mutationFn: ({ title, content }: { title: string; content: string }) =>
+      createPost(title, content),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] }) // Refetch posts
+    },
+  })
+
+  // Mutation for adding a reply
+  const addReplyMutation = useMutation({
+    mutationFn: ({ postId, content }: { postId: string; content: string }) =>
+      createReply(content, postId.toString()),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] }) // Refetch posts
+    },
+  })
+
   const [newPost, setNewPost] = useState({ title: '', content: '' })
-  const [replies, setReplies] = useState<{ [key: number]: string }>({})
+  const [replies, setReplies] = useState<{ [key: string]: string }>({})
 
-  const addPost = () => {
-    if (newPost.title && newPost.content) {
-      setPosts([
-        { id: posts.length + 1, ...newPost, author: 'You', replies: [] },
-        ...posts, // Add the new post at the top
-      ])
-      setNewPost({ title: '', content: '' })
-    }
-  }
-
-  // Type the function parameters postId (number) and replyContent (string)
-  const addReply = (postId: number, replyContent: string) => {
-    if (replyContent) {
-      const newReply: Reply = {
-        id: Date.now(),
-        content: replyContent,
-        author: 'You',
-      }
-      const updatedPosts = posts.map((post) =>
-        post.id === postId
-          ? { ...post, replies: [...post.replies, newReply] }
-          : post
-      )
-      setPosts(updatedPosts)
-      setReplies({ ...replies, [postId]: '' }) // Clear the reply input after posting
-    }
-  }
+  if (isLoading) return <p>Loading posts...</p>
 
   return (
     <div className="p-6 space-y-6">
@@ -118,12 +77,20 @@ export default function Forum() {
           value={newPost.content}
           onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
         />
-        <Button onClick={addPost}>Post</Button>
+        <Button
+          onClick={() =>
+            addPostMutation.mutate(newPost, {
+              onSuccess: () => setNewPost({ title: '', content: '' }),
+            })
+          }
+        >
+          Post
+        </Button>
       </Card>
 
       {/* Posts List */}
       <div className="space-y-4">
-        {posts.map((post) => (
+        {posts?.map((post) => (
           <Card key={post.id} className="p-4">
             <h4 className="font-semibold text-lg">{post.title}</h4>
             <p>{post.content}</p>
@@ -161,7 +128,17 @@ export default function Forum() {
                     setReplies({ ...replies, [post.id]: e.target.value })
                   }
                 />
-                <Button onClick={() => addReply(post.id, replies[post.id])}>
+                <Button
+                  onClick={() =>
+                    addReplyMutation.mutate(
+                      { postId: post.id, content: replies[post.id] },
+                      {
+                        onSuccess: () =>
+                          setReplies({ ...replies, [post.id]: '' }),
+                      }
+                    )
+                  }
+                >
                   Submit Reply
                 </Button>
               </SheetContent>
