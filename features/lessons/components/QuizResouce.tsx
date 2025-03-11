@@ -322,7 +322,18 @@ const QuizResource = ({
         </div>
       ))}
 
-      <Button onClick={saveQuiz}>Save Quiz</Button>
+      <div className="flex items-center gap-4">
+        <Button className="mt-4 w-fit" onClick={saveQuiz}>
+          Save Quiz
+        </Button>
+        <Button
+          variant="destructive"
+          onClick={() => onDelete(resource.id)}
+          className="mt-4 w-fit"
+        >
+          <TrashIcon className="h-4 w-4" />
+        </Button>
+      </div>
     </div>
   )
 }

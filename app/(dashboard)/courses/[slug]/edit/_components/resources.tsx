@@ -8,7 +8,10 @@ import {
 } from '@/components/ui/accordion'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { getContent } from '@/features/content/actions/getContent'
+import {
+  deleteContent,
+  getContent,
+} from '@/features/content/actions/getContent'
 import QuizResource from '@/features/lessons/components/QuizResouce'
 import VideoResource from '@/features/lessons/components/VideoResource'
 import { useQuery } from '@tanstack/react-query'
@@ -59,6 +62,7 @@ const Resource = ({ courseId }: ResourceProps) => {
   const deleteResource = async (id: string) => {
     try {
       // Call API to delete resource (not implemented here)
+      await deleteContent(id)
       await refetch()
       toast.success('Resource deleted successfully!')
     } catch (error) {

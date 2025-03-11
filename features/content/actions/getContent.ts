@@ -2,7 +2,7 @@
 
 import { db } from '@/drizzle/db'
 import { ContentTable } from '@/drizzle/schema'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 
 /**
  * Fetches all content for a specific course.
@@ -22,5 +22,20 @@ export async function getContent(courseId: string) {
   } catch (error) {
     console.error('Error fetching content:', error)
     throw new Error('Failed to fetch content for the course.')
+  }
+}
+
+export async function deleteContent(resourceId: string) {
+  try {
+    const deleteResult = await db
+      .delete(ContentTable)
+      .where(eq(ContentTable.id, resourceId))
+
+    if (deleteResult.rowCount === 0) {
+      throw new Error('Content not found or already deleted.')
+    }
+  } catch (error) {
+    console.error('Failed to delete content:', error)
+    throw new Error('Could not delete content. Please try again.')
   }
 }

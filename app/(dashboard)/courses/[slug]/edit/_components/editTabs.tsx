@@ -52,7 +52,7 @@ const EditTabs = ({ slug }: EditTabsInterface) => {
         <TabsTrigger value="basic">Basic Details</TabsTrigger>
         <TabsTrigger value="lessons">Lessons</TabsTrigger>
         <TabsTrigger value="resource">Resources</TabsTrigger>
-        <TabsTrigger value="syllabus">Curriculum</TabsTrigger>
+        {/* <TabsTrigger value="syllabus">Curriculum</TabsTrigger> */}
       </TabsList>
       <TabsContent value="basic">
         <Header courseId={slug} isPublished={course.isPublished} />
@@ -82,10 +82,10 @@ const EditTabs = ({ slug }: EditTabsInterface) => {
       <TabsContent value="lessons">
         <LessonTab id={course.id} />
       </TabsContent>
-      <TabsContent value="syllabus">
-        TODO: let user make sections and add certain lessons and quiz in that
-        section
-      </TabsContent>
+      {/* <TabsContent value="syllabus"> */}
+      {/*   TODO: let user make sections and add certain lessons and quiz in that */}
+      {/*   section */}
+      {/* </TabsContent> */}
       <TabsContent value="resource">
         <Resource courseId={course.id} />
       </TabsContent>
