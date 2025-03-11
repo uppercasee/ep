@@ -39,7 +39,7 @@ const adminItems = [
   { title: 'User Management', url: '/admin/users', icon: Users },
   { title: 'Courses Management', url: '/admin/courses', icon: BookKey },
   // { title: 'Reports', url: '/admin/reports', icon: FileText },
-  { title: 'Analytics', url: '/admin/analytics', icon: BarChart2 },
+  // { title: 'Analytics', url: '/admin/analytics', icon: BarChart2 },
   { title: 'Settings', url: '/profile', icon: Settings },
 ]
 

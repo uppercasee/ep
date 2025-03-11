@@ -284,6 +284,7 @@ const Lesson = ({ slug, auth }: LessonProps) => {
                                   <input
                                     type="radio"
                                     name={`question-${question.id}`}
+                                    className="h-4 w-4 text-blue-600 border-gray-300 focus:ring focus:ring-blue-300"
                                     onChange={() => {
                                       if (answer.id) {
                                         handleAnswerChange(
@@ -310,9 +311,10 @@ const Lesson = ({ slug, auth }: LessonProps) => {
                 })}
 
                 <Button
-                  className="mt-4 w-full"
+                  className="mt-4 w-fit"
                   onClick={handleSubmitQuiz}
                   disabled={isQuizSubmitted}
+                  variant={'secondary'}
                 >
                   {isQuizSubmitted ? 'Submitted' : 'Submit Quiz'}
                 </Button>
