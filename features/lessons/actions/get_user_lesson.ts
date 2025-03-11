@@ -37,6 +37,5 @@ export async function getUserLessons(courseId: string) {
     isCompleted: userLesson.isCompleted,
   }))
 
-  console.log(completionStatuses)
   return completionStatuses
 }

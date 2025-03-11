@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
+import { Skeleton } from '@/components/ui/skeleton'
 import { claimQuest } from '@/features/quests/actions/claimQuest'
 import { fetchDailyQuests } from '@/features/quests/actions/getQuests'
 import { useQuery } from '@tanstack/react-query'
@@ -24,7 +25,31 @@ export default function DailyQuestWidget() {
     refetch()
   }
 
-  if (isLoading) return <p>Loading quests...</p>
+  if (isLoading) {
+    return (
+      <Card className="w-full max-w-md mx-auto p-4 shadow-lg border border-gray-200">
+        <CardHeader>
+          <CardTitle className="text-xl font-bold text-center">
+            🎯 Daily Quests
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {[1, 2, 3].map((index) => (
+              <div key={index} className="flex items-center justify-between">
+                <div className="w-full">
+                  <Skeleton className="h-4 w-3/4 mb-2" />
+                  <Skeleton className="h-3 w-3/4" />
+                </div>
+                <Skeleton className="h-8 w-20" />
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
   if (error) return <p>Error loading quests</p>
 
   return (

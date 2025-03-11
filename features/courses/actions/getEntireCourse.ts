@@ -87,8 +87,6 @@ export async function getEntireCourse(courseId: string) {
       .where(eq(CoursesTable.id, courseId))
       .orderBy(LessonsTable.position)
 
-    console.log(courseWithLessonsAndContent)
-
     const courseData: Course = {
       id: courseWithLessonsAndContent[0]?.courseId,
       title: courseWithLessonsAndContent[0]?.courseTitle,
@@ -142,7 +140,6 @@ export async function getEntireCourse(courseId: string) {
       }
     }
 
-    console.log(courseData)
     return courseData
   } catch (error) {
     console.error('Error fetching course:', error)
