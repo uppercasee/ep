@@ -38,7 +38,7 @@ const adminItems = [
   { title: 'Dashboard', url: '/admin', icon: LayoutDashboardIcon },
   { title: 'User Management', url: '/admin/users', icon: Users },
   { title: 'Courses Management', url: '/admin/courses', icon: BookKey },
-  { title: 'Reports', url: '/admin/reports', icon: FileText },
+  // { title: 'Reports', url: '/admin/reports', icon: FileText },
   { title: 'Analytics', url: '/admin/analytics', icon: BarChart2 },
   { title: 'Settings', url: '/profile', icon: Settings },
 ]
@@ -48,16 +48,18 @@ const studentItems = [
   { title: 'Explore', url: '/explore', icon: SearchIcon },
   { title: 'Courses', url: '/courses', icon: BookKey },
   { title: 'Leaderboard', url: '/leaderboard', icon: TrophyIcon },
-  { title: 'Statistics', url: '/statistics', icon: BarChart2 },
+  // { title: 'Statistics', url: '/statistics', icon: BarChart2 },
   { title: 'Settings', url: '/profile', icon: Settings },
 ]
 
 const teacherItems = [
   { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboardIcon },
+  { title: 'Explore', url: '/explore', icon: SearchIcon },
   { title: 'Courses', url: '/courses/created', icon: BookIcon },
   { title: 'Course Approvals', url: '/courses/approvals', icon: FileCheck },
+  { title: 'Leaderboard', url: '/leaderboard', icon: TrophyIcon },
   // { title: 'Manage Students', url: '/students', icon: UserCheck },
-  { title: 'Analytics', url: '/analytics', icon: BarChart2 },
+  // { title: 'Analytics', url: '/analytics', icon: BarChart2 },
   { title: 'Settings', url: '/profile', icon: Settings },
 ]
 

@@ -86,12 +86,12 @@ export default function AdminAnalytics() {
       </Card>
 
       {/* Action Buttons */}
-      <div className="flex space-x-4">
-        <Button variant="outline" className="w-full">
-          Download Report
-        </Button>
-        <Button className="w-full">Manage Users</Button>
-      </div>
+      {/* <div className="flex space-x-4"> */}
+      {/*   <Button variant="outline" className="w-full"> */}
+      {/*     Download Report */}
+      {/*   </Button> */}
+      {/*   <Button className="w-full">Manage Users</Button> */}
+      {/* </div> */}
     </div>
   )
 }

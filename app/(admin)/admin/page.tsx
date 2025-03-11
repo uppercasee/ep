@@ -74,16 +74,16 @@ export default function AdminDashboard() {
       </Card>
 
       {/* Action Buttons */}
-      <Card className="p-4">
-        <div className="flex space-x-4">
-          <Button variant="outline" className="w-full">
-            Manage Users
-          </Button>
-          <Button className="w-full">Approve Courses</Button>
-          <Button className="w-full">View Reports</Button>
-          <Button className="w-full">Settings</Button>
-        </div>
-      </Card>
+      {/* <Card className="p-4"> */}
+      {/*   <div className="flex space-x-4"> */}
+      {/*     <Button variant="outline" className="w-full"> */}
+      {/*       Manage Users */}
+      {/*     </Button> */}
+      {/*     <Button className="w-full">Approve Courses</Button> */}
+      {/*     <Button className="w-full">View Reports</Button> */}
+      {/*     <Button className="w-full">Settings</Button> */}
+      {/*   </div> */}
+      {/* </Card> */}
     </div>
   )
 }

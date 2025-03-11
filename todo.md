@@ -1,0 +1,10 @@
+- teachers analytics
+- Students statistics
+- Admin dashboard
+- Admin Users
+- Admin Courses
+- Admin Analytics
+- Remove Admin Reports
+- Add comments/review for courses
+- Free/Paid course
+- Subscription management
