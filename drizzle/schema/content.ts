@@ -15,7 +15,9 @@ export const ContentTable = pgTable('content', {
   courseId: uuid('course_id')
     .notNull()
     .references(() => CoursesTable.id, { onDelete: 'cascade' }),
-  lessonId: uuid('lesson_id').references(() => LessonsTable.id),
+  lessonId: uuid('lesson_id').references(() => LessonsTable.id, {
+    onDelete: 'cascade',
+  }),
   quizId: uuid('quiz_id').references(() => QuizTable.id),
   createdAt,
   updatedAt,
