@@ -1,6 +1,7 @@
 export * from './schema/badges'
 export * from './schema/content'
 export * from './schema/course'
+export * from './schema/forum'
 export * from './schema/lesson'
 export * from './schema/payment'
 export * from './schema/quest'

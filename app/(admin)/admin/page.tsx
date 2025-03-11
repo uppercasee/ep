@@ -1,43 +1,43 @@
 'use client'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
+// import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+// import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 
 const overviewMetrics = [
-  { label: 'Total Users', value: '12,540' },
-  { label: 'Total Revenue', value: '$240,000' },
-  { label: 'Active Courses', value: '340' },
-  { label: 'Pending Approvals', value: '12' },
-  { label: 'Total Lessons', value: '4,200' },
-  { label: 'Completed Courses', value: '1,890' },
-  { label: 'New Signups This Month', value: '720' },
-  { label: 'Active Teachers', value: '150' },
+  { label: 'Total Users', value: '13' },
+  { label: 'Total Revenue', value: 'Rs. 1200' },
+  { label: 'Active Courses', value: '6' },
+  { label: 'Pending Approvals', value: '2' },
+  { label: 'Total Lessons', value: '27' },
+  { label: 'Completed Courses', value: '2' },
+  { label: 'New Signups This Month', value: '3' },
+  { label: 'Active Teachers', value: '5' },
 ]
 
-const userActivity = [
-  {
-    name: 'Alice Johnson',
-    action: 'Enrolled in JavaScript Basics',
-    time: '2h ago',
-  },
-  {
-    name: 'John Doe',
-    action: 'Completed Python for Beginners',
-    time: '5h ago',
-  },
-  { name: 'Emma Brown', action: 'Joined the platform', time: '1 day ago' },
-  {
-    name: 'Michael Lee',
-    action: 'Published a new course: React Mastery',
-    time: '3 days ago',
-  },
-  {
-    name: 'Sophia White',
-    action: 'Earned a certificate in Data Science',
-    time: '5 days ago',
-  },
-]
+// const userActivity = [
+//   {
+//     name: 'Alice Johnson',
+//     action: 'Enrolled in JavaScript Basics',
+//     time: '2h ago',
+//   },
+//   {
+//     name: 'John Doe',
+//     action: 'Completed Python for Beginners',
+//     time: '5h ago',
+//   },
+//   { name: 'Emma Brown', action: 'Joined the platform', time: '1 day ago' },
+//   {
+//     name: 'Michael Lee',
+//     action: 'Published a new course: React Mastery',
+//     time: '3 days ago',
+//   },
+//   {
+//     name: 'Sophia White',
+//     action: 'Earned a certificate in Data Science',
+//     time: '5 days ago',
+//   },
+// ]
 
 export default function AdminDashboard() {
   return (
@@ -55,23 +55,23 @@ export default function AdminDashboard() {
       </div>
 
       {/* Recent User Activity */}
-      <Card className="p-4">
-        <h4 className="font-semibold mb-4">Recent Activity</h4>
-        {userActivity.map((activity) => (
-          <div key={activity.name} className="flex items-center space-x-3 py-2">
-            <Avatar>
-              <AvatarImage src="/images/avatar-placeholder.png" alt="User" />
-              <AvatarFallback>U</AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="text-sm font-medium">{activity.name}</p>
-              <p className="text-xs text-gray-500">
-                {activity.action} - {activity.time}
-              </p>
-            </div>
-          </div>
-        ))}
-      </Card>
+      {/* <Card className="p-4"> */}
+      {/*   <h4 className="font-semibold mb-4">Recent Activity</h4> */}
+      {/*   {userActivity.map((activity) => ( */}
+      {/*     <div key={activity.name} className="flex items-center space-x-3 py-2"> */}
+      {/*       <Avatar> */}
+      {/*         <AvatarImage src="/images/avatar-placeholder.png" alt="User" /> */}
+      {/*         <AvatarFallback>U</AvatarFallback> */}
+      {/*       </Avatar> */}
+      {/*       <div> */}
+      {/*         <p className="text-sm font-medium">{activity.name}</p> */}
+      {/*         <p className="text-xs text-gray-500"> */}
+      {/*           {activity.action} - {activity.time} */}
+      {/*         </p> */}
+      {/*       </div> */}
+      {/*     </div> */}
+      {/*   ))} */}
+      {/* </Card> */}
 
       {/* Action Buttons */}
       {/* <Card className="p-4"> */}
