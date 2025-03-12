@@ -94,6 +94,7 @@ const Lesson = ({ slug, auth }: LessonProps) => {
     }))
     try {
       await markLessonComplete(currentLesson.id)
+      handleNavigation('next')
       toast.success('Lesson Completed!!')
     } catch (err) {
       console.error('Error marking lesson as complete:', err)
@@ -245,6 +246,7 @@ const Lesson = ({ slug, auth }: LessonProps) => {
           {currentLesson.type === 'video' ? (
             <div className="relative w-full h-full">
               <CldVideoPlayer
+                key={currentLesson.id}
                 width="1920"
                 height="1080"
                 src={currentLesson.url}
@@ -258,6 +260,7 @@ const Lesson = ({ slug, auth }: LessonProps) => {
                 autoPlay="on-scroll"
                 className="w-full aspect-video"
                 logo={false}
+                onEnded={handleLessonComplete}
               />
             </div>
           ) : (
